@@ -1,8 +1,81 @@
 \chapter{Introducción}\label{chap:introduccion}
 
 \section{Motivación}
+ROS2 (\textit{Robot Operating System 2}) es un conjunto de herramientas de \textit{software} 
+que proporcionan una plataforma estandarizada para desarrollar aplicaciones 
+de robótica \parencite{rosROSROS}.
+
+Esta tecnología se caracteriza por ser una solución multidominio (permite
+desarrollar aplicaciones para robots externos e internos, industriales 
+o domésticos, terrestres, aereos o marítimos, etc.) y 
+multiplataforma (es soportado por diferentes sistemas operativos 
+Linux, Windows y MacOS además de otras plataformas embebidas). 
+Por otro lado, se trata de un conjunto de herramientas de código abierto
+(\textit{open source}) distribuida a través de licencias permisivas 
+(como Apache 2) que facilitan la distribución de soluciones 
+personalizadas propietarias \parencite{rosROSROS}.
+
+La adopción de las soluciones proporcionadas por ROS2 en el año 
+2023 experimentó un incremento del 22,9\% de compañias \parencite{ros2Metrics}.
+
+La interfaz proporcionada por ROS2 permite desarrollar nuevos métodos de 
+interacción humano-robot de forma que sea posible visualizar diferentes 
+parámetros de la situación actual del sistema o teleoperar los diferentes 
+dispositivos desplegados. Una de las maneras más habituales de realizar 
+las operaciones aneteriormente mencionadas es empleando un computador 
+personal (PC) ya sea o no portátil, lo que limita la movilidad y maniobrabilidad 
+del operador del robot.
+
+Existen tendencias más actuales que emplean dispositivos montados en la 
+cabeza (HMD; \textit{Head Mounted Displays}) como \textit{Microsoft HoloLens},
+\textit{MetaQuest} o \textit{HTC Vive} que permiten mezclar el mundo 
+real y el virtual mediante la realidad aumentada empleando interfaces más 
+intuitivas, directas y que permiten la movilidad total o parcial del operador.
+Esto facilita el aprendizaje, la operativa y la solución de errores a la vez que 
+reduce la carga cognitiva necesaria con respecto a la utilización de interfaces 
+gráficas bidimensionales no contextualizadas \parencite{richardsetal, robotics14080106}.
+Sin embargo, estos dispositivos continuan teniendo un coste demasiado elevado
+para muchos usuarios, lo que 
+limita la capacidad de despliegue de las soluciones 
+desarrolladas a las organizaciones más pudientes. 
+Además, requieren distribuir el centro operativo 
+en diferentes instrumentos en lugar de centralizar las 
+acciones y datos en un único dispositivo como 
+los \textit{smartphones} o \textit{tablets} que cumplen múltiples 
+propósitos.
+
+A pesar de las aparentes ventajas económicas y operacionales de 
+emplear los dispositivos móviles como interfaz en la 
+visualización de datos o tele-operación de robots, no existen 
+demasiadas soluciones integradas que permitan realizan dichas 
+acciones empleando realidad aumentada.
+
 
 \section{Propuesta y objetivos}
+El proyecto propone desarrollar una interfaz multiplataforma (Android/iOS) 
+que permita la interacción con robots (visualización de datos y 
+tele-operación) basados en ROS2 
+mediante realidad aumentada eliminando las barreras materiales 
+y económicas existentes en
+la teleoperación y visualización de datos.
+
+Para ello, se deben evaluar las soluciones existentes y su compatibilidad
+con ROS2 y la realidad aumentada móvil para adoptarlas y adaptarlas en caso de 
+ser necesario. 
+También es necesario crear un sistema de comunicaciones ligero
+y multiplataforma coordinado preferiblemente desde el dispositivo móvil eliminando
+la necesidad de agentes coordinadores externos.
+
+Para proporcionar la visualización de datos y la teleoperación es preciso 
+incorporar interfaces en realidad aumentada intuitivas de manera que los 
+operadores puedan contextualizar en todo momento la situación del sistema 
+y tomar las medidas necesarias en el desarrollo de su trabajo (i.e. cambiar
+parámetros de los agentes).
+
+Es necesario, además, realizar una evaluación de la usabilidad y la latencia 
+del sistema de manera que se cuente con una fiabilidad suficiente como 
+para poder desplegar la solución en entornos de operación reales.
 
 \section{Estructura del documento}
+TBD
 
