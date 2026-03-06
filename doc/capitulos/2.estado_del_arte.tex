@@ -1,2 +1,156 @@
 \chapter{Estado del Arte}
+En este apartado se estudiarán las soluciones existentes en 
+teleoperación y visualización de 
+parámetros de robots 
+mediante computador, interfaces móviles y realidad aumentada.
+
+
+\section{Soluciones de escritorio}
+En cuanto a la operación telemática y visualización de parámetros 
+de robots mediante computador existen 
+distintas soluciones que ofrecen diferentes funcionalidades. Entre ellas 
+cabe destacar \textit{RViz}, \textit{Foxglobe Studio} o \textit{Webviz}.
+
+\textit{RViz} es el visualizador en tres dimensiones (3D) oficial 
+de escritorio para el marco
+de trabajo (\textit{framework}) ROS \parencite{rosRVizUser}.
+La aplicación permite cargar un modelo del robot, nubes de puntos, mapas,
+imágenes, estados del robot, etc. configurar diferentes cámaras en 
+la visualización del gemelo del robot en el computador y realizar distintas 
+acciones como seleccionar elementos en el panel de trabajo, centrar las 
+cámaras a una localización especificada, medir la distancia existente
+entre dos puntos del espacio, establecer el punto inicial del sistema 
+de localización y el objetivo, etc. Además, permite realizar simulaciones 
+de manera que los operadores puedan validar las acciones previamente
+a ejecutarlas en el entorno real.
+
+A pesar de que \textit{RViz} puede resultar una herramienta realmente útil
+para la simulación o teleoperación de sistemas robóticos, la digitalización 
+de los modelos 3D de los robots puede ser compleja para usuarios que 
+no cuenten con conocimiento de modelado por computador o del formato 
+URDF (\textit{Unified Robotics Description Format}), por lo 
+que los resultados finales pueden no ser los más óptimos. Además, 
+el entorno de operación de la aplicación está basado en la recreación del 
+entorno real mediante gemelos digitales, lo que impide la operación 
+directa sobre la robótica instalada y necesita de navegación 
+por diferentes paneles y ventanas para modificar parámetros, lo que puede generar confusiones o 
+excesivas cargas cognitivas para operadores no experimentados o 
+familiarizados con la herramienta.
+
+\textit{Foxglobe Studio} es una plataforma para registrar, subir, organizar
+y visualizar datos de registro multimodales como series de tiempo, 
+registros de texto, vídeo, 3D, mapas y otros \parencite{foxgloveFoxgloveDocumentation}.
+La aplicación permite la integración con ROS2 mediante \textit{Foxglobe Bridge}. 
+De manera similar al caso anterior, es posible cargar modelos, audio, mapas, registros 
+de texto, etc. y además de otras operativas, permite la teleoperación básica publicando 
+mensajes en un \textit{topic} específico.
+
+A diferencia de \textit{RViz}, \textit{Foxglobe Studio} no solo permite 
+utilizar otros \textit{framework} como \textit{PX4} o \textit{LeRobot}, sino 
+que se trata de una aplicación más compleja con mayores funcionalidades que 
+permite una gestión de grano fino de los diferentes procesos de la visualización 
+de parámetros y gestión de datos. Sin embargo, se pueden encontrar las mismas problemáticas
+que con la herramienta anterior, potenciando, en este caso, la complejidad de utilización
+de la aplicación por estar más enfocada a procesos industriales en el que los 
+operadores cuentan con mayor experiencia, de manera que puede ser inconveniente para 
+usuarios no instruidos adecuadamente.
+
+\textit{Webviz} permite visualizar parámetros del robot empleando el navegador \parencite{webvizWebviz},
+lo que permite cruzar la frontera de los dispositivos de mayor potencia como 
+portátiles y computadores de escritorio hacia dispositivos móviles como \textit{smartphones}
+y \textit{tablets}. Además, se trata de una herramienta modular, de modo que se pueden 
+añadir nuevos componentes que permitan visualizar otros datos diferentes.
+
+A pesar de que esta aplicación permite ser empleada en todos los dispositivos al 
+tratarse de una herramienta web, cuenta con problemáticas similares a las mencionadas
+anteriormente.
+
+
+\section{Soluciones móviles}
+En cuanto a la operación telemática y visualización de parámetros empleando 
+dispositivos móviles se pueden encontrar soluciones como \textit{ROS-Mobile}, 
+\textit{Robot Steering App}, \textit{ROS2 Connect Mobile} o soluciones 
+propietarias de ciertos fabricantes de robots.
+
+\textit{ROS-Mobile} es una aplicación Android diseñada para el control dinámico y 
+visualización de sistémas robóticos móviles ROS \parencite{rosROSMobileWiki} basada
+en menús para la visualización de parámetros y la operación del robot.
+
+\textit{Robot Steering App} es una aplicación iOS que permite controlar 
+la velocidad lineal y angular, la gestión de los \textit{topics}, ejecutar paradas 
+de emergencia y obtener flujos de vídeo en tiempo real de las cámaras de los robots ROS2
+\parencite{appleRobotSteering}.
+
+\textit{ROS2 Connect Mobile} proporciona una interfaz móvil para el monitoreo 
+de \textit{topics} de ROS2 \parencite{appleROS2Connect}. A diferencia de las otras aplicaciones
+no permite teleoperar los robots.
+
+Las aplicaciones existentes en su mayoría se tratan de soluciones básicas 
+para la visualización y operación en entornos limitadas en 
+la interacción espacial empleando, además, 
+navegación mediante menús, lo que aumenta la carga cognitiva del operador.
+
+
+\section{Soluciones con realidad aumentada}
+Existen diferentes soluciones que emplean realidad aumentada para la visualización de 
+parámetros y teleoperación de robots. Sin embargo, en su mayoría se tratan de herramientas
+diseñadas para solucionar un problema concreto empleando 
+dispositivos HMD (\textit{Head Mounted Display}) en lugar de tratarse de aplicaciones 
+multidominio que puedan ser aplicadas en diferentes entornos y dispositivos.
+
+\cite{adekoya2025horusmixedrealityinterface} introduce HORUS, una interfaz de realidad aumentada 
+para gestionar equipos de robots móviles empleando \textit{Meta Quest 2}.
+
+\cite{10.1145/3610978.3640571} introduce AR-STAR 
+una herramienta de realidad aumentada
+que permite modificar nubes de puntos empleando sobre superficies
+el visor \textit{HoloLens 2} para la reparación
+de superficies corrodidas mediante robots tele-operados.
+
+\cite{alietal} proponen una solución basada en realidad aumentada para la 
+operativa telemática y visualización de datos de robots quirúrjicos empleando
+\textit{HoloLens 2} para controlar el movimiento de la cabeza, las 
+órdenes verbales y proporcionar la retroalimentación al usuario.
+
+\cite{nevesetal} introduce una implementación de interfaz de realidad mixta mediante 
+\textit{Microsoft HoloLens} con para proporcionar 
+información sobre la tarea que se está realizando e interactuando con 
+objetos virtuales como si se estuviera interactuando con objetos reales.
+
+\cite{10.1145/3708468.3715687} propone una demostración de colaboración robot-humano empleando 
+realidad extendida empleando \textit{Meta Quest 3}.
+
+\cite{inbook} introduce una solución para integrar los robots industriales,
+la programación industrial \textit{offline} y herramientas 
+de simulación, plataformas de optimización y una interfaz de realidad aumentada
+empleando \textit{HoloLens} de manera que se permita al operador ser una parte
+más del sistema de producción robotizado.
+
+\cite{10770031} desarrollan una solución para el control de entornos de construcción
+mediante sensores y camaras integrados en conos delimitadores y una interfaz 
+de realidad virtual para HMD que permite situar al usuario en el terreno.
+
+Los terminales móviles como \textit{smartphones} y \textit{tablets} 
+también han sido empleados, en menor medida, como interfaz humano-robot.
+
+\cite{friske2024integrationaugmentedrealitymobile} propone una solución para proporcionar información del entorno contextualizada
+en situaciones de emergencia mediante la comunicación con el robot y la visualización
+de información en la pantalla del terminal.
+
+\cite{10.22260/ISARC2019/0084} emplea realidad mixta para proporcionar visualización de 
+datos gráficos de modelado de información de construcción
+(BIM; \textit{Building Information Modeling}) en terminal móvil.
+
+\cite{ROSALES2021618} introduce una solución de realidad aumentada para 
+la recolección y visualización de datos en tiempo real 
+en terminal móvil empleando sensores 
+del internet de las cosas (IoT) en una fábrica de la automovilística Volvo.
+
+Como puede apreciarse, la mayoría de las soluciones móviles que emplean realidad 
+aumentada en dispositivos móviles están centradas en resolver un problema específico. 
+\cite{ZEA2021100057}, sin embargo, introduce una aplicación para la visualización de datos y 
+teleoperación en ROS1
+empleando dispositivos móviles (Android/iOS/\textit{Microsoft HoloLens}), lo que 
+permite visualizar los diferentes datos y parámetros de una manera más directa. 
+
 
