@@ -22,7 +22,9 @@ namespace App.Utilities
         )
         {
             string selectedText = getSelectedOption();
+            Debug.LogWarning($"Clearing dropdown and setting option. Current selected option: {selectedText}");
             List<string> castedElements = elements.Select(o => o.ToString()).ToList();
+            Debug.LogWarning($"New dropdown options: {string.Join(", ", castedElements)}");
             
             dropdown.ClearOptions();
             dropdown.AddOptions(castedElements);

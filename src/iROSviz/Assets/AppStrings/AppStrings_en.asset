@@ -192,6 +192,11 @@ MonoBehaviour:
     m_Localized: Confirm
     m_Metadata:
       m_Items: []
+  - m_Id: 17451527098224640
+    m_Localized: New tag has been detected. Please select the ROS node that corresponds
+      to it.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

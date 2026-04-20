@@ -188,6 +188,11 @@ MonoBehaviour:
     m_Localized: Aceptar
     m_Metadata:
       m_Items: []
+  - m_Id: 17451527098224640
+    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el nodo ROS al que
+      le corresponde.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

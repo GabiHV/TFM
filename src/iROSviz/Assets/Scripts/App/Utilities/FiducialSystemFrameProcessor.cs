@@ -8,8 +8,10 @@ using UnityEngine.XR.ARSubsystems;
 
 using System;
 using System.Threading;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace App.Utilities
 {
@@ -56,6 +58,8 @@ namespace App.Utilities
             texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             rect = new Rect(0, 0, width, height);
 
+            TagDatabase.LoadDatabase();
+
             Thread worker = new Thread(ProcessFrame);
             worker.IsBackground = true;
             worker.Start();
@@ -63,13 +67,12 @@ namespace App.Utilities
 
         void Update()
         {
-            if(frameCounter++ >= frameGap) 
-            {
+            if(frameCounter++ % frameGap == 0) {
                 CaptureFrame();
                 frameCounter = 0;
             }
 
-            if(resultReady) HighlightAprilTags();
+            if(resultReady) StartCoroutine(ProcessAprilTags());
         }
 
         private void CaptureFrame()
@@ -123,7 +126,7 @@ namespace App.Utilities
                 
                 lastResult = DetectAprilTags();
 
-                resultReady = true;
+                resultReady = true;      
             }
         }
 
@@ -146,10 +149,19 @@ namespace App.Utilities
         private DetectionResult DetectAprilTags() =>
             AprilTagWrapper.Detect(grayBuff, width, height);
 
-        private void HighlightAprilTags()
+        private IEnumerator ProcessAprilTags()
         {
             foreach(DetectionResult.ApriltagDetection tagInfo in lastResult.ids)
-                DrawTagIndicator(tagInfo);
+            {
+                if(!TagDatabase.TryGetTagName(tagInfo.id, out string name))
+                {
+                    yield return ModalTagNameSelector.ShowDialog();
+                    string tagName = ModalTagNameSelector.GetResult();
+Debug.LogWarning($"Tag #{tagInfo.id} has been named '{tagName}'");
+                    TagDatabase.StoreTag(tagInfo.id, tagName);
+                    TagDatabase.SaveDatabase();
+                }
+            }
 
             resultReady = false;
         }
@@ -173,6 +185,64 @@ namespace App.Utilities
 
             Vector3 worldPos = ray.GetPoint(distance);
             return worldPos;
+        }
+    }
+    
+    [System.Serializable]
+    public static class TagDatabase
+    {
+        private static Dictionary<int, string> tags = new();
+        static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
+
+        public static void SaveDatabase()
+        {
+            string json = JsonUtility.ToJson(tags, false);
+            Debug.Log($"{string.Join(", ", tags.Keys)} tags serialized to JSON.");
+            File.WriteAllText(APRILTAG_DB_PATH, json);
+            Debug.Log($"Tags database saved to {APRILTAG_DB_PATH}");
+        }
+
+        public static void LoadDatabase()
+        {
+            try
+            {
+                if(!File.Exists(APRILTAG_DB_PATH))
+                    return;
+
+                string json = File.ReadAllText(APRILTAG_DB_PATH);
+                tags = JsonUtility.FromJson<Dictionary<int, string>>(json);
+                
+                Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError($"Error loading tags database: {ex.Message}");
+            }
+        }
+
+        public static void StoreTag(int id, string name)
+        {
+            if(tags.ContainsKey(id))
+                tags[id] = name;
+            else
+                tags.Add(id, name);
+        }
+
+        public static bool TryGetTagName(int id, out string name) =>
+            tags.TryGetValue(id, out name);
+
+        public static bool TryGetTagId(string name, out int id)
+        {
+            foreach(var item in tags)
+            {
+                if(item.Value == name)
+                {
+                    id = item.Key;
+                    return true;
+                }
+            }
+            id = -1;
+            return false;
         }
     }
 }
