@@ -57,7 +57,7 @@ public class ModalTagNameSelector : MonoBehaviour
 
         if(nodes.Count == 0) return;
         List<string> newTagNames = nodes.ToList();
-        
+
         tagNames = newTagNames;
         RefreshTagDropdown();
     }
@@ -75,6 +75,8 @@ public class ModalTagNameSelector : MonoBehaviour
     private void DismissWindow() 
     {
         CancelInvoke(nameof(RefreshTagNames));
+
+        this.result = Result.None;
 
         this.gameObject.SetActive(false);
         this.nodesAreBeingRetrieved = false;

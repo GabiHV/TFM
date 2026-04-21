@@ -22,6 +22,7 @@ namespace App.Utilities
         static readonly int frameGap = 10;
         static int width = 800;
         static int height = 600;
+        static Dictionary<int, GameObject> tagIndicators = new();
         static Plane rayCastPlane = new(Vector3.up, Vector3.zero);
         static Vector3 rayCastVector = new Vector3(0, 0, 0);
         
@@ -33,7 +34,7 @@ namespace App.Utilities
         RenderTexture render;
         Texture2D texture;
         Rect rect;
-        DetectionResult lastResult = new();
+        public static DetectionResult lastResult = new();
         private List<GameObject> rays = new();
 
 
@@ -48,8 +49,8 @@ namespace App.Utilities
             GameConfig config = ConfigHelper.GetConfig();
             ConfigHelper.ChangeFiduciarySys(config);
 
-            width = Screen.currentResolution.width;
-            height = Screen.currentResolution.height;
+            width = Screen.width;
+            height = Screen.height;
             
             rgbaBuffA = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
             rgbaBuffB = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
@@ -168,12 +169,18 @@ namespace App.Utilities
             resultReady = false;
         }
 
-        private void DrawTagIndicator(DetectionResult.ApriltagDetection tag)
+        void OnGUI()
         {
-            Vector3? wordlPos = Raytracing((float)tag.cx, (float)tag.cy);
-            if(wordlPos == null) return;
+            if(lastResult == null || lastResult.ids == null) return;
 
-            Debug.Log($"Tag #{tag.id} position: ({wordlPos?.x}, {wordlPos?.y}, {wordlPos?.z})");
+            GUI.color = Color.red;
+            foreach(DetectionResult.ApriltagDetection tag in lastResult.ids)
+            {
+                Vector2 screenPos = new Vector2((float)tag.cx, height-(float)tag.cy);
+                GUI.Label(new Rect(screenPos.x - 50, screenPos.y - 10, 100, 50), 
+                    TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}");
+            }
+            GUI.color = Color.white;    
         }
 
         private Vector3? Raytracing(float x, float y)
@@ -229,6 +236,8 @@ namespace App.Utilities
                 tags.Add(id, name);
         }
 
+        public static void DeleteTag(int id) => tags.Remove(id);
+
         public static bool TryGetTagName(int id, out string name) =>
             tags.TryGetValue(id, out name);
 
@@ -245,6 +254,8 @@ namespace App.Utilities
             id = -1;
             return false;
         }
+
+        public static List<string> GetAllTagNames() => tags.Values.ToList();
     }
 }
 
