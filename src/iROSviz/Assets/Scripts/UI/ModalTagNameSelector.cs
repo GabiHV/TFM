@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using App.Utilities;
 using App.ROSUtilities;
@@ -50,19 +51,15 @@ public class ModalTagNameSelector : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void RefreshTagNames()
+    private async Task RefreshTagNames()
     {
-        ROSNodeListService.RefreshNodeList().ContinueWith(task => {
-            if(task.IsFaulted || task.IsCanceled) return;
+        HashSet<string> nodes = await ROSNodeListService.RefreshNodeList();
 
-            HashSet<string> nodes = task.Result;
-            if(nodes.Count == 0) return;
-
-            tagNames = nodes.ToList();
-            Debug.Log($"ROS nodes retrieved: {string.Join(", ", nodes)}");
-            RefreshTagDropdown();
-        });
+        if(nodes.Count == 0) return;
+        List<string> newTagNames = nodes.ToList();
         
+        tagNames = newTagNames;
+        RefreshTagDropdown();
     }
 
     private void RefreshTagDropdown() =>

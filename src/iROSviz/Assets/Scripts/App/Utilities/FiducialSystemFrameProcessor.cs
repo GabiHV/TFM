@@ -6,6 +6,8 @@ using Unity.Collections;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+using Newtonsoft.Json;
+
 using System;
 using System.Threading;
 using System.Collections;
@@ -157,7 +159,7 @@ namespace App.Utilities
                 {
                     yield return ModalTagNameSelector.ShowDialog();
                     string tagName = ModalTagNameSelector.GetResult();
-Debug.LogWarning($"Tag #{tagInfo.id} has been named '{tagName}'");
+
                     TagDatabase.StoreTag(tagInfo.id, tagName);
                     TagDatabase.SaveDatabase();
                 }
@@ -196,8 +198,7 @@ Debug.LogWarning($"Tag #{tagInfo.id} has been named '{tagName}'");
 
         public static void SaveDatabase()
         {
-            string json = JsonUtility.ToJson(tags, false);
-            Debug.Log($"{string.Join(", ", tags.Keys)} tags serialized to JSON.");
+            string json = JsonConvert.SerializeObject(tags);
             File.WriteAllText(APRILTAG_DB_PATH, json);
             Debug.Log($"Tags database saved to {APRILTAG_DB_PATH}");
         }
@@ -210,7 +211,7 @@ Debug.LogWarning($"Tag #{tagInfo.id} has been named '{tagName}'");
                     return;
 
                 string json = File.ReadAllText(APRILTAG_DB_PATH);
-                tags = JsonUtility.FromJson<Dictionary<int, string>>(json);
+                tags = JsonConvert.DeserializeObject<Dictionary<int, string>>(json);
                 
                 Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
             }
