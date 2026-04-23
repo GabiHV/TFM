@@ -6,10 +6,14 @@ using Unity.Collections;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+using Newtonsoft.Json;
+
 using System;
 using System.Threading;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace App.Utilities
 {
@@ -29,7 +33,7 @@ namespace App.Utilities
         RenderTexture render;
         Texture2D texture;
         Rect rect;
-        DetectionResult lastResult = new();
+        public static DetectionResult lastResult = new();
         private List<GameObject> rays = new();
 
 
@@ -44,8 +48,8 @@ namespace App.Utilities
             GameConfig config = ConfigHelper.GetConfig();
             ConfigHelper.ChangeFiduciarySys(config);
 
-            width = Screen.currentResolution.width;
-            height = Screen.currentResolution.height;
+            width = Screen.width;
+            height = Screen.height;
             
             rgbaBuffA = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
             rgbaBuffB = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
@@ -56,6 +60,8 @@ namespace App.Utilities
             texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             rect = new Rect(0, 0, width, height);
 
+            TagDatabase.LoadDatabase();
+
             Thread worker = new Thread(ProcessFrame);
             worker.IsBackground = true;
             worker.Start();
@@ -63,13 +69,12 @@ namespace App.Utilities
 
         void Update()
         {
-            if(frameCounter++ >= frameGap) 
-            {
+            if(frameCounter++ % frameGap == 0) {
                 CaptureFrame();
                 frameCounter = 0;
             }
 
-            if(resultReady) HighlightAprilTags();
+            if(resultReady) StartCoroutine(ProcessAprilTags());
         }
 
         private void CaptureFrame()
@@ -123,7 +128,7 @@ namespace App.Utilities
                 
                 lastResult = DetectAprilTags();
 
-                resultReady = true;
+                resultReady = true;      
             }
         }
 
@@ -146,34 +151,97 @@ namespace App.Utilities
         private DetectionResult DetectAprilTags() =>
             AprilTagWrapper.Detect(grayBuff, width, height);
 
-        private void HighlightAprilTags()
+        private IEnumerator ProcessAprilTags()
         {
             foreach(DetectionResult.ApriltagDetection tagInfo in lastResult.ids)
-                DrawTagIndicator(tagInfo);
+            {
+                if(!TagDatabase.TryGetTagName(tagInfo.id, out string name))
+                {
+                    yield return ModalTagNameSelector.ShowDialog();
+                    string tagName = ModalTagNameSelector.GetResult();
+
+                    TagDatabase.StoreTag(tagInfo.id, tagName);
+                    TagDatabase.SaveDatabase();
+                }
+            }
 
             resultReady = false;
         }
 
-        private void DrawTagIndicator(DetectionResult.ApriltagDetection tag)
+        void OnGUI()
         {
-            Vector3? wordlPos = Raytracing((float)tag.cx, (float)tag.cy);
-            if(wordlPos == null) return;
+            if(lastResult == null || lastResult.ids == null) return;
 
-            Debug.Log($"Tag #{tag.id} position: ({wordlPos?.x}, {wordlPos?.y}, {wordlPos?.z})");
+            GUI.color = Color.red;
+            foreach(DetectionResult.ApriltagDetection tag in lastResult.ids)
+            {
+                Vector2 screenPos = new Vector2((float)tag.cx, height-(float)tag.cy);
+                GUI.Label(new Rect(screenPos.x - 50, screenPos.y - 10, 100, 50), 
+                    TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}");
+            }
+            GUI.color = Color.white;    
+        }
+    }
+    
+    [System.Serializable]
+    public static class TagDatabase
+    {
+        private static Dictionary<int, string> tags = new();
+        static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
+
+        public static void SaveDatabase()
+        {
+            string json = JsonConvert.SerializeObject(tags);
+            File.WriteAllText(APRILTAG_DB_PATH, json);
+            Debug.Log($"Tags database saved to {APRILTAG_DB_PATH}");
         }
 
-        private Vector3? Raytracing(float x, float y)
+        public static void LoadDatabase()
         {
-            rayCastVector.x = x;
-            rayCastVector.y = y;
-            Ray ray = Camera.main.ScreenPointToRay(rayCastVector);
-            float distance;
+            try
+            {
+                if(!File.Exists(APRILTAG_DB_PATH))
+                    return;
 
-            if(!rayCastPlane.Raycast(ray, out distance)) return null;
-
-            Vector3 worldPos = ray.GetPoint(distance);
-            return worldPos;
+                string json = File.ReadAllText(APRILTAG_DB_PATH);
+                tags = JsonConvert.DeserializeObject<Dictionary<int, string>>(json);
+                
+                Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError($"Error loading tags database: {ex.Message}");
+            }
         }
+
+        public static void StoreTag(int id, string name)
+        {
+            if(tags.ContainsKey(id))
+                tags[id] = name;
+            else
+                tags.Add(id, name);
+        }
+
+        public static void DeleteTag(int id) => tags.Remove(id);
+
+        public static bool TryGetTagName(int id, out string name) =>
+            tags.TryGetValue(id, out name);
+
+        public static bool TryGetTagId(string name, out int id)
+        {
+            foreach(var item in tags)
+            {
+                if(item.Value == name)
+                {
+                    id = item.Key;
+                    return true;
+                }
+            }
+            id = -1;
+            return false;
+        }
+
+        public static List<string> GetAllTagNames() => tags.Values.ToList();
     }
 }
 

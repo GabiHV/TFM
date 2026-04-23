@@ -195,6 +195,10 @@ MonoBehaviour:
     m_Key: Confirm
     m_Metadata:
       m_Items: []
+  - m_Id: 17451527098224640
+    m_Key: select_node_assoc
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
