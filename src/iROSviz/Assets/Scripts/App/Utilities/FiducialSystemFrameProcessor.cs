@@ -22,7 +22,6 @@ namespace App.Utilities
         static readonly int frameGap = 10;
         static int width = 800;
         static int height = 600;
-        static Dictionary<int, GameObject> tagIndicators = new();
         static Plane rayCastPlane = new(Vector3.up, Vector3.zero);
         static Vector3 rayCastVector = new Vector3(0, 0, 0);
         
@@ -181,19 +180,6 @@ namespace App.Utilities
                     TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}");
             }
             GUI.color = Color.white;    
-        }
-
-        private Vector3? Raytracing(float x, float y)
-        {
-            rayCastVector.x = x;
-            rayCastVector.y = y;
-            Ray ray = Camera.main.ScreenPointToRay(rayCastVector);
-            float distance;
-
-            if(!rayCastPlane.Raycast(ray, out distance)) return null;
-
-            Vector3 worldPos = ray.GetPoint(distance);
-            return worldPos;
         }
     }
     

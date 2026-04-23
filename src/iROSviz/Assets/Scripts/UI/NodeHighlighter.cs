@@ -13,14 +13,26 @@ public class NodeHighlighter : MonoBehaviour
     public TMP_Dropdown dropdown;
     public static string selectedNode = string.Empty;
     public static int selectedNodeID = -1;
+    private float lastClickTime = 0f;
+    private Vector2 lastClickPosition;
+    private const float clickTimeThreshold = 0.5f; // Maximum time between clicks to be considered as a double click
+    private const float clickDistance = 20f; // Maximum distance between clicks to be considered as a double click
 
     void Update()
     {
 
         if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
         {
-            Vector2 screenPos = Pointer.current.position.ReadValue();
-            Debug.Log("Click/Tap en pantalla: " + screenPos);
+            float distanceSinceLastClick = 
+                Vector2.Distance(lastClickPosition, Pointer.current.position.ReadValue());
+            lastClickPosition = Pointer.current.position.ReadValue();
+
+            float timeSinceLastClick = Time.time - lastClickTime;
+            if (timeSinceLastClick <= clickTimeThreshold && 
+                distanceSinceLastClick <= clickDistance)
+                OnDoubleClick();
+
+            lastClickTime = Time.time;
         }
 
         if (FiducialSystemFrameProcessor.lastResult == null) return;
@@ -39,6 +51,33 @@ public class NodeHighlighter : MonoBehaviour
             GetSelectedTag
         );
 
+        RefreshTagInfo();
+    }
+
+    private void OnDoubleClick()
+    {
+        DetectionResult.ApriltagDetection? selectedTag = null;
+        float minDistance = float.MaxValue;
+        foreach(DetectionResult.ApriltagDetection tag in 
+            FiducialSystemFrameProcessor.lastResult.ids)
+        {
+            Vector2 tagPosition = new Vector2((float)tag.cx, (float)tag.cy);
+            float distance = Vector2.Distance(lastClickPosition, tagPosition);
+            if(distance >= minDistance) continue;
+            
+            selectedTag = tag;
+            minDistance = distance;
+        }
+
+        if(selectedTag == null) return;
+        selectedNodeID = selectedTag?.id ?? -1;
+        if(selectedNodeID == -1) return;
+        selectedNode = TagDatabase.TryGetTagName(
+                selectedNodeID, 
+                out string name
+            ) ? name : $"Unknown Tag {selectedNodeID}";
+
+        DropdownHelper.SetDropdownOption(dropdown, selectedNode);
         RefreshTagInfo();
     }
 
