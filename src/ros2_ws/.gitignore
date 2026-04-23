@@ -1,0 +1,120 @@
+# ROS/ROS2 specific
+build/
+devel/
+install/
+log/
+.ros/
+.catkin_tools/
+.catkin_workspace
+
+# ROS build artifacts
+*.bag
+*.bag.compressed
+*.log
+COLCON_IGNORE
+
+# Python specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# C/C++ specific
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.elf
+*.hex
+*.o.d
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.netbeans
+.clangd/
+
+# CMake
+CMakeCache.txt
+CMakeLists.txt.user
+cmake-build-*/
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# OS specific
+.DS_Store
+Thumbs.db
+.directory
+
+# Colcon workspace
+.colcon/
+colcon-logs/
+colcon_build/
+
+# Package manager caches
+.apt-cache/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Unit test / coverage reports
+.pytest_cache/
+.tox/
+
+# Compiled protobuf files
+*_pb2.py
+*.pb.cc
+*.pb.h
