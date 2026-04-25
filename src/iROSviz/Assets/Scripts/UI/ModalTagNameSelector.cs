@@ -53,7 +53,7 @@ public class ModalTagNameSelector : MonoBehaviour
 
     private async Task RefreshTagNames()
     {
-        HashSet<string> nodes = await ROSNodeListService.RefreshNodeList();
+        HashSet<string> nodes = await ROSRobotListService.RefreshRobotList();
 
         if(nodes.Count == 0) return;
         List<string> newTagNames = nodes.ToList();
