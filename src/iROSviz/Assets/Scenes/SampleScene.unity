@@ -35837,6 +35837,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1646489554}
   m_CullTransparentMesh: 1
+--- !u!114 &1662075636 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2512387470528047718, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+  m_PrefabInstance: {fileID: 331264285}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1667640514
 GameObject:
   m_ObjectHideFlags: 0
@@ -36112,6 +36123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115208e5a6a26722b8213ab36b31df20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AprilTagFrameProcessor
+  raycastManager: {fileID: 1662075636}
 --- !u!1 &1684690396
 GameObject:
   m_ObjectHideFlags: 0
