@@ -21,8 +21,6 @@ namespace App.Utilities
         static readonly int frameGap = 10;
         static int width = 800;
         static int height = 600;
-        static Plane rayCastPlane = new(Vector3.up, Vector3.zero);
-        static Vector3 rayCastVector = new Vector3(0, 0, 0);
         
         int frameCounter = 0;
         byte[] rgbaBuffA;
@@ -33,8 +31,8 @@ namespace App.Utilities
         Texture2D texture;
         Rect rect;
         public static DetectionResult lastResult = new();
-        private List<GameObject> rays = new();
-
+        public static Dictionary<int, Vector3> tagAnchors = new(); 
+        public ARRaycastManager raycastManager;    
 
         // Semaphores
         volatile bool resultReady = false;
@@ -42,8 +40,6 @@ namespace App.Utilities
         volatile bool bufferBReady = false;
         volatile bool useBufferA = false;
 
-<<<<<<< HEAD
-=======
         void Awake() =>
             StartCoroutine(LoadRaycastManager());
 
@@ -53,7 +49,6 @@ namespace App.Utilities
             raycastManager = GetComponent<ARRaycastManager>();
         }
 
->>>>>>> dev
         void Start()
         {
             GameConfig config = ConfigHelper.GetConfig();
@@ -166,28 +161,15 @@ namespace App.Utilities
         {
             foreach(DetectionResult.ApriltagDetection tagInfo in lastResult.ids)
             {
-<<<<<<< HEAD
-                if(!TagDatabase.TryGetTagName(tagInfo.id, out string name))
-                {
-                    yield return ModalTagNameSelector.ShowDialog();
-                    string tagName = ModalTagNameSelector.GetResult();
-
-                    TagDatabase.StoreTag(tagInfo.id, tagName);
-                    TagDatabase.SaveDatabase();
-                }
-=======
                 Vector2 screenPos = new Vector2((float)tagInfo.cx, height-(float)tagInfo.cy);
 
                 yield return StoreTag(tagInfo.id);
                 StoreTagAnchor(tagInfo.id, screenPos);
->>>>>>> dev
             }
 
             resultReady = false;
         }
 
-<<<<<<< HEAD
-=======
         private IEnumerator StoreTag(int tagId)
         {
             if(!TagDatabase.TryGetTagName(tagId, out string name))
@@ -213,7 +195,6 @@ namespace App.Utilities
             if(!tagAnchors.ContainsKey(tagId)) tagAnchors.Add(tagId, worldPos);
         }
 
->>>>>>> dev
         void OnGUI()
         {
             if(lastResult == null || lastResult.ids == null) return;
@@ -232,7 +213,12 @@ namespace App.Utilities
     [System.Serializable]
     public static class TagDatabase
     {
-        private static Dictionary<int, string> tags = new();
+        class TagInfo
+        {
+            public string name;
+            public string visualization;
+        }
+        private static Dictionary<int, TagInfo> tags = new();
         static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
 
         public static void SaveDatabase()
@@ -250,7 +236,8 @@ namespace App.Utilities
                     return;
 
                 string json = File.ReadAllText(APRILTAG_DB_PATH);
-                tags = JsonConvert.DeserializeObject<Dictionary<int, string>>(json);
+                tags = 
+                    JsonConvert.DeserializeObject<Dictionary<int, TagInfo>>(json);
                 
                 Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
             }
@@ -260,31 +247,27 @@ namespace App.Utilities
             }
         }
 
-        public static void StoreTag(int id, string name)
+        public static void StoreTag(int id, string name, string visualization)
         {
             if(tags.ContainsKey(id))
-                tags[id] = name;
+                tags[id] = new TagInfo { name = name, visualization = visualization };
             else
-                tags.Add(id, name);
+                tags.Add(id, new TagInfo { name = name, visualization = visualization });
         }
 
         public static void DeleteTag(int id) => tags.Remove(id);
 
         public static bool TryGetTagName(int id, out string name) =>
-<<<<<<< HEAD
-            tags.TryGetValue(id, out name);
-=======
             tags.TryGetValue(id, out TagInfo tagInfo) ? (name = tagInfo.name) != null : (name = null) != null;
 
         public static bool TryGetTagVisualization(int id, out string visualization) =>
             tags.TryGetValue(id, out TagInfo tagInfo) ? (visualization = tagInfo.visualization) != null : (visualization = null) != null;
->>>>>>> dev
 
         public static bool TryGetTagId(string name, out int id)
         {
             foreach(var item in tags)
             {
-                if(item.Value == name)
+                if(item.Value.name == name)
                 {
                     id = item.Key;
                     return true;
@@ -294,10 +277,6 @@ namespace App.Utilities
             return false;
         }
 
-<<<<<<< HEAD
-        public static List<string> GetAllTagNames() => tags.Values.ToList();
-=======
         public static List<string> GetAllTagNames() => tags.Values.Select(ti => ti.name).ToList();
->>>>>>> dev
     }
 }
