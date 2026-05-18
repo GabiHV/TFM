@@ -8265,7 +8265,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.7
+  m_fontSize: 23.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -31151,6 +31151,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402119436}
   m_CullTransparentMesh: 1
+--- !u!114 &1406151233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2512387470528047718, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+  m_PrefabInstance: {fileID: 331264285}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1422421287
 GameObject:
   m_ObjectHideFlags: 0
@@ -37193,7 +37204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115208e5a6a26722b8213ab36b31df20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AprilTagFrameProcessor
-  raycastManager: {fileID: 0}
+  raycastManager: {fileID: 1406151233}
 --- !u!1 &1684690396
 GameObject:
   m_ObjectHideFlags: 0

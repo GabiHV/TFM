@@ -57,6 +57,17 @@ namespace App.ROSUtilities
             if(!_tfMessages.ContainsKey(topic)) _tfMessages.Add(topic, msg);
             _tfMessages[topic] = msg;
         }
+
+        public static List<string> GetTFFrames(string namesp)
+        {
+            List<string> frames = new();
+            foreach (var tf in _tfMessages)
+            {
+                if(tf.Key.Contains(namesp))
+                    frames.AddRange(tf.Value.transforms.Select(t => t.child_frame_id));
+            }
+            return frames;
+        }
     }    
 }
 

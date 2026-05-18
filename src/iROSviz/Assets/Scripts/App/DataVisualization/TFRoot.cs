@@ -4,11 +4,13 @@ using RosMessageTypes.Tf2;
 
 using System.Collections.Generic;
 
+using App.Utilities;
 using App.ROSUtilities;
 
 public class TFRoot : MonoBehaviour
 {
     Dictionary<string, Dictionary<string, FrameNode>> frames = new();
+    Dictionary<int, Vector3> frameOriginAnchors = new();
 
     Transform tfRoot;
 
@@ -135,6 +137,10 @@ public class TFRoot : MonoBehaviour
     {
         foreach (var robotFrames in frames)
         {
+            string rootName = robotFrames.Key;
+            TagDatabase.TryGetTagId(rootName, out int tagId);
+            TagDatabase.TryGetTagVisualization(tagId, out string visualization);
+
             Dictionary<string, FrameNode> robotFramesDict = robotFrames.Value;
             foreach (var frame in robotFramesDict.Values)
             {
@@ -142,27 +148,69 @@ public class TFRoot : MonoBehaviour
                     continue;
 
                 Transform t = frame.GO.transform;
+                Transform parentT = 
+                    frame.Parent != null && 
+                    robotFramesDict.ContainsKey(frame.Parent.Name) ? 
+                    robotFramesDict[frame.Parent.Name].GO.transform : 
+                    tfRoot;
 
-                if (!(frame.Parent == null) &&
-                    robotFramesDict.ContainsKey(frame.Parent.Name))
-                {
-                    Transform parentT = robotFramesDict[frame.Parent.Name].GO.transform;
+                SetUnityParent(t, parentT);
 
-                    if (t.parent != parentT)
-                        t.SetParent(parentT, false);
-                }
-                else
-                {
-                    if (t.parent != tfRoot)
-                        t.SetParent(tfRoot, false);
-                }
+                SetUnityPosition(frame, visualization, tagId);
+                SetUnityRotation(frame);
 
-                t.localPosition = frame.Position;
-                t.localRotation = frame.Rotation;
+                SimpleVisulize(frame.GO);
             }    
         }
-        
+    }
 
+    private void SimpleVisulize(GameObject go)
+    {
+        if (go.transform.childCount > 0) return;
+    
+        GameObject jointMarker = 
+            go.transform.Find("JointMarker") != null ? 
+            go.transform.Find("JointMarker").gameObject : 
+            GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        jointMarker.name = "JointMarker";
+        if(jointMarker.transform.parent != go.transform)
+            jointMarker.transform.SetParent(go.transform, false);
+        jointMarker.transform.position = go.transform.position;
+        jointMarker.transform.localScale = Vector3.one * 0.05f;
+        jointMarker.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    private void SetUnityParent(Transform child, Transform parent)
+    {
+        if(child.parent != parent)
+            child.SetParent(parent, false);
+    }
+
+    private void SetUnityPosition(FrameNode frame, string visualizationFrame, int tagId)
+    {
+        Vector3 finalPos = frame.Position;
+        // If this frame is the root visualization frame, we need to adjust its position 
+        // based on the tag anchor and the original position of the frame when it was first seen.
+        if(frame.Name == visualizationFrame)
+        {
+            if(!frameOriginAnchors.ContainsKey(tagId))
+                frameOriginAnchors[tagId] = frame.Position;
+            Vector3 realAnchor = 
+                FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 
+                FiducialSystemFrameProcessor.tagAnchors[tagId] : 
+                Vector3.zero;
+            Vector3 offset = frameOriginAnchors[tagId];
+            Vector3 adjustedPos = frame.Position - offset;
+            finalPos = realAnchor + adjustedPos;
+        }
+
+        frame.GO.transform.localPosition = finalPos;
+    }
+    
+    private void SetUnityRotation(FrameNode frame)
+    {
+        frame.GO.transform.localRotation = frame.Rotation;
+        // t.localRotation = rot;
     }
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
@@ -179,30 +227,5 @@ public class TFRoot : MonoBehaviour
             (float)ros.x,
             (float)-ros.w
         );
-
-    
-    void CreateAxisVisual(GameObject parent)
-    {
-        float scale = 0.05f;
-
-        CreateAxis(parent, Vector3.right, Color.red, scale);
-        CreateAxis(parent, Vector3.up, Color.green, scale);
-        CreateAxis(parent, Vector3.forward, Color.blue, scale);
-    }
-
-    void CreateAxis(GameObject parent, Vector3 direction, Color color, float scale)
-    {
-        GameObject axis = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        axis.transform.SetParent(parent.transform, false);
-
-        axis.transform.localScale = new Vector3(scale * 0.2f, scale, scale * 0.2f);
-        axis.transform.localPosition = direction * scale;
-        axis.transform.localRotation = Quaternion.FromToRotation(Vector3.up, direction);
-
-        var renderer = axis.GetComponent<Renderer>();
-        renderer.material.color = color;
-
-        Destroy(axis.GetComponent<Collider>());
-    }
 
 }
