@@ -184,12 +184,7 @@ namespace App.Utilities
     [System.Serializable]
     public static class TagDatabase
     {
-        class TagInfo
-        {
-            public string name;
-            public string visualization;
-        }
-        private static Dictionary<int, TagInfo> tags = new();
+        private static Dictionary<int, string> tags = new();
         static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
 
         public static void SaveDatabase()
@@ -207,8 +202,7 @@ namespace App.Utilities
                     return;
 
                 string json = File.ReadAllText(APRILTAG_DB_PATH);
-                tags = 
-                    JsonConvert.DeserializeObject<Dictionary<int, TagInfo>>(json);
+                tags = JsonConvert.DeserializeObject<Dictionary<int, string>>(json);
                 
                 Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
             }
@@ -218,12 +212,12 @@ namespace App.Utilities
             }
         }
 
-        public static void StoreTag(int id, string name, string visualization)
+        public static void StoreTag(int id, string name)
         {
             if(tags.ContainsKey(id))
-                tags[id] = new TagInfo { name = name, visualization = visualization };
+                tags[id] = name;
             else
-                tags.Add(id, new TagInfo { name = name, visualization = visualization });
+                tags.Add(id, name);
         }
 
         public static void DeleteTag(int id) => tags.Remove(id);
@@ -235,7 +229,7 @@ namespace App.Utilities
         {
             foreach(var item in tags)
             {
-                if(item.Value.name == name)
+                if(item.Value == name)
                 {
                     id = item.Key;
                     return true;
