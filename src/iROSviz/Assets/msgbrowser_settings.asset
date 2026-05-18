@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c444d6f85828f1b4f9b89c7c387f9ddd, type: 3}
   m_Name: msgbrowser_settings
   m_EditorClassIdentifier: Unity.Robotics.ROSTCPConnector.Editor::Unity.Robotics.ROSTCPConnector.Editor.MessageGeneration.MessageGenBrowserSettings
-  inputPath: /opt/ros/jazzy/share
-  relativeOutPath: 
+  inputPath: /home/gabi/Documents/TFM/src/ros2_ws/src/unity_server_interfaces/srv
+  relativeOutPath: RosMessages
