@@ -193,6 +193,14 @@ MonoBehaviour:
       le corresponde.
     m_Metadata:
       m_Items: []
+  - m_Id: 27533844256804864
+    m_Localized: "Base visualizaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27533936439218176
+    m_Localized: Namespace
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
