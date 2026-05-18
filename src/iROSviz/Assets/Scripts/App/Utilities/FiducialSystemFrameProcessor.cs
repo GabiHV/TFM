@@ -22,6 +22,8 @@ namespace App.Utilities
         static readonly int frameGap = 10;
         static int width = 800;
         static int height = 600;
+        static Plane rayCastPlane = new(Vector3.up, Vector3.zero);
+        static Vector3 rayCastVector = new Vector3(0, 0, 0);
         
         int frameCounter = 0;
         byte[] rgbaBuffA;
@@ -32,20 +34,14 @@ namespace App.Utilities
         Texture2D texture;
         Rect rect;
         public static DetectionResult lastResult = new();
-        public static Dictionary<int, Vector3> tagAnchors = new(); 
-        public ARRaycastManager raycastManager;    
+        private List<GameObject> rays = new();
+
 
         // Semaphores
         volatile bool resultReady = false;
         volatile bool bufferAReady = false;
         volatile bool bufferBReady = false;
         volatile bool useBufferA = false;
-
-        IEnumerator Awake()
-        {
-            yield return new WaitUntil(() => GetComponent<ARRaycastManager>() != null);
-            raycastManager = GetComponent<ARRaycastManager>();
-        }
 
         void Start()
         {
@@ -170,31 +166,6 @@ namespace App.Utilities
             }
 
             resultReady = false;
-        }
-
-        private IEnumerator StoreTag(int tagId)
-        {
-            if(!TagDatabase.TryGetTagName(tagId, out string name))
-            {
-                yield return ModalTagNameSelector.ShowDialog();
-                string tagName = ModalTagNameSelector.GetResult();
-
-                TagDatabase.StoreTag(tagId, tagName);
-                TagDatabase.SaveDatabase();
-            }       
-        }
-
-        private void StoreTagAnchor(int tagId, Vector2 screenPos)
-        {
-            List<ARRaycastHit> hits = new();
-            
-            if(!raycastManager.Raycast(screenPos, hits, TrackableType.Planes)) return;
-            if(hits.Count < 1) return;
-
-            Pose hitPose = hits[0].pose;
-            Vector3 worldPos = hitPose.position;
-            if(!tagAnchors.ContainsKey(tagId)) tagAnchors.Add(tagId, worldPos);
-            Debug.Log(tagAnchors[tagId]);
         }
 
         void OnGUI()
