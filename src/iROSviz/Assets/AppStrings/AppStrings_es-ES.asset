@@ -189,8 +189,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17451527098224640
-    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el nodo ROS al que
-      le corresponde.
+    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el namespace ROS
+      al que le corresponde.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27270554783993856
+    m_Localized: Namespace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27270776721395712
+    m_Localized: "Base visualizaci\xF3n"
     m_Metadata:
       m_Items: []
   references:
