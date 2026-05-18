@@ -197,6 +197,14 @@ MonoBehaviour:
       to it.
     m_Metadata:
       m_Items: []
+  - m_Id: 27570023631048704
+    m_Localized: Namespace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570137623842816
+    m_Localized: Visualization base
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
