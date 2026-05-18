@@ -77,8 +77,6 @@ public class TFRoot : MonoBehaviour
 
         rootFrame.Position = Vector3.zero;
         rootFrame.Rotation = Quaternion.identity;
-
-        // CreateAxisVisual(rootFrame.GO);
     }
 
     private void LinkRootFrame(string rootName)
@@ -207,11 +205,8 @@ public class TFRoot : MonoBehaviour
         frame.GO.transform.localPosition = finalPos;
     }
     
-    private void SetUnityRotation(FrameNode frame)
-    {
+    private void SetUnityRotation(FrameNode frame) =>
         frame.GO.transform.localRotation = frame.Rotation;
-        // t.localRotation = rot;
-    }
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
         new Vector3(
