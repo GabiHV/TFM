@@ -159,7 +159,6 @@ namespace App.Utilities
         {
             foreach(DetectionResult.ApriltagDetection tagInfo in lastResult.ids)
             {
-<<<<<<< HEAD:src/iROSviz/Assets/Scripts/App/DataVisualization/FiducialSystemFrameProcessor.cs
                 if(!TagDatabase.TryGetTagName(tagInfo.id, out string name))
                 {
                     yield return ModalTagNameSelector.ShowDialog();
@@ -169,12 +168,6 @@ namespace App.Utilities
                     TagDatabase.StoreTag(tagInfo.id, tagName, visualization);
                     TagDatabase.SaveDatabase();
                 }
-=======
-                Vector2 screenPos = new Vector2((float)tagInfo.cx, height-(float)tagInfo.cy);
-
-                yield return StoreTag(tagInfo.id);
-                StoreTagAnchor(tagInfo.id, screenPos);
->>>>>>> dev:src/iROSviz/Assets/Scripts/App/Utilities/FiducialSystemFrameProcessor.cs
             }
 
             resultReady = false;
