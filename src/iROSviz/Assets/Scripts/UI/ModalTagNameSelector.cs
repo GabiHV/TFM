@@ -73,17 +73,6 @@ public class ModalTagNameSelector : MonoBehaviour
             tagNames, 
             GetTagName
         );
-    
-    private void RefreshVisualizationDropdown() =>
-    DropdownHelper.ClearDropdownAndSetOption(
-        visualizationDropdown, 
-        GetViusalizationOptions(), 
-        GetVisualization
-    );
-
-    private List<string> GetViusalizationOptions() => 
-        new List<string> {"base_link"};
-
 
     private void ShowWindow() =>
         this.gameObject.SetActive(true);
@@ -103,13 +92,7 @@ public class ModalTagNameSelector : MonoBehaviour
         DropdownHelper.GetDropdownSelectedText(namespaceDropdown);
 
     private int GetTagId() =>
-        namespaceDropdown.value;
-    
-    private string GetVisualization() =>
-        DropdownHelper.GetDropdownSelectedText(visualizationDropdown);
-    
-    private int GetVisualizationId() =>
-        visualizationDropdown.value;
+        dropdown.value;
 
     public void Confirm() =>
         this.result = Result.Ok;

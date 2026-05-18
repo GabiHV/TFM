@@ -199,14 +199,6 @@ MonoBehaviour:
     m_Key: select_node_assoc
     m_Metadata:
       m_Items: []
-  - m_Id: 27533844256804864
-    m_Key: visualization_base
-    m_Metadata:
-      m_Items: []
-  - m_Id: 27533936439218176
-    m_Key: namespace
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
