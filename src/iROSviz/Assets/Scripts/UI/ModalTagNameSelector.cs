@@ -14,8 +14,7 @@ public class ModalTagNameSelector : MonoBehaviour
     private static ModalTagNameSelector _instance;
     private static List<string> tagNames = new();
 
-    public TMP_Dropdown namespaceDropdown;
-    public TMP_Dropdown visualizationDropdown;
+    public TMP_Dropdown dropdown;
     private bool nodesAreBeingRetrieved = false;
 
     private enum Result {None, Ok};
@@ -30,7 +29,6 @@ public class ModalTagNameSelector : MonoBehaviour
         {
             _instance.nodesAreBeingRetrieved = true;
             _instance.InvokeRepeating(nameof(_instance.RefreshTagNames), 0f, 5f);
-            _instance.InvokeRepeating(nameof(_instance.RefreshVisualizationDropdown), 0f, 5f);
         }
 
         yield return new WaitWhile(() => _instance.result == Result.None);
@@ -44,11 +42,8 @@ public class ModalTagNameSelector : MonoBehaviour
         _instance.DismissWindow();
     }
 
-    public static string GetNamespaceResult() =>
+    public static string GetResult() =>
         _instance == null ? string.Empty : _instance.GetTagName();
-
-    public static string GetVisualizationResult() =>
-        _instance == null ? string.Empty : _instance.GetVisualization();
 
     void Awake()
     {
@@ -69,20 +64,10 @@ public class ModalTagNameSelector : MonoBehaviour
 
     private void RefreshTagDropdown() =>
         DropdownHelper.ClearDropdownAndSetOption(
-            namespaceDropdown, 
+            dropdown, 
             tagNames, 
             GetTagName
         );
-
-    private void RefreshVisualizationDropdown() =>
-        DropdownHelper.ClearDropdownAndSetOption(
-            visualizationDropdown, 
-            GetViusalizationOptions(), 
-            GetVisualization
-        );
-
-    private List<string> GetViusalizationOptions() => 
-        ROSTFService.GetTFFrames(GetTagName());
 
     private void ShowWindow() =>
         this.gameObject.SetActive(true);
@@ -90,7 +75,6 @@ public class ModalTagNameSelector : MonoBehaviour
     private void DismissWindow() 
     {
         CancelInvoke(nameof(RefreshTagNames));
-        CancelInvoke(nameof(RefreshVisualizationDropdown));
 
         this.result = Result.None;
 
@@ -99,16 +83,10 @@ public class ModalTagNameSelector : MonoBehaviour
     }
 
     private string GetTagName() =>
-        DropdownHelper.GetDropdownSelectedText(namespaceDropdown);
+        DropdownHelper.GetDropdownSelectedText(dropdown);
 
     private int GetTagId() =>
-        namespaceDropdown.value;
-
-    private string GetVisualization() =>
-        DropdownHelper.GetDropdownSelectedText(visualizationDropdown);
-    
-    private int GetVisualizationId() =>
-        visualizationDropdown.value;
+        dropdown.value;
 
     public void Confirm() =>
         this.result = Result.Ok;
