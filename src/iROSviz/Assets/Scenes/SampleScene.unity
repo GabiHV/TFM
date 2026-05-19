@@ -21839,6 +21839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5385c5c23710d85fb84deeebc1500b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFRoot
+  framePrefab: {fileID: 788407744152203492, guid: ef8002ee939db69d5ba5c41dd979f015, type: 3}
 --- !u!4 &892302950
 Transform:
   m_ObjectHideFlags: 0

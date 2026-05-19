@@ -1,6 +1,7 @@
 using UnityEngine;
 using RosMessageTypes.Geometry;
 using RosMessageTypes.Tf2;
+using TMPro;
 
 using System.Collections.Generic;
 
@@ -11,6 +12,8 @@ public class TFRoot : MonoBehaviour
 {
     Dictionary<string, Dictionary<string, FrameNode>> frames = new();
     Dictionary<int, Vector3> frameOriginAnchors = new();
+    public GameObject framePrefab;
+    public Camera arCamera;
 
     Transform tfRoot;
 
@@ -152,33 +155,99 @@ public class TFRoot : MonoBehaviour
                     robotFramesDict[frame.Parent.Name].GO.transform : 
                     tfRoot;
 
-                SetUnityParent(t, parentT);
+                SetFrameParent(t, parentT);
 
                 SetUnityPosition(frame, visualization, tagId);
                 SetUnityRotation(frame);
 
-                SimpleVisulize(frame.GO);
+                SimpleVisulizeFrame(frame, rootName);
             }    
         }
     }
 
-    private void SimpleVisulize(GameObject go)
+    private void SimpleVisulizeFrame(FrameNode frame, string rootName)
     {
-        if (go.transform.childCount > 0) return;
-    
-        GameObject jointMarker = 
-            go.transform.Find("JointMarker") != null ? 
-            go.transform.Find("JointMarker").gameObject : 
-            GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        jointMarker.name = "JointMarker";
-        if(jointMarker.transform.parent != go.transform)
-            jointMarker.transform.SetParent(go.transform, false);
-        jointMarker.transform.position = go.transform.position;
-        jointMarker.transform.localScale = Vector3.one * 0.05f;
-        jointMarker.GetComponent<Renderer>().material.color = Color.red;
+        GameObject jointMarker = GetOrCreateUnityFrame(frame);
+
+        SetUnityParent(jointMarker, frame.GO);
+
+        UpdatePositionAndRotation(
+            jointMarker, 
+            frame.GO.transform.position, 
+            frame.GO.transform.rotation
+        );
+
+        // Label
+        UpdateLabel(jointMarker, rootName + ": " + frame.Name);
+            
+        // Line to parent
+        RenderLineToParent(frame);
     }
 
-    private void SetUnityParent(Transform child, Transform parent)
+    private GameObject GetOrCreateUnityFrame(FrameNode frame)
+    {
+        GameObject jointMarker = 
+            frame.GO.transform.Find("JointMarker") != null ? 
+            frame.GO.transform.Find("JointMarker").gameObject : 
+            Instantiate(framePrefab);
+        jointMarker.name = "JointMarker";
+        jointMarker.transform.localScale = Vector3.one * 0.05f;
+        
+        return jointMarker;
+    }
+
+    private void SetUnityParent(GameObject child, GameObject parent)
+    {
+        if(child.transform.parent != parent.transform)
+            child.transform.SetParent(parent.transform, false);
+    }
+
+    private void UpdatePositionAndRotation(GameObject go, Vector3 pos, Quaternion rot)
+    {
+        go.transform.position = pos;
+        go.transform.rotation = rot;
+    }
+
+    private void UpdateLabel(GameObject jointMarker, string text)
+    {
+        Transform labelTransform = jointMarker.transform.Find("Label");
+        if(labelTransform == null) return;
+        
+        // Text
+        labelTransform.GetComponent<TextMeshPro>().text = text;
+
+        // Billboard
+        Transform cam = arCamera.transform;
+        labelTransform.rotation = cam.rotation;
+        labelTransform.LookAt(
+            labelTransform.position + cam.rotation * Vector3.forward,
+            cam.rotation * Vector3.up
+        );
+    }
+
+    private void RenderLineToParent(FrameNode frame)
+    {
+        if(frame.Parent == null) return;
+        Vector3 parentPos = frame.Parent.GO.transform.position;
+        Vector3 childPos = frame.GO.transform.position;
+        if(Vector3.Distance(parentPos, childPos) < 0.01f) return; // Skip if too close
+
+        LineRenderer lr = frame.GO.GetComponent<LineRenderer>();
+        if(lr == null)
+            lr = frame.GO.AddComponent<LineRenderer>();
+
+        lr.positionCount = 2;
+        lr.SetPosition(0, parentPos);
+        lr.SetPosition(1, childPos);
+        lr.startWidth = 0.01f;
+        lr.endWidth = 0.01f;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = Color.red;
+        lr.endColor = Color.red;
+        lr.widthMultiplier = 0.1f;
+    }
+
+    private void SetFrameParent(Transform child, Transform parent)
     {
         if(child.parent != parent)
             child.SetParent(parent, false);
