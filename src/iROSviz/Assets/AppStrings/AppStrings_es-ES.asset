@@ -201,6 +201,10 @@ MonoBehaviour:
     m_Localized: "Base visualizaci\xF3n"
     m_Metadata:
       m_Items: []
+  - m_Id: 28003338028732416
+    m_Localized: Activar/Desactivar frames
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

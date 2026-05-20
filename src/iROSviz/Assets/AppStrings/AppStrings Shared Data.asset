@@ -207,6 +207,10 @@ MonoBehaviour:
     m_Key: visualization_base
     m_Metadata:
       m_Items: []
+  - m_Id: 28003338028732416
+    m_Key: toggle_frames
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

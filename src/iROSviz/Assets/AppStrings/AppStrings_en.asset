@@ -205,6 +205,10 @@ MonoBehaviour:
     m_Localized: Visualization base
     m_Metadata:
       m_Items: []
+  - m_Id: 28003338028732416
+    m_Localized: Toggle Frames
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

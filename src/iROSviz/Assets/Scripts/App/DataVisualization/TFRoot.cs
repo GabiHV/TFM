@@ -10,14 +10,14 @@ using App.ROSUtilities;
 
 public class TFRoot : MonoBehaviour
 {
-    Dictionary<string, Dictionary<string, FrameNode>> frames = new();
+    public Dictionary<string, Dictionary<string, FrameNode>> frames = new();
     Dictionary<int, Vector3> frameOriginAnchors = new();
     public GameObject framePrefab;
     public Camera arCamera;
 
     Transform tfRoot;
 
-    class FrameNode
+    public class FrameNode
     {
         public string Name;
         public FrameNode Parent;
