@@ -187,11 +187,14 @@ public class TFRoot : MonoBehaviour
     private GameObject GetOrCreateUnityFrame(FrameNode frame)
     {
         GameObject jointMarker = 
-            frame.GO.transform.Find("JointMarker") != null ? 
-            frame.GO.transform.Find("JointMarker").gameObject : 
-            Instantiate(framePrefab);
-        jointMarker.name = "JointMarker";
-        jointMarker.transform.localScale = Vector3.one * 0.05f;
+            frame.GO.transform.Find("JointMarker")?.gameObject; 
+
+        if (jointMarker == null)
+        {
+            jointMarker = Instantiate(framePrefab);
+            jointMarker.name = "JointMarker";
+            jointMarker.transform.localScale = Vector3.one * 0.05f;        
+        }
         
         return jointMarker;
     }
