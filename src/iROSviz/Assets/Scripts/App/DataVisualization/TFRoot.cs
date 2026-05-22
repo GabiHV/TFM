@@ -15,6 +15,9 @@ public class TFRoot : MonoBehaviour
     public GameObject framePrefab;
     public Camera arCamera;
 
+    public float staleThreshold = 0.5f; // seconds
+    public float lowHzThreshold = 5.0f; // Hz
+
     Transform tfRoot;
 
     public class FrameNode
@@ -25,6 +28,11 @@ public class TFRoot : MonoBehaviour
         public Vector3 Position;
         public Quaternion Rotation;
         public GameObject GO;
+
+        public float LastUpdateTime;
+        public float LastROSTimestamp;
+        public float UpdateInterval;
+        public float SmoothedHZ;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -105,17 +113,50 @@ public class TFRoot : MonoBehaviour
         string parent, 
         string child, 
         Vector3 pos, 
-        Quaternion rot
+        Quaternion rot    
     )
     {
         
         FrameNode parentFrame = GetOrCreateFrame(root, parent);
         FrameNode childFrame  = GetOrCreateFrame(root, child);
 
-        childFrame.Parent = parentFrame;
-        childFrame.Position = pos;
-        childFrame.Rotation = rot;
-        parentFrame.Children.Add(childFrame);
+        FrequencyAndTimeUpdate(childFrame);
+        UpdateFramePositionAndRotation(childFrame, pos, rot);
+
+        UpdateDescendants(parentFrame, childFrame);
+    }
+
+    private void FrequencyAndTimeUpdate(FrameNode frame)
+    {   
+        float now = Time.time;
+
+        float deltaT = now - frame.LastUpdateTime;
+        frame.UpdateInterval = deltaT;
+
+        float instantHz = 1.0f / Mathf.Max(deltaT, 0.0001f);
+
+        // Smoothing
+        frame.SmoothedHZ = Mathf.Lerp(frame.SmoothedHZ, instantHz, 0.1f);
+
+        frame.LastUpdateTime = now;
+    }
+
+    private void UpdateFramePositionAndRotation(
+        FrameNode frame, 
+        Vector3 pos, 
+        Quaternion rot
+    )
+    {
+        frame.Position = pos;
+        frame.Rotation = rot;
+    }
+
+    private void UpdateDescendants(FrameNode parentFrame, FrameNode childFrame)
+    {
+        if(childFrame.Parent == null)
+            childFrame.Parent = parentFrame;
+        if(!parentFrame.Children.Contains(childFrame))
+            parentFrame.Children.Add(childFrame);
     }
 
     private FrameNode GetOrCreateFrame(string robot, string frame)
@@ -177,11 +218,48 @@ public class TFRoot : MonoBehaviour
             frame.GO.transform.rotation
         );
 
+        // Sphere color indicates staleness
+        UpdateSphereColor(frame);
+
         // Label
         UpdateLabel(jointMarker, rootName + ": " + frame.Name);
             
         // Line to parent
         RenderLineToParent(frame);
+    }
+
+    private void UpdateSphereColor(FrameNode frame)
+    {
+        GameObject frameObj = frame.GO;
+        if(frameObj == null) return;
+
+        GameObject sphere = frameObj.transform.Find("JointMarker/Origin")?.gameObject;
+        if(sphere == null) return;
+        Debug.Log($"Frame {frame.Name} - Smoothed Hz: {frame.SmoothedHZ:F2}, Last Update: {Time.time - frame.LastUpdateTime:F2}s ago");
+
+
+        Renderer rend = sphere.GetComponent<Renderer>();
+        if(rend == null) return;
+
+        Color color = GetColorBasedOnStaleness(frame);
+        rend.material.color = color;
+    }
+
+    private Color GetColorBasedOnStaleness(FrameNode frame)
+    {
+        if (IsStale(frame))
+            return Color.red;
+        
+        if (frame.SmoothedHZ < lowHzThreshold)
+            return Color.yellow;
+            
+        return Color.green;
+    }
+
+    private bool IsStale(FrameNode frame)
+    {
+        float now = Time.time;
+        return (now - frame.LastUpdateTime) > staleThreshold;
     }
 
     private GameObject GetOrCreateUnityFrame(FrameNode frame)

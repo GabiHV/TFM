@@ -39497,6 +39497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalTagNameSelector
   namespaceDropdown: {fileID: 899912638}
   visualizationDropdown: {fileID: 1368635664}
+  tFRoot: {fileID: 892302949}
 --- !u!114 &1690527839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44023,7 +44024,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.15
+  m_fontSize: 23.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
