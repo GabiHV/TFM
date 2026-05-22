@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 using System.Collections.Generic;
@@ -23,6 +24,9 @@ public class TFAdjustment : MonoBehaviour
     private float timeSinceLastClick = 0f;
     private float clickDownTimestamp = 0f;
     private Shader defaultShader;
+    public Button pauseButton;
+    public Sprite pauseSprite;
+    public Sprite playSprite;
 
     void Update()
     {
@@ -255,10 +259,11 @@ public class TFAdjustment : MonoBehaviour
 
     public void TogglePause()
     {
-        // TODO: change button icon
         isPaused = !isPaused;
+        if(isPaused)
+            pauseButton.image.sprite = playSprite;
+        else 
+            pauseButton.image.sprite = pauseSprite;
     }
-
-
 
 }
