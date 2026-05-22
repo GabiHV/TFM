@@ -3,6 +3,7 @@ using RosMessageTypes.Geometry;
 using RosMessageTypes.Tf2;
 using TMPro;
 
+using System;
 using System.Collections.Generic;
 
 using App.Utilities;
@@ -185,25 +186,40 @@ public class TFRoot : MonoBehaviour
 
             Dictionary<string, FrameNode> robotFramesDict = robotFrames.Value;
             foreach (var frame in robotFramesDict.Values)
-            {
-                if (frame.GO == null)
-                    continue;
-
-                Transform t = frame.GO.transform;
-                Transform parentT = 
-                    frame.Parent != null && 
-                    robotFramesDict.ContainsKey(frame.Parent.Name) ? 
-                    robotFramesDict[frame.Parent.Name].GO.transform : 
-                    tfRoot;
-
-                SetFrameParent(t, parentT);
-
-                SetUnityPosition(frame, visualization, tagId);
-                SetUnityRotation(frame);
-
-                SimpleVisulizeFrame(frame, rootName);
-            }    
+                UpdateUnityFrame(frame, robotFramesDict, rootName, tagId, visualization);    
         }
+    }
+
+    private void UpdateUnityFrame(
+        FrameNode frame, 
+        Dictionary<string, FrameNode> robotFramesDict,
+        string rootName,
+        int tagId,
+        string visualization
+    )
+    {
+        if (frame.GO == null)
+            return;
+
+        Transform t = frame.GO.transform;
+        Transform parentT = 
+            frame.Parent != null && 
+            robotFramesDict.ContainsKey(frame.Parent.Name) ? 
+            robotFramesDict[frame.Parent.Name].GO.transform : 
+            tfRoot;
+
+        SetFrameParent(t, parentT);
+
+        if(IsPaused())
+        {
+            UpdateSphereColor(frame, GetSnapshotColor());
+            return;
+        }
+
+        SetUnityPosition(frame, visualization, tagId);
+        SetUnityRotation(frame);
+
+        SimpleVisulizeFrame(frame, rootName);
     }
 
     private void SimpleVisulizeFrame(FrameNode frame, string rootName)
@@ -212,6 +228,9 @@ public class TFRoot : MonoBehaviour
 
         SetUnityParent(jointMarker, frame.GO);
 
+        // Label
+        UpdateLabel(jointMarker, rootName + ": " + frame.Name);
+
         UpdatePositionAndRotation(
             jointMarker, 
             frame.GO.transform.position, 
@@ -219,29 +238,26 @@ public class TFRoot : MonoBehaviour
         );
 
         // Sphere color indicates staleness
-        UpdateSphereColor(frame);
-
-        // Label
-        UpdateLabel(jointMarker, rootName + ": " + frame.Name);
+        UpdateSphereColor(frame, GetColorBasedOnStaleness(frame));
             
         // Line to parent
         RenderLineToParent(frame);
     }
 
-    private void UpdateSphereColor(FrameNode frame)
+    private bool IsPaused() =>
+        TFAdjustment.isPaused;
+
+    private void UpdateSphereColor(FrameNode frame, Color color)
     {
         GameObject frameObj = frame.GO;
         if(frameObj == null) return;
 
         GameObject sphere = frameObj.transform.Find("JointMarker/Origin")?.gameObject;
         if(sphere == null) return;
-        Debug.Log($"Frame {frame.Name} - Smoothed Hz: {frame.SmoothedHZ:F2}, Last Update: {Time.time - frame.LastUpdateTime:F2}s ago");
-
 
         Renderer rend = sphere.GetComponent<Renderer>();
         if(rend == null) return;
 
-        Color color = GetColorBasedOnStaleness(frame);
         rend.material.color = color;
     }
 
@@ -255,6 +271,9 @@ public class TFRoot : MonoBehaviour
             
         return Color.green;
     }
+
+    private Color GetSnapshotColor() =>
+        Color.blue;
 
     private bool IsStale(FrameNode frame)
     {
@@ -352,11 +371,11 @@ public class TFRoot : MonoBehaviour
             finalPos = realAnchor + adjustedPos;
         }
 
-        frame.GO.transform.localPosition = finalPos;
+        frame.GO.transform.position = finalPos;
     }
     
     private void SetUnityRotation(FrameNode frame) =>
-        frame.GO.transform.localRotation = frame.Rotation;
+        frame.GO.transform.rotation = frame.Rotation;
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
         new Vector3(

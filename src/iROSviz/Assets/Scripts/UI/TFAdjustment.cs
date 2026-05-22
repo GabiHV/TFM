@@ -8,6 +8,7 @@ using App.Utilities;
 
 public class TFAdjustment : MonoBehaviour
 {
+    public static bool isPaused;
     private static float stepSize = 0.01f;
     private const float holdTimeThreshold = 0.6f;
     private const float clickDistanceThreshold = 10f;
@@ -250,6 +251,12 @@ public class TFAdjustment : MonoBehaviour
         string selectedNode = NodeHighlighter.selectedNode;
         TagDatabase.TryGetTagId(selectedNode, out int tagId);
         return tagId;
+    }
+
+    public void TogglePause()
+    {
+        // TODO: change button icon
+        isPaused = !isPaused;
     }
 
 
