@@ -23,7 +23,7 @@ public class TFAdjustment : MonoBehaviour
     private bool isSelecting = false;
     private float timeSinceLastClick = 0f;
     private float clickDownTimestamp = 0f;
-    private Shader defaultShader;
+    private Dictionary<Transform, Dictionary<Material, Shader>> defaultShaders;
     public Button pauseButton;
     public Sprite pauseSprite;
     public Sprite playSprite;
@@ -116,47 +116,39 @@ public class TFAdjustment : MonoBehaviour
         if(selectedFrame == null) return;
 
         StoreDefaultShader(selectedFrame);
+        Dictionary<Transform, Dictionary<Material, Shader>> highlightShaders = 
+            GameObjectHelper.ChangeChildrenShaders(
+                GameObjectHelper.GetChildrenShaders(
+                    selectedFrame, 
+                    new HashSet<Transform>{GetJointMarkerLabel(selectedFrame)}
+                ),
+                highlightShader
+            );
 
-        ApplyShaderToFrame(selectedFrame, highlightShader);
+        ApplyShaderToFrame(selectedFrame, highlightShaders);
     }
 
-    private Renderer[] GetRenderers(GameObject frame)
-    {
-        Transform[] transforms = frame.
-            GetComponentsInChildren<Transform>().
-            Where(t => !t.gameObject.name.Equals("Label")).ToArray();
-        Renderer[] renderers = transforms.SelectMany(t => t.GetComponents<Renderer>()).ToArray();
-        return renderers;
-    }
+    private Transform GetJointMarkerLabel(GameObject selectedFrame) =>
+        selectedFrame.transform.Find("Label");
 
-    private void StoreDefaultShader(GameObject frame)
-    {
-        if(frame == null) return;
-
-        Renderer[] renderers = GetRenderers(frame);
-        if(renderers.Length > 0 && renderers[0] != null)
-            defaultShader = renderers[0].material.shader;
-    }
+    private void StoreDefaultShader(GameObject frame) =>
+        defaultShaders = GameObjectHelper.GetChildrenShaders(
+            frame, 
+            new HashSet<Transform> {GetJointMarkerLabel(frame)}
+        );
 
     private void ClearHighlight(GameObject frame)
     {
         if(frame == null) return;
 
-        ApplyShaderToFrame(frame, defaultShader);
+        ApplyShaderToFrame(frame, defaultShaders);
     }
 
-    private void ApplyShaderToFrame(GameObject frame, Shader shader)
-    {
-        Renderer[] renderers = GetRenderers(frame);
-        foreach (Renderer renderer in renderers)        
-        {
-            Material[] materials = renderer.materials;
-            for (int i = 0; i < materials.Length; i++)
-            {
-                materials[i].shader = shader;
-            }
-        }
-    }
+    private void ApplyShaderToFrame(
+        GameObject frame, 
+        Dictionary<Transform, Dictionary<Material, Shader>> shaders
+    ) =>
+        GameObjectHelper.ApplyShaderToChildrenGameObject(frame, shaders);
 
     private void PerformFrameScaling()
     {
