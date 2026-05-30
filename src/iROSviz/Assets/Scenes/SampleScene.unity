@@ -22832,6 +22832,8 @@ GameObject:
   m_Component:
   - component: {fileID: 892302950}
   - component: {fileID: 892302949}
+  - component: {fileID: 892302951}
+  - component: {fileID: 892302952}
   m_Layer: 0
   m_Name: TFRoot
   m_TagString: Untagged
@@ -22851,10 +22853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5385c5c23710d85fb84deeebc1500b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFRoot
-  framePrefab: {fileID: 788407744152203492, guid: ef8002ee939db69d5ba5c41dd979f015, type: 3}
-  arCamera: {fileID: 1684470714}
-  staleThreshold: 0.5
-  lowHzThreshold: 5
 --- !u!4 &892302950
 Transform:
   m_ObjectHideFlags: 0
@@ -22870,6 +22868,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &892302951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892302948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27c744e9179a46bf7a9c4572f3f64bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFRender
+--- !u!114 &892302952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892302948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03baf84f266cc2ffaa44d5d15ec8bb9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFFrameCreator
+  frame:
+    Name: 
+    Root: 
+    Children: []
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Velocity: {x: 0, y: 0, z: 0}
+    AngularVelocity: {x: 0, y: 0, z: 0}
+    GO: {fileID: 0}
+    LastUpdateTime: 0
+    UpdateInterval: 0
+    SmoothedHZ: 0
+  prefab: {fileID: 788407744152203492, guid: ef8002ee939db69d5ba5c41dd979f015, type: 3}
+  arCamera: {fileID: 1684470714}
 --- !u!1 &899912636
 GameObject:
   m_ObjectHideFlags: 0
@@ -32375,7 +32411,19 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339103009}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: SetText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   references:
     version: 2
     RefIds: []
@@ -32399,7 +32447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Frame measures
+  m_text: Frame measurements
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32426,7 +32474,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.35
+  m_fontSize: 19.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

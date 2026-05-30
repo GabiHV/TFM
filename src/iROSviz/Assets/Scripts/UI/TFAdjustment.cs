@@ -9,21 +9,16 @@ using App.Utilities;
 
 public class TFAdjustment : MonoBehaviour
 {
-    public static bool isPaused;
     private static float stepSize = 0.01f;
     private const float holdTimeThreshold = 0.6f;
     private const float clickDistanceThreshold = 10f;
 
     private GameObject selectedFrame;
     public Camera arCamera; 
-    public Shader highlightShader;
-    public TFRoot tfRoot;
     
-    private bool isDragging = false;
     private bool isSelecting = false;
     private float timeSinceLastClick = 0f;
     private float clickDownTimestamp = 0f;
-    private Dictionary<Transform, Dictionary<Material, Shader>> defaultShaders;
     public Button pauseButton;
     public Sprite pauseSprite;
     public Sprite playSprite;
@@ -41,14 +36,12 @@ public class TFAdjustment : MonoBehaviour
 
         if (Pointer.current.press.wasPressedThisFrame)
         {
-            isDragging = true;
             clickDownTimestamp = Time.time;
             Debug.Log("Pointer down detected at: " + clickDownTimestamp);
             return;
         }
         if (Pointer.current.press.wasReleasedThisFrame)
         {
-            isDragging = false;
             timeSinceLastClick = Time.time - clickDownTimestamp;
             clickDownTimestamp = 0f;
             Debug.Log("Pointer up detected. Time since last click: " + timeSinceLastClick);
@@ -95,60 +88,20 @@ public class TFAdjustment : MonoBehaviour
         GameObject hitObject = hit.collider.gameObject;
         Debug.Log($"Hit object: {hitObject.name}");
 
-        foreach (var robotEntry in tfRoot.frames)
-        {
-            foreach (var frameEntry in robotEntry.Value)
-            {
-                if (frameEntry.Value.GO == hitObject || frameEntry.Value.GO.transform.Find("JointMarker")?.gameObject == hitObject)
-                {
-                    selectedFrame = frameEntry.Value.GO.transform.Find("JointMarker")?.gameObject ?? 
-                        frameEntry.Value.GO;
-                    Debug.Log($"Selected frame: {frameEntry.Key}");
-                    HighlightSelectedFrame(selectedFrame);
-                    return;
-                }
-            }
-        }
+        if(hitObject.name != TFFrameCreator.FrameMarker) return;
+        
+        StoreSelectedFrame(hitObject);
+        HighlightSelectedFrame(selectedFrame);
     }
 
-    private void HighlightSelectedFrame(GameObject selectedFrame)
-    {
-        if(selectedFrame == null) return;
+    private void StoreSelectedFrame(GameObject frame) =>
+        selectedFrame = frame;
 
-        StoreDefaultShader(selectedFrame);
-        Dictionary<Transform, Dictionary<Material, Shader>> highlightShaders = 
-            GameObjectHelper.ChangeChildrenShaders(
-                GameObjectHelper.GetChildrenShaders(
-                    selectedFrame, 
-                    new HashSet<Transform>{GetJointMarkerLabel(selectedFrame)}
-                ),
-                highlightShader
-            );
+    private void HighlightSelectedFrame(GameObject frame) =>
+        frame?.GetComponent<TFFrameAdjustmentShadersController>().Highlight();
 
-        ApplyShaderToFrame(selectedFrame, highlightShaders);
-    }
-
-    private Transform GetJointMarkerLabel(GameObject selectedFrame) =>
-        selectedFrame.transform.Find("Label");
-
-    private void StoreDefaultShader(GameObject frame) =>
-        defaultShaders = GameObjectHelper.GetChildrenShaders(
-            frame, 
-            new HashSet<Transform> {GetJointMarkerLabel(frame)}
-        );
-
-    private void ClearHighlight(GameObject frame)
-    {
-        if(frame == null) return;
-
-        ApplyShaderToFrame(frame, defaultShaders);
-    }
-
-    private void ApplyShaderToFrame(
-        GameObject frame, 
-        Dictionary<Transform, Dictionary<Material, Shader>> shaders
-    ) =>
-        GameObjectHelper.ApplyShaderToChildrenGameObject(frame, shaders);
+    private void ClearHighlight(GameObject frame) =>
+        frame?.GetComponent<TFFrameAdjustmentShadersController>().Unhighlight();
 
     private void PerformFrameScaling()
     {
@@ -251,11 +204,23 @@ public class TFAdjustment : MonoBehaviour
 
     public void TogglePause()
     {
-        isPaused = !isPaused;
-        if(isPaused)
-            pauseButton.image.sprite = playSprite;
+        Debug.Log("Is paused: " + TFRuntimeController.IsPaused());
+        if(TFRuntimeController.IsPaused())
+            PerformPlay();
         else 
-            pauseButton.image.sprite = pauseSprite;
+            PerformPause();
+    }
+
+    private void PerformPause()
+    {
+        TFRuntimeController.Pause();
+        pauseButton.image.sprite = playSprite;
+    }
+
+    private void PerformPlay()
+    {
+        TFRuntimeController.Play();
+        pauseButton.image.sprite = pauseSprite;
     }
 
 }

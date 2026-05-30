@@ -210,7 +210,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 30164687936704512
-    m_Localized: 'Distance: {distance} m'
+    m_Localized: 'Distancia: {distance} m'
     m_Metadata:
       m_Items:
       - rid: 8447938358756769795

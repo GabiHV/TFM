@@ -11,11 +11,9 @@ using App.Utilities;
 public class TFFrameMeasurement : MonoBehaviour
 {
     public Camera arCamera;
-    public TFRoot tFRoot;
-    private TFRoot.FrameNode frameA;
+    private GameObject frameMarkerA;
     private bool isFrameATurn = true;
-    private TFRoot.FrameNode frameB;
-    public Shader highlightShader;
+    private GameObject frameMarkerB;
 
     public LocalizeStringEvent distanceTextEvent;
     public LocalizeStringEvent rollTextEvent;
@@ -24,9 +22,6 @@ public class TFFrameMeasurement : MonoBehaviour
 
     private int frameCount = 0;
     private static readonly int frameThreshold = 30;
-
-    Dictionary<Transform, Dictionary<Material, Shader>> defaultShadersA;
-    Dictionary<Transform, Dictionary<Material, Shader>> defaultShadersB;
 
     // Update is called once per frame
     void Update()
@@ -39,7 +34,6 @@ public class TFFrameMeasurement : MonoBehaviour
     private void FrameSelection()
     {
         if(Pointer.current == null || !Pointer.current.press.wasPressedThisFrame) return;
-        // TODO: Check deselecion
         Select();
     }
 
@@ -52,120 +46,43 @@ public class TFFrameMeasurement : MonoBehaviour
         GameObject hitObject = hit.collider.gameObject;
         Debug.Log($"Hit object: {hitObject.name}. Turn: {(isFrameATurn ? 'A' : 'B')}");
 
-        foreach (var robotEntry in tFRoot.frames)
-        {
-            foreach (var (_, frameEntry) in robotEntry.Value)
-            {
-                if (frameEntry.GO == hitObject || frameEntry.GO.transform.Find("JointMarker")?.gameObject == hitObject)
-                {
-                    PerformSelection(frameEntry);
-                    return;
-                }
-            }
-        }
+        if(hitObject?.name == TFFrameCreator.FrameMarker)
+            PerformSelection(hitObject);
     }
 
-    private void PerformSelection(TFRoot.FrameNode frame)
+    private void PerformSelection(GameObject frameMarker)
     {
         if (isFrameATurn)
         {
-            UnhighlightFrame(frameA);
-            UnhighlightFrame(frameB);
+            frameMarkerA?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
+            frameMarkerB?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
         }
-        HighlightFrame(frame);
-        StoreFrameAndChangeTurn(frame);
+        frameMarker.GetComponent<TFFrameMeasurementShadersController>().Highlight();
+        StoreFrameAndChangeTurn(frameMarker);
     }
 
-    private void UnhighlightFrame(TFRoot.FrameNode frame)
+    private void StoreFrameAndChangeTurn(GameObject frameMarker)
     {
-        if(frame == null) return;
-        var originalShaders = GetOriginalFrameShaders(frame);
-        ApplyShaderToFrame(frame, originalShaders);
-    }
-
-    private void HighlightFrame(TFRoot.FrameNode frame)
-    {
-        GameObject jointMarker = GetJointMarker(frame);
-        if(jointMarker == null) return;
-
-        StoreFrameOriginalShaders(frame);   
-        Dictionary<Transform, Dictionary<Material, Shader>> highlightShaders = 
-            GameObjectHelper.ChangeChildrenShaders(
-                GameObjectHelper.GetChildrenShaders(
-                    jointMarker, 
-                    new HashSet<Transform> {GetJointMarkerLabel(frame)}
-                ),
-                highlightShader
-            );
-
-        ApplyShaderToFrame(frame, highlightShaders);
-    }
-
-    private void StoreFrameOriginalShaders(TFRoot.FrameNode frame)
-    {
-        GameObject jointMarker = GetJointMarker(frame);
-        if(jointMarker == null) return;
-
-        var shaders = GameObjectHelper.GetChildrenShaders(
-            jointMarker, 
-            new HashSet<Transform> {GetJointMarkerLabel(frame)}
-        );
-
-        if(isFrameATurn)
-            defaultShadersA = shaders;
-        if(!isFrameATurn)
-            defaultShadersB = shaders;
-    }
-
-    private Dictionary<Transform, Dictionary<Material, Shader>> GetOriginalFrameShaders(
-        TFRoot.FrameNode frame
-    )
-    {
-        if(frame == frameA)
-            return defaultShadersA;
-        
-        return defaultShadersB;
-    }
-
-    private GameObject GetJointMarker(TFRoot.FrameNode frame) =>
-        frame?.GO?.transform.Find("JointMarker")?.gameObject;
-
-    private Transform GetJointMarkerLabel(TFRoot.FrameNode frame) =>
-        frame?.GO?.transform.Find("JointMarker")?.Find("Label");
-    
-    private void ApplyShaderToFrame(
-        TFRoot.FrameNode frame, 
-        Dictionary<Transform, Dictionary<Material, Shader>> shader
-    )
-    {
-        GameObject jointMarker = GetJointMarker(frame);
-        if(jointMarker == null) return;
-
-        GameObjectHelper.ApplyShaderToChildrenGameObject(jointMarker, shader);
-    }
-
-    private void StoreFrameAndChangeTurn(TFRoot.FrameNode frame)
-    {
-        StoreFrame(frame);
+        StoreFrame(frameMarker);
         ChangeTurn();
     }
 
-    private void StoreFrame(TFRoot.FrameNode frame)
+    private void StoreFrame(GameObject frameMarker)
     {
         if (isFrameATurn)
         {
-            frameA = frame;
+            frameMarkerA = frameMarker;
             return;
         }
         
-        frameB = frame;
+        frameMarkerB = frameMarker;
     }
 
     private void ChangeTurn() =>
         isFrameATurn = !isFrameATurn;
 
     private bool BothSelected() =>
-        frameA != null && frameB != null;
+        frameMarkerA != null && frameMarkerB != null;
 
     private bool RecalculateFrame()
     {
@@ -180,8 +97,8 @@ public class TFFrameMeasurement : MonoBehaviour
 
     private void VisualizeMeasurement()
     {
-        Transform transformA = frameA.GO?.transform;
-        Transform transformB = frameB.GO?.transform;
+        Transform transformA = frameMarkerA.transform;
+        Transform transformB = frameMarkerB.transform;
         if(transformA == null || transformB == null) return;
 
         float distance = CalculateDistance(transformA, transformB);
