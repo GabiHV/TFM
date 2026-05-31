@@ -48,6 +48,17 @@ namespace App.Utilities.Collections
                 yield return _buffer[(start + i) % _buffer.Length];
             }
         }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            if(_count == 0) yield break;
+
+            int start = (_head - _count + _buffer.Length) % _buffer.Length;
+            for(int i = 0; i < _count; i++)
+            {
+                yield return _buffer[(start + i) % _buffer.Length];
+            }
+        }
         
     }
 }

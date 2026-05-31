@@ -41,7 +41,15 @@ public class TFFrameCreator : MonoBehaviour
         TFFrameSpeedVisualizer fsv = TFFrameGO.GetComponent<TFFrameSpeedVisualizer>();
         fsv.frame = frame;      
         TFFrameStatusVisualizer fstv = TFFrameGO.GetComponent<TFFrameStatusVisualizer>(); 
-        fstv.frame = frame;    
+        fstv.frame = frame;  
+        TFFrameJumpVisualizer fjv = TFFrameGO.GetComponent<TFFrameJumpVisualizer>();
+        fjv.frame = frame;
+        TFFrameJitterVisualizer fjiv = TFFrameGO.GetComponent<TFFrameJitterVisualizer>();
+        fjiv.frame = frame;
+        TFFrameFlippingVisualizer ffv  = TFFrameGO.GetComponent<TFFrameFlippingVisualizer>();
+        ffv.frame = frame;
+        TFFrameTrailVisualizer ftv = TFFrameGO.GetComponent<TFFrameTrailVisualizer>();
+        ftv.frame = frame;
         TFFramePositionController fpc = TFFrameGO.GetComponent<TFFramePositionController>();
         fpc.frame = frame;
         TFFrameRotationController frc = TFFrameGO.GetComponent<TFFrameRotationController>();

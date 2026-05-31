@@ -12,6 +12,10 @@ GameObject:
   - component: {fileID: 2104558570084054247}
   - component: {fileID: 8948523579607028302}
   - component: {fileID: 7408133203718600300}
+  - component: {fileID: 3192494076688402569}
+  - component: {fileID: 2741747813095898336}
+  - component: {fileID: 1414689159780844547}
+  - component: {fileID: 4625330785251456910}
   - component: {fileID: 4921410815823795019}
   - component: {fileID: 4942530785583943803}
   - component: {fileID: 7621523658877927606}
@@ -98,6 +102,61 @@ MonoBehaviour:
   sphereRenderer: {fileID: 3901866111629545796}
   lowHzThreshold: 5
   staleThreshold: 0.5
+--- !u!114 &3192494076688402569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788407744152203492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720373fdcc4f7e74d975adfe0ca6690c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFFrameJumpVisualizer
+  TFFrameObj: {fileID: 788407744152203492}
+  distanceThreshold: 0.5
+  rotationThreshold: 45
+--- !u!114 &2741747813095898336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788407744152203492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e462e3b93118f5c459ab68cae36c23a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFFrameJitterVisualizer
+  TFFrameObj: {fileID: 788407744152203492}
+  varianceThreshold: 0.1
+--- !u!114 &1414689159780844547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788407744152203492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f978085ca0ee984be0d8bae12276ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFFrameFlippingVisualizer
+  TFFrameObj: {fileID: 788407744152203492}
+--- !u!114 &4625330785251456910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788407744152203492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658ce79fec3d5a3ac97c5db47a0f660e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TFFrameTrailVisualizer
+  TFFrameObj: {fileID: 788407744152203492}
 --- !u!114 &4921410815823795019
 MonoBehaviour:
   m_ObjectHideFlags: 0

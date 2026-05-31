@@ -89,6 +89,15 @@ public class TFRoot : MonoBehaviour
             AngularVelocityUpdate();
         }
 
+        public List<Vector3> GetHistPosition() =>
+            Hist.GetAll().Select(e => e.Position).ToList();
+
+        public List<Quaternion> GetHistRotation() =>
+            Hist.GetAll().Select(e => e.Rotation).ToList();
+
+        public float GetAvgDeltaTime() =>
+            Hist.GetAll().Select(e => e.UpdateInterval).Average();
+
         private void LinealVelocityUpdate()
         {
             FrameNode hist = GetLastFrameNode();
