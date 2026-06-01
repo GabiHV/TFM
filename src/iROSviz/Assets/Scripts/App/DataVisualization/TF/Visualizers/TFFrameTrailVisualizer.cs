@@ -6,9 +6,11 @@ public class TFFrameTrailVisualizer : MonoBehaviour
 {
     public TFRoot.FrameNode frame;
     public GameObject TFFrameObj;
+    public LineRenderer trailRenderer;
 
     private static readonly string TrailObjLabel = "Trail";
     private Transform TrailObj;
+    private float lastSampleTime;
 
     void Update() =>
         ShowTrail();
@@ -37,33 +39,36 @@ public class TFFrameTrailVisualizer : MonoBehaviour
 
     private void DrawTrail()
     {
+        if(!(Time.time - lastSampleTime > 0.05f)) return;
+
         List<Vector3> positions = frame.GetHistPosition();
+        trailRenderer.positionCount = positions.Count;
+        trailRenderer.SetPositions(positions.ToArray());
+        
+        float jitter = TFFrameObj.GetComponent<TFFrameJitterVisualizer>().GetJitter();
+        Gradient g = new Gradient();
+        Color c = GetTrailColor(jitter);
 
-        for (int i = 0; i < positions.Count; i++)
-        {
-            UpdateOrCreatePathChild(i, positions[i]);
-        }
+        g.SetKeys(
+            new GradientColorKey[] {
+                new GradientColorKey(c, 0),
+                new GradientColorKey(c, 1)
+            },
+            new GradientAlphaKey[] {
+                new GradientAlphaKey(0.0f, 0),
+                new GradientAlphaKey(1.0f, 1)
+            }
+        );
+        trailRenderer.widthMultiplier = Mathf.Lerp(0.1f, 0.25f, jitter);
+        trailRenderer.colorGradient = g;
+        lastSampleTime = Time.time;
     }
 
-    private void UpdateOrCreatePathChild(int index, Vector3 newPos)
+    Color GetTrailColor(float jitter)
     {
-        GameObject child = TrailObj.childCount <= index ?
-            CreatePathChild() :
-            TrailObj.GetChild(index)?.gameObject;
-        if (child == null) return;
-
-        child.transform.position = newPos;
+        if (jitter < 0.2f) return Color.green;
+        if (jitter < 0.5f) return Color.yellow;
+        return Color.red;
     }
-
-    private GameObject CreatePathChild()
-    {
-        GameObject child = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        child.transform.localScale = new Vector3(0.02f, 0.02f, 0.02f);
-        child.transform.SetParent(TrailObj);
-        child.GetComponent<Renderer>().material.color = Color.red;
-
-        return child;
-    }
-
         
 }

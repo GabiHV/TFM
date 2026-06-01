@@ -97,4 +97,7 @@ public class TFFrameJitterVisualizer : MonoBehaviour
         if (jitter < 0.5f) return Color.yellow;
         return Color.red;
     }
+
+    public float GetJitter() =>
+        variance;
 }

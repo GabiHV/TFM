@@ -30,7 +30,7 @@ public class TFRoot : MonoBehaviour
         public float UpdateInterval;
         public float SmoothedHZ;
 
-        private const int frameQueueCap = 10;
+        private const int frameQueueCap = 20;
         public RingBuffer<FrameNode> Hist = new(frameQueueCap);
 
         public void StoreHist()
