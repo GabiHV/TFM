@@ -14,7 +14,7 @@ public class TFFrameJumpVisualizer : MonoBehaviour
 
     private float deltaDistance;
     private float deltaRotation;
-    private Coroutine jitterCoroutine;
+    private Coroutine jumpCoroutine;
 
     void Start() =>
         JumpGO.SetActive(false);
@@ -61,7 +61,7 @@ public class TFFrameJumpVisualizer : MonoBehaviour
     {
         if(!IsJump() && !IsRotationJump()) 
         {
-            StopJitterEffect();
+            StopJumpEffect();
             return;
         };
         TriggerJump();
@@ -71,24 +71,24 @@ public class TFFrameJumpVisualizer : MonoBehaviour
     private void TriggerJump()
     {
         if(!IsJumpGOSet()) return;
-        if(IsJitterActive()) return;
-        StartJitterEfect();
+        if(IsJumpActive()) return;
+        StartJumpEfect();
     }
 
-    private bool IsJitterActive() =>
-        jitterCoroutine != null;
+    private bool IsJumpActive() =>
+        jumpCoroutine != null;
     
-    private void StopJitterEffect()
+    private void StopJumpEffect()
     {
-        if(!IsJitterActive()) return;
-        StopCoroutine(jitterCoroutine);
+        if(!IsJumpActive()) return;
+        StopCoroutine(jumpCoroutine);
 
         JumpGO.SetActive(false);
-        jitterCoroutine = null;
+        jumpCoroutine = null;
     }
 
-    private void StartJitterEfect() =>
-        jitterCoroutine = StartCoroutine(JumpEffect(JumpGO.transform));
+    private void StartJumpEfect() =>
+        jumpCoroutine = StartCoroutine(JumpEffect(JumpGO.transform));
 
     private IEnumerator JumpEffect(Transform jumpMarkerT)
     {
