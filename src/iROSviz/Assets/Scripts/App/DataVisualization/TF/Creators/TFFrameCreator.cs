@@ -59,6 +59,9 @@ public class TFFrameCreator : MonoBehaviour
         TFFrameLabelsController flc = TFFrameGO.GetComponent<TFFrameLabelsController>();
         flc.frame = frame;
         flc.arCamera = arCamera;
+
+        PointCloudVisualizer pcv = TFFrameGO.GetComponent<PointCloudVisualizer>();
+        pcv.frame = frame;
     }
 
     private void SetTFFrameObjParent()
