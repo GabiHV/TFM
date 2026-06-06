@@ -207,6 +207,34 @@ MonoBehaviour:
     m_Key: visualization_base
     m_Metadata:
       m_Items: []
+  - m_Id: 28003338028732416
+    m_Key: toggle_frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164230837260288
+    m_Key: frame_measures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164687936704512
+    m_Key: distance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166198804697088
+    m_Key: delta_rot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166515139104768
+    m_Key: roll
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166791887671296
+    m_Key: pitch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30167284168937472
+    m_Key: yaw
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

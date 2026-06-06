@@ -17,6 +17,7 @@ public class ModalTagNameSelector : MonoBehaviour
     public TMP_Dropdown namespaceDropdown;
     public TMP_Dropdown visualizationDropdown;
     private bool nodesAreBeingRetrieved = false;
+    public TFRoot tFRoot;
 
     private enum Result {None, Ok};
     private Result result;
@@ -81,9 +82,12 @@ public class ModalTagNameSelector : MonoBehaviour
         GetVisualization
     );
 
-    private List<string> GetViusalizationOptions() => 
-        new List<string> {"base_link"};
-
+    private List<string> GetViusalizationOptions()
+    {
+        if(tFRoot == null) return new List<string>();
+        var options = tFRoot.frames[GetTagName()]?.Values.Select(frame => frame.Name).ToList();
+        return options ?? new List<string>();
+    }
 
     private void ShowWindow() =>
         this.gameObject.SetActive(true);
