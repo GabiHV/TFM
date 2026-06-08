@@ -14,6 +14,8 @@ public class TFRoot : MonoBehaviour
 {
     public Dictionary<string, Dictionary<string, FrameNode>> frames = new();
 
+    private GameObject TFRootGO;
+
     public class FrameNode
     {
         public string Name;
@@ -136,8 +138,11 @@ public class TFRoot : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() =>
+    void Start() 
+    {
+        SetTFRootGO();
         ProcessTF();
+    }
 
     // Update is called once per frame
     void Update() =>
@@ -148,6 +153,9 @@ public class TFRoot : MonoBehaviour
         PerformTFMessageProcessing();
         StoreFramesInHist();
     }   
+
+    private void SetTFRootGO() =>
+        TFRootGO = this.gameObject;
 
     private void PerformTFMessageProcessing()
     {
@@ -187,6 +195,8 @@ public class TFRoot : MonoBehaviour
 
         rootFrame.Position = Vector3.zero;
         rootFrame.Rotation = Quaternion.identity;
+
+        rootFrame.GO.transform.SetParent(TFRootGO.transform);
     }
 
     private void CreateFrameAndUpdateDescendants(string root, TransformStampedMsg tf)
@@ -225,6 +235,8 @@ public class TFRoot : MonoBehaviour
                 Root = root,
                 GO = new GameObject(frame)
             };
+        PathController pc = frameNode.GO.AddComponent<PathController>();
+        pc.frame = frameNode;
 
         frames[root][frame] = frameNode;
 

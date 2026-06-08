@@ -4,6 +4,7 @@ from rclpy.node import Node
 from .topic_list_service import TopicListService
 from .node_list_service import NodeListService
 from .robot_list_service import RobotListService
+from .goal_path_adapter import GoalPathAdapter
 
 class UnityAppService(Node):
     def __init__(self):
@@ -14,6 +15,7 @@ class UnityAppService(Node):
         TopicListService(self)
         NodeListService(self)
         RobotListService(self)
+        GoalPathAdapter(self)
 
 def main():
     rclpy.init()

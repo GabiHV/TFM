@@ -1,6 +1,6 @@
 ﻿<Solution>
-  <Project Path="Unity.Localization.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Unity.Localization.csproj" />
   <Project Path="Unity.Localization.Editor.csproj" />
   <Project Path="Unity.ResourceManager.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.013.csproj" />
