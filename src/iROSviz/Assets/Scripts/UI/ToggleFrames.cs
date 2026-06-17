@@ -8,10 +8,7 @@ public class ToggleFrames : MonoBehaviour
     public GameObject frameTogglerPrefab;
 
     void Start() =>
-        PopulateScrollView();
-    
-    void Update() =>
-         PopulateScrollView();
+        InvokeRepeating(nameof(PopulateScrollView), 0.0f, 5.0f);
 
     private void PopulateScrollView()
     {
@@ -34,13 +31,11 @@ public class ToggleFrames : MonoBehaviour
 
     private void CreateOrEnableToggleButton()
     {
-        foreach (var robotEntry in tFRoot.frames)
+        foreach (var (topic, frames) in tFRoot.GetFramesByTopic())
         {
-            string robotName = robotEntry.Key;
-            foreach (var frameEntry in robotEntry.Value)
+            foreach (var (frameName, frame) in frames)
             {
-                string frameName = frameEntry.Key;
-                GameObject frameGO = GetItemByName($"{robotName}_{frameName}");
+                GameObject frameGO = GetItemByName($"{topic}_{frameName}");
                 if (frameGO != null) {
                     frameGO.SetActive(true);
                     continue;
@@ -48,16 +43,16 @@ public class ToggleFrames : MonoBehaviour
 
                 frameGO = Instantiate(frameTogglerPrefab, scrollViewContent.transform, false);
 
-                frameGO.name = $"{robotName}_{frameName}";
+                frameGO.name = $"{topic}_{frameName}";
                 var textGO = frameGO.transform.Find("Text").gameObject;
                 var text = textGO.GetComponent<TextMeshProUGUI>();
-                text.text = $"{robotName}: {frameName}";
+                text.text = $"{topic}: {frameName}";
                 
                 var button = frameGO.transform.Find("Toggle").GetComponent<UnityEngine.UI.Toggle>();
 
                 // Add toggle functionality
                 button.onValueChanged.AddListener(
-                    (isOn) => OnToggleValueChanged(isOn, frameEntry.Value)
+                    (isOn) => OnToggleValueChanged(isOn, frame)
                 );
             }
         }
@@ -66,6 +61,6 @@ public class ToggleFrames : MonoBehaviour
     private void OnToggleValueChanged(bool isOn, TFRoot.FrameNode frameNode)
     {
         if (frameNode.GO != null)
-            frameNode.GO.transform.Find("JointMarker")?.gameObject.SetActive(isOn);
+            frameNode.GO.transform.Find(TFFrameCreator.FrameMarker)?.gameObject.SetActive(isOn);
     }
 }

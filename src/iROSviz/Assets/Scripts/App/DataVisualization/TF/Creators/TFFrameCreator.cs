@@ -9,11 +9,16 @@ public class TFFrameCreator : MonoBehaviour
     public Camera arCamera;
 
     private GameObject TFFrameGO;
+    private GameObject TFRootGO;
+
+    void Start() =>
+        TFRootGO = this.gameObject;
 
     public void CreateTFFrame(TFRoot.FrameNode frame)
     {
         this.frame = frame;
         PerformCreation();
+        SetTFFrameParent();
     } 
 
     private void PerformCreation()
@@ -23,7 +28,6 @@ public class TFFrameCreator : MonoBehaviour
         CreateTFFrame();
         DependecyInjection();
         SetTFFrameObjParent();
-        SetTFFrameParent();
     }
 
     private bool IsTFFrameCreated() =>
@@ -72,12 +76,22 @@ public class TFFrameCreator : MonoBehaviour
 
     private void SetTFFrameParent()
     {
-        TFRoot.FrameNode parent = frame.Parent;
-        if(parent == null) return;
-        Transform childT = frame.GO.transform;
-        Transform parentT = parent.GO.transform;
+        Transform parentT = GetParentTransform();
+        if(parentT == null) return;
+        Transform childT = GetChildTransform();
 
         if(childT.parent != parentT)
             childT.SetParent(parentT, false);
     }
+
+    private Transform GetParentTransform()
+    {
+        Debug.Log($"[{frame.Name}]. Root = {frame.Root}");
+        if(frame.Parent != null) return frame.Parent.GO.transform;
+
+        return TFRootGO.transform.Find(frame.Root);
+    }
+
+    private Transform GetChildTransform() =>
+        frame.GO.transform;
 }

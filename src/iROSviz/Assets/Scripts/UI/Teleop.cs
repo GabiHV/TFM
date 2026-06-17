@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using TMPro;
-
 using RosMessageTypes.Geometry;
-
-using App.ROSUtilities;
-using App.Utilities;
-using App.Exceptions;
+using TMPro;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Numerics;
+
+using App.Utilities;
+using App.Exceptions;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Helpers;
 
 public class Teleop : MonoBehaviour
 {
@@ -80,7 +80,7 @@ public class Teleop : MonoBehaviour
 
     private void GetTopics()
     {
-        _topicsDict = ROSTopicListService.GetTopicsWithTypes();
+        _topicsDict = ROSTopicInfoSubscriber.GetTopicsWithTypes();
 
         AddTopicsToDropdown();
     }

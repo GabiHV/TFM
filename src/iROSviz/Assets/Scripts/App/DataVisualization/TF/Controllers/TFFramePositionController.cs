@@ -33,12 +33,12 @@ public class TFFramePositionController : MonoBehaviour
     private void SetTFPosition()
     {
         TagDatabase.TryGetTagId(frame.Root, out int tagId);
-        TagDatabase.TryGetTagVisualization(tagId, out string visualization);
+        TagDatabase.TryGetTagFrame(tagId, out string frameTarget);
 
         finalPos = frame.Position;
         // If this frame is the root visualization frame, we need to adjust its position 
         // based on the tag anchor and the original position of the frame when it was first seen.
-        if(frame.Name == visualization)
+        if(frame.Name == frameTarget)
         {
             Vector3 realAnchor = 
                 FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 

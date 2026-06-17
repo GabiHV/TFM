@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using System;
 using System.Collections;
 
 namespace App.Utilities
@@ -34,5 +35,37 @@ namespace App.Utilities
             objString += "]";
             return objString;
         }
+
+        public static string RemoveStarter(string target, string starter)
+        {
+            if(!target.StartsWith(starter)) return target;
+            try
+            {
+                return target.Substring(starter.Length);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string AddStarter(string target, string starter) =>
+            $"{starter}{target}";
+        
+        public static string RemoveTerminator(string target, string terminator)
+        {
+            if(!target.EndsWith(terminator)) return target;
+            try
+            {
+                return target.Substring(0, target.Length - terminator.Length);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string AddTerminator(string target, string terminator) =>
+            $"{target}{terminator}";
     }   
 }

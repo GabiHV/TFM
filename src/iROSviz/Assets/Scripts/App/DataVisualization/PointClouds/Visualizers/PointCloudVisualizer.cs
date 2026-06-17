@@ -4,8 +4,10 @@ using RosMessageTypes.Sensor;
 using System.Collections.Generic;
 using System.Linq;
 
-using App.ROSUtilities;
 using App.Utilities;
+using App.ROSUtilities.Resolvers;
+using App.ROSUtilities.Services;
+using App.ROSUtilities.Subscribers;
 
 public class PointCloudVisualizer : MonoBehaviour
 {
@@ -149,7 +151,6 @@ public class PointCloudVisualizer : MonoBehaviour
     private void DisableIfNotMainFrame()
     {
         TagDatabase.TryGetTagId(frame.Name, out int id);
-        TagDatabase.TryGetTagVisualization(id, out string visualization);
 
         if(!string.IsNullOrEmpty(targetFrame))
             this.enabled = targetFrame == frame.Name;
@@ -169,7 +170,7 @@ public class PointCloudVisualizer : MonoBehaviour
 
     private void LoadPointCloudTopics()
     {
-        pointCloudTopics = ROSTopicListService.GetTopicsWithTypes().
+        pointCloudTopics = ROSTopicInfoSubscriber.GetTopicsWithTypes().
             Where(
                     kvp => 
                         kvp.Value.Select(v => ROSResolver.GetMessageNameWithoutType(v)).Contains(pointCloudMessageName) && 

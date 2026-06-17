@@ -1,13 +1,14 @@
 using UnityEngine;
 using TMPro;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using App.Utilities;
-using App.ROSUtilities;
+using App.ROSUtilities.Subscribers;
 
 public class ModalTagNameSelector : MonoBehaviour
 {
@@ -31,7 +32,6 @@ public class ModalTagNameSelector : MonoBehaviour
         {
             _instance.nodesAreBeingRetrieved = true;
             _instance.InvokeRepeating(nameof(_instance.RefreshTagNames), 0f, 5f);
-            _instance.InvokeRepeating(nameof(_instance.RefreshVisualizationDropdown), 0f, 5f);
         }
 
         yield return new WaitWhile(() => _instance.result == Result.None);
@@ -45,11 +45,21 @@ public class ModalTagNameSelector : MonoBehaviour
         _instance.DismissWindow();
     }
 
-    public static string GetNamespaceResult() =>
-        _instance == null ? string.Empty : _instance.GetTagName();
+    public static string GetTagName() =>
+        _instance == null ? string.Empty : _instance.GetSelectedTagName();
 
-    public static string GetVisualizationResult() =>
-        _instance == null ? string.Empty : _instance.GetVisualization();
+    public static string GetFrame()
+    {
+        if(_instance == null) return string.Empty;
+        try
+        {
+            return _instance.GetSelectedTagName().Split(":")[1];
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
+    }
 
     void Awake()
     {
@@ -59,7 +69,7 @@ public class ModalTagNameSelector : MonoBehaviour
 
     private async Task RefreshTagNames()
     {
-        HashSet<string> nodes = await ROSRobotListService.RefreshRobotList();
+        HashSet<string> nodes = ROSRobotInfoSubscriber.GetOrLoadRobotList();
 
         if(nodes.Count == 0) return;
         List<string> newTagNames = nodes.ToList();
@@ -70,32 +80,17 @@ public class ModalTagNameSelector : MonoBehaviour
 
     private void RefreshTagDropdown() =>
         DropdownHelper.ClearDropdownAndSetOption(
-            namespaceDropdown, 
-            tagNames, 
-            GetTagName
+            namespaceDropdown,
+            tagNames,
+            GetSelectedTagName
         );
-    
-    private void RefreshVisualizationDropdown() =>
-    DropdownHelper.ClearDropdownAndSetOption(
-        visualizationDropdown, 
-        GetViusalizationOptions(), 
-        GetVisualization
-    );
-
-    private List<string> GetViusalizationOptions()
-    {
-        if(tFRoot == null) return new List<string>();
-        var options = tFRoot.frames[GetTagName()]?.Values.Select(frame => frame.Name).ToList();
-        return options ?? new List<string>();
-    }
 
     private void ShowWindow() =>
         this.gameObject.SetActive(true);
-    
-    private void DismissWindow() 
+
+    private void DismissWindow()
     {
         CancelInvoke(nameof(RefreshTagNames));
-        CancelInvoke(nameof(RefreshVisualizationDropdown));
 
         this.result = Result.None;
 
@@ -103,19 +98,13 @@ public class ModalTagNameSelector : MonoBehaviour
         this.nodesAreBeingRetrieved = false;
     }
 
-    private string GetTagName() =>
+    private string GetSelectedTagName() =>
         DropdownHelper.GetDropdownSelectedText(namespaceDropdown);
 
     private int GetTagId() =>
         namespaceDropdown.value;
-    
-    private string GetVisualization() =>
-        DropdownHelper.GetDropdownSelectedText(visualizationDropdown);
-    
-    private int GetVisualizationId() =>
-        visualizationDropdown.value;
 
     public void Confirm() =>
         this.result = Result.Ok;
-    
+
 }

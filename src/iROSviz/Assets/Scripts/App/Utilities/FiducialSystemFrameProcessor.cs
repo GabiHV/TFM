@@ -175,10 +175,10 @@ namespace App.Utilities
             if(!TagDatabase.TryGetTagName(tagId, out string name))
             {
                 yield return ModalTagNameSelector.ShowDialog();
-                string tagName = ModalTagNameSelector.GetNamespaceResult();
-                string visualization = ModalTagNameSelector.GetVisualizationResult();
+                string tagName = ModalTagNameSelector.GetTagName();
+                string frame = ModalTagNameSelector.GetFrame();
 
-                TagDatabase.StoreTag(tagId, tagName, visualization);
+                TagDatabase.StoreTag(tagId, tagName, frame);
                 TagDatabase.SaveDatabase();
             }       
         }
@@ -208,75 +208,5 @@ namespace App.Utilities
             }
             GUI.color = Color.white;    
         }
-    }
-    
-    [System.Serializable]
-    public static class TagDatabase
-    {
-        class TagInfo
-        {
-            public string name;
-            public string visualization;
-        }
-        private static Dictionary<int, TagInfo> tags = new();
-        static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
-
-        public static void SaveDatabase()
-        {
-            string json = JsonConvert.SerializeObject(tags);
-            File.WriteAllText(APRILTAG_DB_PATH, json);
-            Debug.Log($"Tags database saved to {APRILTAG_DB_PATH}");
-        }
-
-        public static void LoadDatabase()
-        {
-            try
-            {
-                if(!File.Exists(APRILTAG_DB_PATH))
-                    return;
-
-                string json = File.ReadAllText(APRILTAG_DB_PATH);
-                tags = 
-                    JsonConvert.DeserializeObject<Dictionary<int, TagInfo>>(json);
-                
-                Debug.Log($"Tags database loaded from {APRILTAG_DB_PATH}. Loaded {tags.Count} tags.");
-            }
-            catch(Exception ex)
-            {
-                Debug.LogError($"Error loading tags database: {ex.Message}");
-            }
-        }
-
-        public static void StoreTag(int id, string name, string visualization)
-        {
-            if(tags.ContainsKey(id))
-                tags[id] = new TagInfo { name = name, visualization = visualization };
-            else
-                tags.Add(id, new TagInfo { name = name, visualization = visualization });
-        }
-
-        public static void DeleteTag(int id) => tags.Remove(id);
-
-        public static bool TryGetTagName(int id, out string name) =>
-            tags.TryGetValue(id, out TagInfo tagInfo) ? (name = tagInfo.name) != null : (name = null) != null;
-
-        public static bool TryGetTagVisualization(int id, out string visualization) =>
-            tags.TryGetValue(id, out TagInfo tagInfo) ? (visualization = tagInfo.visualization) != null : (visualization = null) != null;
-
-        public static bool TryGetTagId(string name, out int id)
-        {
-            foreach(var item in tags)
-            {
-                if(item.Value.name == name)
-                {
-                    id = item.Key;
-                    return true;
-                }
-            }
-            id = -1;
-            return false;
-        }
-
-        public static List<string> GetAllTagNames() => tags.Values.Select(ti => ti.name).ToList();
     }
 }

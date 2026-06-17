@@ -7,51 +7,87 @@ using System.Collections.Generic;
 using System.Linq;
 
 using App.Utilities;
+using App.ROSUtilities.Subscribers;
+using System.Threading.Tasks;
 
 public class NodeHighlighter : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
-    public static string selectedNode = string.Empty;
-    public static int selectedNodeID = -1;
+    public GameObject TFRootGO;
+
+    private static string selectedNode = string.Empty;
+    private static int selectedNodeID = -1;
     private float lastClickTime = 0f;
     private Vector2 lastClickPosition;
     private const float clickTimeThreshold = 0.5f; // Maximum time between clicks to be considered as a double click
     private const float clickDistance = 20f; // Maximum distance between clicks to be considered as a double click
+    private List<string> frames = new();
+
+    void Start() =>
+        StartCoroutine(RefreshDropdown());
 
     void Update()
     {
+        PerformAutoSelectionBasedOnTagsInCamera();
+        PerformClickIfHappened();
+        RefreshSelectedTagInfo();
+    }
 
-        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
-        {
-            float distanceSinceLastClick = 
-                Vector2.Distance(lastClickPosition, Pointer.current.position.ReadValue());
-            lastClickPosition = Pointer.current.position.ReadValue();
+    private void PerformClickIfHappened()
+    {
+        if (Pointer.current == null || !Pointer.current.press.wasPressedThisFrame) return;
+        
+        float distanceSinceLastClick = 
+            Vector2.Distance(lastClickPosition, Pointer.current.position.ReadValue());
+        lastClickPosition = Pointer.current.position.ReadValue();
 
-            float timeSinceLastClick = Time.time - lastClickTime;
-            if (timeSinceLastClick <= clickTimeThreshold && 
-                distanceSinceLastClick <= clickDistance)
-                OnDoubleClick();
+        float timeSinceLastClick = Time.time - lastClickTime;
+        if (timeSinceLastClick <= clickTimeThreshold && 
+            distanceSinceLastClick <= clickDistance)
+            OnDoubleClick();
 
-            lastClickTime = Time.time;
-        }
+        lastClickTime = Time.time;
+    }
 
-        if (FiducialSystemFrameProcessor.lastResult == null) return;
+    private void PerformAutoSelectionBasedOnTagsInCamera()
+    {
+        if(FiducialSystemFrameProcessor.lastResult == null) return;
 
-        List<DetectionResult.ApriltagDetection> tags = 
+        List<DetectionResult.ApriltagDetection> detectedTags = 
             FiducialSystemFrameProcessor.lastResult.ids;
-        if(tags == null) return;
+        if (detectedTags == null || detectedTags.Count < 1) return;
 
-        List<string> tagNames = tags.Select(t => 
-            TagDatabase.TryGetTagName(t.id, out string name) ? name : $"Unknown Tag {t.id}"
-        ).ToList();
+        bool tagExists = TagDatabase.TryGetTagName(detectedTags[0].id, out string tagName);
+        if(!tagExists) return;
 
-        DropdownHelper.ClearDropdownAndSetOption(
-            dropdown, 
-            tagNames, 
-            GetSelectedTag
-        );
+        DropdownHelper.SetDropdownOption(dropdown, tagName);
+    }
 
-        RefreshTagInfo();
+    private IEnumerator RefreshDropdown()
+    {
+        while (true)
+        {
+            RefreshFrames();
+            DropdownHelper.ClearDropdownAndSetOption(
+                dropdown, 
+                frames, 
+                GetDropdownSelectedTag
+            );
+            ROSRobotInfoSubscriber.NotifyReading();
+
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    private void RefreshFrames()
+    {
+        this.frames.Clear();
+        if(TFRootGO == null) return;
+
+        TFRoot tfRoot = TFRootGO.GetComponent<TFRoot>();
+        Dictionary<string, Dictionary<string, TFRoot.FrameNode>> topicFrames = tfRoot.GetFramesByTopic();
+        foreach (var (topic, frames) in topicFrames)
+            this.frames.AddRange(frames.Select(kvp => $"{topic}: {kvp.Key}"));
     }
 
     private void OnDoubleClick()
@@ -78,17 +114,23 @@ public class NodeHighlighter : MonoBehaviour
             ) ? name : $"Unknown Tag {selectedNodeID}";
 
         DropdownHelper.SetDropdownOption(dropdown, selectedNode);
-        RefreshTagInfo();
+        RefreshSelectedTagInfo();
     }
 
-    private string GetSelectedTag() =>
+    private string GetDropdownSelectedTag() =>
         DropdownHelper.GetDropdownSelectedText(dropdown);
-    
-    public void OnDropdownValueChanged() => RefreshTagInfo();
 
-    private void RefreshTagInfo()
+    public static string GetSelectedTag() =>
+        selectedNode;
+    
+    public static int GetSelectedTagID() =>
+        selectedNodeID;
+    
+    public void OnDropdownValueChanged() => RefreshSelectedTagInfo();
+
+    private void RefreshSelectedTagInfo()
     {
-        string selectedTag = GetSelectedTag();
+        string selectedTag = GetDropdownSelectedTag();
         if(!TagDatabase.TryGetTagId(selectedTag, out int id)) return;
         
         selectedNodeID = id;
@@ -104,4 +146,5 @@ public class NodeHighlighter : MonoBehaviour
 
         dropdown.value = 0;
     }
+    
 }
