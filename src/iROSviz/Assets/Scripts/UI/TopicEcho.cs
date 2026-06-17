@@ -1,17 +1,19 @@
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using TMPro;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 using RosMessageTypes.Geometry;
 using RosMessageTypes.Std;
 
-using App.ROSUtilities;
-using App.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security;
+
+using App.Utilities;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Resolvers;
 
 public class TopicEcho : MonoBehaviour
 {
@@ -33,7 +35,7 @@ public class TopicEcho : MonoBehaviour
 
     void GetTopics()
     {
-        typeDict = ROSTopicListService.RefreshTopicsWithTypes();
+        typeDict = ROSTopicInfoSubscriber.GetTopicsWithTypes();
         if (typeDict == null || typeDict.Count <= 0)
         {
             Debug.LogWarning("Service didn't respond or no topics available");

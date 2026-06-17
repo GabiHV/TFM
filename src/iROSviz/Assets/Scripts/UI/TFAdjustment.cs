@@ -197,7 +197,7 @@ public class TFAdjustment : MonoBehaviour
 
     private int GetSelectedTagId()
     {
-        string selectedNode = NodeHighlighter.selectedNode;
+        string selectedNode = NodeHighlighter.GetSelectedTag();
         TagDatabase.TryGetTagId(selectedNode, out int tagId);
         return tagId;
     }

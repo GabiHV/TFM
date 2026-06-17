@@ -336,8 +336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFAdjustment
   arCamera: {fileID: 1684470714}
-  highlightShader: {fileID: 4800000, guid: 51fb2ae5da54c9f7c858f43ac12be98b, type: 3}
-  tfRoot: {fileID: 892302949}
   pauseButton: {fileID: 847923959}
   pauseSprite: {fileID: 21300000, guid: 4b8aed87b01f39860ae06deb3ad75276, type: 3}
   playSprite: {fileID: 21300000, guid: e493d376b3bc1f0beaf8b65632361015, type: 3}
@@ -4258,9 +4256,8 @@ MonoBehaviour:
   m_NetworkTimeoutSeconds: 2
   m_SleepTimeSeconds: 0.01
   m_ShowHUD: 1
-  m_TFTopics:
-  - /tf
-  listenForTFMessages: 1
+  m_TFTopics: []
+  listenForTFMessages: 0
 --- !u!114 &241494777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16585,7 +16582,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 530048330}
         m_TargetAssemblyTypeName: ParamChanger, Assembly-CSharp
         m_MethodName: Save
         m_Mode: 1
@@ -22892,18 +22889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03baf84f266cc2ffaa44d5d15ec8bb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFFrameCreator
-  frame:
-    Name: 
-    Root: 
-    Children: []
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Velocity: {x: 0, y: 0, z: 0}
-    AngularVelocity: {x: 0, y: 0, z: 0}
-    GO: {fileID: 0}
-    LastUpdateTime: 0
-    UpdateInterval: 0
-    SmoothedHZ: 0
   prefab: {fileID: 788407744152203492, guid: ef8002ee939db69d5ba5c41dd979f015, type: 3}
   arCamera: {fileID: 1684470714}
 --- !u!1 &899912636
@@ -23096,8 +23081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFFrameMeasurement
   arCamera: {fileID: 1684470714}
-  tFRoot: {fileID: 892302949}
-  highlightShader: {fileID: 4800000, guid: 29439d576c0e12e5cbd78fd04f72d0fe, type: 3}
   distanceTextEvent: {fileID: 957368077}
   rollTextEvent: {fileID: 785847825}
   pitchTextEvent: {fileID: 1551190089}
@@ -39907,6 +39890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NodeHighlighter
   dropdown: {fileID: 1191664235}
+  TFRootGO: {fileID: 892302948}
 --- !u!1 &1628414537
 GameObject:
   m_ObjectHideFlags: 0
@@ -45649,7 +45633,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.65
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -1,19 +1,20 @@
 using UnityEngine;
 using UnityEngine.Localization;
-using TMPro;
-
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
-using App.ROSUtilities;
-
-using App.Utilities;
-using App.Exceptions;
+using TMPro;
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+
+using App.Utilities;
+using App.Exceptions;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Resolvers;
+using App.ROSUtilities.Helpers;
 
 public class TopicPublish : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class TopicPublish : MonoBehaviour
 
     private void GetTopics()
     {
-        _topicsDict = ROSTopicListService.RefreshTopicsWithTypes();
+        _topicsDict = ROSTopicInfoSubscriber.GetTopicsWithTypes();
         
         AddTopicsToDropdown();
         ChangeMessageTypesDropdown();

@@ -8,11 +8,11 @@ using System.Linq;
 
 using App.Utilities;
 using App.Utilities.Collections;
-using App.ROSUtilities;
+using App.ROSUtilities.Subscribers;
 
 public class TFRoot : MonoBehaviour
 {
-    public Dictionary<string, Dictionary<string, FrameNode>> frames = new();
+    private Dictionary<string, Dictionary<string, FrameNode>> frames = new();
 
     public class FrameNode
     {
@@ -151,13 +151,9 @@ public class TFRoot : MonoBehaviour
 
     private void PerformTFMessageProcessing()
     {
-        Dictionary<string, TFMessageMsg> tfInfo = ROSTFService.RefreshTF();  
-        foreach (var (topic, msg) in tfInfo)
+        Dictionary<string, TFMessageMsg> tfInfo = ROSTFSubscriber.GetOrRefreshTF();  
+        foreach (var (root, msg) in tfInfo)
         {
-            // Assuming topic format is something like "/tf" or "/tf_robot1", we can extract the robot name from the topic.
-            string[] parts = topic.Split('/');
-            string root = parts.Length > 1 ? parts[1] : "robot";
-
             UpdateOrCreateRootFrame(root);
 
             foreach (var tf in msg.transforms)
@@ -165,8 +161,6 @@ public class TFRoot : MonoBehaviour
                 CreateFrameAndUpdateDescendants(root, tf);
                 UpdateFrameParameters(root, tf);   
             }
-
-            LinkRootFrame(root);
         }
     }
 
@@ -177,16 +171,11 @@ public class TFRoot : MonoBehaviour
                 frame.StoreHist();
     }
 
-    private void UpdateOrCreateRootFrame(string root = "robot")
+    private void UpdateOrCreateRootFrame(string root = "default")
     {
         if (frames.ContainsKey(root)) return;
         
         frames.Add(root, new Dictionary<string, FrameNode>());
-
-        FrameNode rootFrame = GetOrCreateFrame(root, root);
-
-        rootFrame.Position = Vector3.zero;
-        rootFrame.Rotation = Quaternion.identity;
     }
 
     private void CreateFrameAndUpdateDescendants(string root, TransformStampedMsg tf)
@@ -218,7 +207,7 @@ public class TFRoot : MonoBehaviour
     {
         if (frames[root].ContainsKey(frame))
             return frames[root][frame];
-
+        
         FrameNode frameNode = new()
             {
                 Name = frame,
@@ -231,23 +220,23 @@ public class TFRoot : MonoBehaviour
         return frameNode;
     }
 
-    private void LinkRootFrame(string root)
-    {
-        FrameNode rootNode = frames[root][root];
-        FrameNode firstChild = null;
-        foreach (var frame in frames[root].Values)
-        {
-            if (frame.Name != root)
-            {
-                firstChild = frame;
-                break;
-            }
-        }
-        if(firstChild == null) return;
+    // private void LinkRootFrame(string root)
+    // {
+    //     FrameNode rootNode = frames[root][root];
+    //     FrameNode firstChild = null;
+    //     foreach (var frame in frames[root].Values)
+    //     {
+    //         if (frame.Name != root)
+    //         {
+    //             firstChild = frame;
+    //             break;
+    //         }
+    //     }
+    //     if(firstChild == null) return;
 
-        rootNode.Children.Add(firstChild);
-        firstChild.Parent = rootNode;
-    }
+    //     rootNode.Children.Add(firstChild);
+    //     firstChild.Parent = rootNode;
+    // }
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
         new Vector3(
@@ -263,5 +252,8 @@ public class TFRoot : MonoBehaviour
             (float)ros.x,
             (float)-ros.w
         );
+
+    public Dictionary<string, Dictionary<string, FrameNode>> GetFramesByTopic() =>
+        frames;
 
 }
