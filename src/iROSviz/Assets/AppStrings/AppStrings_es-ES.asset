@@ -189,12 +189,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17451527098224640
-    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el nodo ROS al que
+    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el frame al que
       le corresponde.
     m_Metadata:
       m_Items: []
   - m_Id: 27570023631048704
-    m_Localized: Namespace
+    m_Localized: Visualizar ruta
     m_Metadata:
       m_Items: []
   - m_Id: 27570137623842816

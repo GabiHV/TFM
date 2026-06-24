@@ -193,12 +193,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17451527098224640
-    m_Localized: New tag has been detected. Please select the ROS node that corresponds
+    m_Localized: New tag has been detected. Please select the frame that corresponds
       to it.
     m_Metadata:
       m_Items: []
   - m_Id: 27570023631048704
-    m_Localized: Namespace
+    m_Localized: Path visualizer
     m_Metadata:
       m_Items: []
   - m_Id: 27570137623842816

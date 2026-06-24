@@ -135,6 +135,9 @@ public class TFRoot : MonoBehaviour
 
         private FrameNode GetLastFrameNode() =>
             Hist.Peek();
+        
+        public string GetCompleteTag() =>
+            $"{this.Root}: {this.Name}";
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -223,30 +226,12 @@ public class TFRoot : MonoBehaviour
                 GO = new GameObject(frame)
             };
         PathController pc = frameNode.GO.AddComponent<PathController>();
-        pc.frame = frameNode;
+        pc.SetFrameNode(frameNode);
 
         frames[root][frame] = frameNode;
 
         return frameNode;
     }
-
-    // private void LinkRootFrame(string root)
-    // {
-    //     FrameNode rootNode = frames[root][root];
-    //     FrameNode firstChild = null;
-    //     foreach (var frame in frames[root].Values)
-    //     {
-    //         if (frame.Name != root)
-    //         {
-    //             firstChild = frame;
-    //             break;
-    //         }
-    //     }
-    //     if(firstChild == null) return;
-
-    //     rootNode.Children.Add(firstChild);
-    //     firstChild.Parent = rootNode;
-    // }
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
         new Vector3(

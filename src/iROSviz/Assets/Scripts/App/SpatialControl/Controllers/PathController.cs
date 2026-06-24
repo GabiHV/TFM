@@ -7,19 +7,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using App.ROSUtilities;
+using App.ROSUtilities.Helpers;
 using System.Reflection;
 
 public class PathController : MonoBehaviour
 {
-    public TFRoot.FrameNode frame;
-    public string goalTopic;
+    private TFRoot.FrameNode frame;
+    private string goalTopic;
 
     private PoseStampedMsg[] poseStampedMsgs;
     private int _msgPtr = 0;
     private Vector3 posTarget;
     private HashSet<Action> notifActions = new();
     private static float error = .05f;
+    
+    public void SetGoalTopic(string topic) =>
+        goalTopic = topic;
+
+    public void SetFrameNode(TFRoot.FrameNode frame) =>
+        this.frame = frame; 
 
     void Start() =>
         StartCoroutine(SendMessages());
@@ -120,13 +126,13 @@ public class PathController : MonoBehaviour
     private void SendNextMessage()
     {
         PoseStampedMsg msg = poseStampedMsgs[_msgPtr++];
-        Debug.Log($"Sending message: {msg}");
+        Debug.Log($">> [{nameof(PathController)}] Sending message pose: {msg}");
 
         float x = (float)msg.pose.position.x;
         float y = (float)msg.pose.position.y;
         float z = (float)msg.pose.position.z;
         posTarget = new Vector3(x, y, z);
-        ROSPublisherHelper.PublishMessage("/goal_pose", msg);
+        ROSPublisherHelper.PublishMessage(goalTopic, msg);
     }
 
     private void NotifyFinishSending()

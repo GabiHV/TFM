@@ -120,6 +120,18 @@ public class NodeHighlighter : MonoBehaviour
     private string GetDropdownSelectedTag() =>
         DropdownHelper.GetDropdownSelectedText(dropdown);
 
+    public static string GetSelectedTFTopic()
+    {
+        if(string.IsNullOrEmpty(selectedNode)) return string.Empty;
+        return selectedNode.Split(":")[0].Replace(" ", "");
+    }
+
+    public static string GetSelectedFrame()
+    {
+        if(string.IsNullOrEmpty(selectedNode)) return string.Empty;
+        return selectedNode.Split(":")[1].Replace(" ", "");
+    }
+
     public static string GetSelectedTag() =>
         selectedNode;
     
@@ -131,7 +143,7 @@ public class NodeHighlighter : MonoBehaviour
     private void RefreshSelectedTagInfo()
     {
         string selectedTag = GetDropdownSelectedTag();
-        if(!TagDatabase.TryGetTagId(selectedTag, out int id)) return;
+        TagDatabase.TryGetTagId(selectedTag, out int id);
         
         selectedNodeID = id;
         selectedNode = selectedTag;

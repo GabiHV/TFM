@@ -16,6 +16,7 @@ namespace App.Utilities
         {
             public string name;
             public string frame;
+            public string pathVisualizer;
         }
         private static Dictionary<int, TagInfo> tags = new();
         static readonly string APRILTAG_DB_PATH = Application.persistentDataPath + "/april_tags_database.json";
@@ -46,12 +47,12 @@ namespace App.Utilities
             }
         }
 
-        public static void StoreTag(int id, string name, string frame)
+        public static void StoreTag(int id, string name, string frame, string pathVisualizer)
         {
             if(tags.ContainsKey(id))
-                tags[id] = new TagInfo { name = name, frame = frame };
+                tags[id] = new TagInfo { name = name, frame = frame, pathVisualizer =  pathVisualizer};
             else
-                tags.Add(id, new TagInfo { name = name, frame = frame });
+                tags.Add(id, new TagInfo { name = name, frame = frame, pathVisualizer = pathVisualizer });
         }
 
         public static void DeleteTag(int id) => tags.Remove(id);
@@ -61,6 +62,9 @@ namespace App.Utilities
 
         public static bool TryGetTagFrame(int id, out string frame) =>
             tags.TryGetValue(id, out TagInfo tagInfo) ? (frame = tagInfo.frame) != null : (frame = null) != null;
+
+        public static bool TryGetTagPathVisualizer(int id, out string pathTopic) =>
+            tags.TryGetValue(id, out TagInfo tagInfo) ? (pathTopic = tagInfo.pathVisualizer) != null : (pathTopic = null) != null;
 
         public static bool TryGetTagId(string name, out int id)
         {

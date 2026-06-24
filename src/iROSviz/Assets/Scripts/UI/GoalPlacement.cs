@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using TMPro;
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using App.Utilities;
 using App.Utilities.Collections;
+using App.ROSUtilities.Subscribers;
 
 public class GoalPlacement : MonoBehaviour
 {
@@ -14,6 +17,7 @@ public class GoalPlacement : MonoBehaviour
     public GameObject goalMarkerPrefab;
     public GameObject goalPathGO;
     public GameObject tfRootGO;
+    public TMP_Dropdown topicDropdown;
 
     private GameObject clickedObj;
     private Vector3 hitPoint;
@@ -21,6 +25,7 @@ public class GoalPlacement : MonoBehaviour
     private App.Utilities.Collections.Queue<GoalMarker> pathQueue = new (maxPath);
     private App.Utilities.Collections.Queue<GameObject> reusableMarkers;
     private bool isReady = true;
+    private string selectedNode;
 
     class GoalMarker
     {
@@ -75,8 +80,24 @@ public class GoalPlacement : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() =>
+    void Start()
+    {
+        StartCoroutine(LoadPoseStampedTopics());        
         InstantiateReusableGoalMarkers();
+        UpdateSelectedFrame();
+    }
+
+    private IEnumerator LoadPoseStampedTopics()
+    {
+        while (true)
+        {
+            List<string> topics = ROSTopicInfoSubscriber.GetTopicsByType("geometry_msgs/PoseStamped");
+            string selectedTopic = DropdownHelper.GetDropdownSelectedText(topicDropdown);
+
+            DropdownHelper.ClearDropdownAndSetOption(topicDropdown, topics, () => selectedTopic);
+            yield return new WaitForSeconds(5);
+        }
+    }
 
     private void InstantiateReusableGoalMarkers()
     {
@@ -89,9 +110,35 @@ public class GoalPlacement : MonoBehaviour
         }
     }
 
+    private void UpdateSelectedFrame() =>
+        NodeHighlighter.GetSelectedTag();
+
     // Update is called once per frame
-    void Update() =>
+    void Update()
+    {
+        ChangePredictedTopic();
         PerformGoalPlacement();
+        ResetPathIfFrameChanged();
+        UpdateSelectedNode();
+    }
+
+    private void ChangePredictedTopic()
+    {
+        if(!HasChangedFrame()) return; // No changes
+        List<string> options = topicDropdown.options.Select(o => o.text).ToList();
+        string tfTopic = NodeHighlighter.GetSelectedTFTopic();
+
+        string preferredTopic = 
+                options.OrderByDescending(c => OutputHelper.PathSimilarity(tfTopic, c)).FirstOrDefault();
+        
+        DropdownHelper.SetDropdownOption(topicDropdown, preferredTopic);
+    }
+    
+    private bool HasChangedFrame() =>
+        selectedNode != NodeHighlighter.GetSelectedTag();
+
+    private void UpdateSelectedNode() =>
+        selectedNode = NodeHighlighter.GetSelectedTag();
 
     private void PerformGoalPlacement()
     {
@@ -100,6 +147,12 @@ public class GoalPlacement : MonoBehaviour
         if(!IsFrameReady()) return;
         GetClickedObj();
         PlaceMarker();
+    }
+
+    private void ResetPathIfFrameChanged()
+    {
+        if (!HasChangedFrame()) return;
+        CleanPath();
     }
 
     private bool IsClickPerformed() =>
@@ -154,7 +207,8 @@ public class GoalPlacement : MonoBehaviour
         GoalMarker lastGM = pathQueue.Peek();
         Debug.Log($"Last GoalMarker position: {lastGM?.position}");
         GoalMarker newGM = new(hitPoint, goalMarkerGO);
-        newGM.UpdateLineRenderer(lastGM == null ? newGM.position : lastGM.position);
+
+        newGM.UpdateLineRenderer(lastGM == null ? GetSelectedFrame()?.GO.transform.position ?? newGM.position : lastGM.position);
         if(lastGM != null) lastGM.UpdateRotation(hitPoint);
 
         return newGM;
@@ -172,30 +226,19 @@ public class GoalPlacement : MonoBehaviour
 
     private void SendPathToFrame()
     {
-        // TODO: Finish correctly setting tag
-        string tag = "";
-        bool tagIdSuccess = TagDatabase.TryGetTagId(tag, out int tagId);
-        TagDatabase.TryGetTagVisualization(tagId, out string visualization);
-
-        TFRoot tfRoot = tfRootGO.GetComponent<TFRoot>();
-        if(tfRoot == null) return;
-        if(!tfRoot.frames.ContainsKey(tag)) return;
-
-        Dictionary<string, TFRoot.FrameNode> namespaceFrames = 
-            tfRoot.GetComponent<TFRoot>().frames[tag];
-
-        if(!namespaceFrames.ContainsKey(visualization)) return;
-
-        TFRoot.FrameNode frame = namespaceFrames[visualization];
+        TFRoot.FrameNode frame = GetSelectedFrame();
+        if(frame == null) return;
 
         Vector3[] positions = pathQueue.ToArray().Select(e => e.position).ToArray();
         Quaternion[] rotations = pathQueue.ToArray().Select(e => e.rotation).ToArray();
 
         PathController pc = frame.GO.GetComponent<PathController>();
         SetNotReady();
+        pc.SetGoalTopic(DropdownHelper.GetDropdownSelectedText(topicDropdown));
         pc.AddNotification(SetReady);
         pc.ExecutePath(positions, rotations);
     }
+
 
     private void SetNotReady() =>
         isReady = false;
@@ -207,5 +250,24 @@ public class GoalPlacement : MonoBehaviour
     {
         while(!pathQueue.QueueEmpty())
             DeleteLastMarker();
+    }
+
+    private TFRoot.FrameNode GetSelectedFrame()
+    {
+        // Tag pattern: <tf_topic>: <frame>
+        string frameName = NodeHighlighter.GetSelectedFrame();
+        string tfTopic = NodeHighlighter.GetSelectedTFTopic();
+
+        if(string.IsNullOrEmpty(frameName) || string.IsNullOrEmpty(tfTopic)) return null;
+
+        TFRoot tfRoot = tfRootGO.GetComponent<TFRoot>();
+        if(tfRoot == null) return null;
+        
+        if(!tfRoot.GetFramesByTopic().ContainsKey(tfTopic)) return null;
+        Dictionary<string, TFRoot.FrameNode> namespaceFrames = 
+            tfRoot.GetFramesByTopic()[tfTopic];
+
+        if(!namespaceFrames.ContainsKey(frameName)) return null;
+        return namespaceFrames[frameName];
     }
 }

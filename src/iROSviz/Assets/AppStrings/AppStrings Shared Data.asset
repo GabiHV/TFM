@@ -200,7 +200,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27570023631048704
-    m_Key: namespace
+    m_Key: path_visualizer
     m_Metadata:
       m_Items: []
   - m_Id: 27570137623842816
