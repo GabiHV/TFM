@@ -193,9 +193,7 @@ public class Teleop : MonoBehaviour
 
     public void SwitchUpState()
     {
-        Debug.Log($"Pressed Up Before: {pressedUp}");
         pressedUp = SwitchButtonState(pressedUp,  upButton);
-        Debug.Log($"Pressed Up After: {pressedUp}");
         if (pressedUp && pressedDown) pressedDown = SwitchButtonState(true,  downButton);
         MakeMovement();
     }

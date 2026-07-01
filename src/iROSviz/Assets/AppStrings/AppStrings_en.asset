@@ -237,6 +237,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8447938358756769794
+  - m_Id: 43546220164698112
+    m_Localized: Point Cloud Config
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

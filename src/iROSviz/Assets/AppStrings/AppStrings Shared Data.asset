@@ -235,6 +235,10 @@ MonoBehaviour:
     m_Key: yaw
     m_Metadata:
       m_Items: []
+  - m_Id: 43546220164698112
+    m_Key: point_cloud_config
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

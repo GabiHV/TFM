@@ -31,17 +31,13 @@ public class PlannedPathVisualizer : MonoBehaviour
     private void SetFrameInfo()
     {
         tag = frame?.GetCompleteTag();
-        Debug.Log($"Tag: {tag}");
         if(!TagDatabase.TryGetTagId(tag, out id)) return;
-        Debug.Log($"ID: {id}");
         if(!TagDatabase.TryGetTagPathVisualizer(id, out topic)) return;
-        Debug.Log($"Topic: {topic}");
     }
 
     private void SubscribeToPathPlanTopic()
     {
         if(string.IsNullOrEmpty(topic)) return;
-        Debug.Log($"Subscribed to: {topic}");
         
         ROSPlannedPathSubscriber.SubscribeToTopic(topic);
     }
@@ -62,18 +58,14 @@ public class PlannedPathVisualizer : MonoBehaviour
 
     private void UpdatePath()
     {
-            Debug.Log($"Topic: {topic}");
-
         if(string.IsNullOrEmpty(topic)) return;
 
         Dictionary<string, Dictionary<string, List<PoseStampedMsg>>> paths = 
             ROSPlannedPathSubscriber.GetPlannedPaths();
-        foreach(string key in paths.Keys)
-            Debug.Log($"Keys: {key}");
+
         if(!paths.ContainsKey(topic)) return;
         if(!paths[topic].ContainsKey(frame.Name)) return;
         List<PoseStampedMsg> poses = paths[topic][frame.Name];
-        Debug.Log($"Poses in {frame.Name}: {poses.Count}");
         UpdateMarkers(poses);
     }
 

@@ -21,12 +21,12 @@ public class PointCloudVisualizer : MonoBehaviour
     private float lastUpdateTime = 0f;
     private const int maxPoints = 50000;
     private const int step = 100;
-    private Dictionary<string, PointCloudData> pointClouds = new();
-    private HashSet<string> pointCloudTopics = new();
-    private HashSet<string> pointCloudsTopicsSubscribed = new();
-    private static string pointCloudMessageName = new PointCloud2Msg().RosMessageName;
+    private PointCloudData pointCloud;
+    private string pointCloudTopic;
     private static string targetFrame;
 
+    private bool active = true;
+    
     class PointCloudData
     {
         private Mesh mesh;
@@ -42,10 +42,13 @@ public class PointCloudVisualizer : MonoBehaviour
         private int pointCloudCountRead;
         private int[] indices = new int[maxPoints];
 
-        public PointCloudData(Mesh mesh, GameObject pointCloudObj)
+        public PointCloudData(GameObject meshPrefab, GameObject pointCloudParent)
         {
-            this.mesh = mesh;
-            this.pointCloudObj = pointCloudObj;
+            this.mesh = new Mesh();
+            this.mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+
+            this.pointCloudObj = Instantiate(meshPrefab, pointCloudParent.transform);
+
             writeBuffer = bufferA;
             readBuffer = bufferB;
             InitMesh();
@@ -54,7 +57,7 @@ public class PointCloudVisualizer : MonoBehaviour
         private void InitMesh()
         {
             mesh.MarkDynamic();
-            MeshFilter mf = this.pointCloudObj.GetComponent<MeshFilter>();
+            mf = this.pointCloudObj.GetComponent<MeshFilter>();
             mf.mesh = this.mesh;
         }
 
@@ -146,40 +149,50 @@ public class PointCloudVisualizer : MonoBehaviour
 
         private void MarkAsUnupdated() =>
             isUpdated = false;
-    }
 
-    private void DisableIfNotMainFrame()
-    {
-        TagDatabase.TryGetTagId(frame.Name, out int id);
-
-        if(!string.IsNullOrEmpty(targetFrame))
-            this.enabled = targetFrame == frame.Name;
+        public void ClearMesh()
+        {
+            this.mesh.Clear();
+            this.pointCloudCountRead = 0;
+            this.pointCloudCountWrite = 0;
+        }
     }
 
     void Update()
     {
-        DisableIfNotMainFrame();
+        DisableIfNotInDatabase();
+        if(!IsActive()) return;
+        InstantiatePointCloudIfNeeded();
+
         IncrementFrameCount();
         if (!IsRefreshFrame()) return;
         
-        LoadPointCloudTopics();
         PerformVisualization();
-        UpdateMeshes();
+        UpdateMesh();
         ResetFrameCount();
     }
 
-    private void LoadPointCloudTopics()
+    private void DisableIfNotInDatabase()
     {
-        pointCloudTopics = ROSTopicInfoSubscriber.GetTopicsWithTypes().
-            Where(
-                    kvp => 
-                        kvp.Value.Select(v => ROSResolver.GetMessageNameWithoutType(v)).Contains(pointCloudMessageName) && 
-                        kvp.Key.Contains(frame.Name) &&
-                        kvp.Key.Contains(frame.Root)
-                ).
-            Select(kvp => kvp.Key).
-            ToHashSet();
+        string frameName = $"{frame.Root}: {frame.Name}";
+        bool inDict = PointCloudDatabase.TryGetPointCloudTopic(frameName, out pointCloudTopic);
+        if(!inDict) 
+        {
+            pointCloud?.ClearMesh();
+            active = false;
+            return;
+        }
+        active = true;
     }
+
+    private void InstantiatePointCloudIfNeeded()
+    {
+        if(pointCloud == null)
+            pointCloud = new PointCloudData(meshPrefab, pointCloudParent);
+    }
+
+    private bool IsActive() =>
+        active;   
 
     private bool IsRefreshFrame() =>
         frameCount % frameInterval == 0;
@@ -192,43 +205,16 @@ public class PointCloudVisualizer : MonoBehaviour
 
     private void PerformVisualization()
     {
-        foreach (string topic in pointCloudTopics)
-        {
-            if (pointCloudsTopicsSubscribed.Contains(topic)) continue;
-            ROSPointCloudSubscriber.SubscribeToPointCloudTopic(
-                topic, 
-                LoadPointCloudCallback
-            );
-            pointCloudsTopicsSubscribed.Add(topic);
-        }
-    }
-
-    private void LoadPointCloudCallback(string topic, PointCloud2Msg msg)
-    {
         if (Time.time - lastUpdateTime < updateInterval) return;
         lastUpdateTime = Time.time;
-        PointCloudData pointCloudData = GetOrCreatePointCloud(topic);
-        pointCloudData.ParsePointCloud(msg);
-    }
 
-    private PointCloudData GetOrCreatePointCloud(string topic)
-    {
-        if (pointClouds.ContainsKey(topic)) return pointClouds[topic];
+        Dictionary<string, PointCloud2Msg> points = ROSPointCloudSubscriber.GetPointClouds();
         
-        Mesh mesh = new Mesh();
-        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        PointCloudData pointCloudData = new PointCloudData
-        (
-            mesh,
-            Instantiate(meshPrefab, pointCloudParent.transform)
-        );
-        pointClouds.Add(topic, pointCloudData);
-        return pointCloudData;
+        if(!points.ContainsKey(pointCloudTopic)) return;
+        PointCloud2Msg msg = points[pointCloudTopic];
+        pointCloud.ParsePointCloud(msg);
     }
 
-    private void UpdateMeshes()
-    {
-        foreach (var (_, pointCloudData) in pointClouds)
-            pointCloudData.VisualizePoints();
-    }
+    private void UpdateMesh() =>
+        pointCloud.VisualizePoints();
 }
