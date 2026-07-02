@@ -38,7 +38,7 @@ namespace App.ROSUtilities.Subscribers
         public static void NotifyReading() =>
             GetOrCreateInstance().SwapBuff();
 
-        private async void LoadRobotList() =>
+        private void LoadRobotList() =>
             base.SubscribeToTopic(
                 "/get_robots_unity", 
                 new RobotArrayMsg(), 

@@ -72,7 +72,7 @@ public class ModalTagNameSelector : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private async Task RefreshTagNames()
+    private void RefreshTagNames()
     {
         tagNames.Clear();
         Debug.LogWarning($"Clearing frames");
@@ -87,7 +87,7 @@ public class ModalTagNameSelector : MonoBehaviour
         RefreshTagDropdown();
     }
 
-    private async Task RefreshPathVisualizer()
+    private void RefreshPathVisualizer()
     {
         pathsTopics = 
             ROSTopicInfoSubscriber.

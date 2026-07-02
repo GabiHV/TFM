@@ -32,7 +32,7 @@ namespace App.ROSUtilities.Subscribers
             subscribedTopics.Add(topic);
         }
 
-        protected void SubscribeToTopic(string topic, Message msg, Action<Message>? callback)
+        protected void SubscribeToTopic(string topic, Message msg, Action<Message> callback)
         {
             if(IsAlreadySubscribed(topic)) return;
 

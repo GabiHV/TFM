@@ -16,7 +16,7 @@ public class PlannedPathVisualizer : MonoBehaviour
 
     private GameObject[] reusableMarkers;
     private static readonly int maxPath = 10;
-    private string tag;
+    private string frameTag;
     private string topic;
     private int id;
 
@@ -30,8 +30,8 @@ public class PlannedPathVisualizer : MonoBehaviour
 
     private void SetFrameInfo()
     {
-        tag = frame?.GetCompleteTag();
-        if(!TagDatabase.TryGetTagId(tag, out id)) return;
+        frameTag = frame?.GetCompleteTag();
+        if(!TagDatabase.TryGetTagId(frameTag, out id)) return;
         if(!TagDatabase.TryGetTagPathVisualizer(id, out topic)) return;
     }
 
