@@ -122,5 +122,8 @@ public class ParamChanger : MonoBehaviour
 
     private string GetInputValue() =>
         paramValueInput.text;
+
+    public void Close() =>
+        gameObject.SetActive(false);
     
 }

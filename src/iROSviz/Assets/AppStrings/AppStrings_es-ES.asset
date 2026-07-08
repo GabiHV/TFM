@@ -237,6 +237,38 @@ MonoBehaviour:
     m_Localized: "Configuraci\xF3n de Nube de Puntos"
     m_Metadata:
       m_Items: []
+  - m_Id: 43916362132377600
+    m_Localized: Teleop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43919998526836736
+    m_Localized: Visualizar superficies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43922496411029504
+    m_Localized: Path planning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43923756191207424
+    m_Localized: "Medici\xF3n de frames"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43925024485822464
+    m_Localized: Ajuste de Frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928184235380736
+    m_Localized: Topic Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928460220583936
+    m_Localized: Topic Publisher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928891462144000
+    m_Localized: Modificar Parametros
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
