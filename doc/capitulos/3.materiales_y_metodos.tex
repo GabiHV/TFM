@@ -162,7 +162,7 @@ Establecer exitosamente la conexión con ROS.
 
 \textbf{Flujos Alternativos:}
 \begin{itemize}
-    \item Dirección IP o puerto no válido: El sistema no muestra los \textit{frames}.
+    \item Dirección IP o puerto no válido: El sistema modificar el valor tras la edición a uno por defecto (127.0.0.1:10000).
 \end{itemize}
 
 \subsubsection{CU-02: Configuración idioma}
@@ -595,9 +595,9 @@ qué es lo que le ocurre en caso de problemas no descubiertos.
 \hline
 CP-01 & IP y puerto válidos & Conexión establecida \\
 \hline
-CP-02 & IP incorrecta & Mensaje de error \\
+CP-02 & IP incorrecta & Sistema modifica IP a valor por defecto tras editar parámetro \\
 \hline
-CP-03 & Puerto incorrecto & Mensaje de error \\
+CP-03 & Puerto incorrecto & Sistema modifica a valor por defecto tras editar parámetro \\
 \hline
 CP-04 & Campos vacíos & Validación de campos obligatorios \\
 \hline
