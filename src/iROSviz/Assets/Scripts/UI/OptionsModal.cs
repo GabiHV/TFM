@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 public class OptionsModal : MonoBehaviour
 {
@@ -12,10 +14,17 @@ public class OptionsModal : MonoBehaviour
     public GameObject ToggleTFFrameUI;
     public GameObject TeleopUI;
     public GameObject PointCloudConfigUI;
+    public GameObject XROrigin;
+    public GameObject DebugMenuUI;
+
+    public GameObject ARDebugMenuSlider;
+    public GameObject ARTrackablesSlider;
 
     public void OnClickTopicEcho()
     {
-        TopicEchoUI.SetActive(true);
+        if(TopicEchoUI.activeSelf) TopicEchoUI.SetActive(false);
+        else TopicEchoUI.SetActive(true);
+
         ParamChangerUI.SetActive(false);
         TopicPublisherUI.SetActive(false);
         ConfigUI.SetActive(false);
@@ -30,7 +39,10 @@ public class OptionsModal : MonoBehaviour
     public void OnClickParamChanger()
     {
         TopicEchoUI.SetActive(false);
-        ParamChangerUI.SetActive(true);
+
+        if(ParamChangerUI.activeSelf) ParamChangerUI.SetActive(false);
+        else ParamChangerUI.SetActive(true);
+
         TopicPublisherUI.SetActive(false);
         ConfigUI.SetActive(false);
         TFAdjusterUI.SetActive(false);
@@ -45,7 +57,10 @@ public class OptionsModal : MonoBehaviour
     {
         TopicEchoUI.SetActive(false);
         ParamChangerUI.SetActive(false);
-        TopicPublisherUI.SetActive(true);
+        
+        if(TopicPublisherUI.activeSelf) TopicPublisherUI.SetActive(false);
+        else TopicPublisherUI.SetActive(true);
+
         ConfigUI.SetActive(false);
         TFAdjusterUI.SetActive(false);
         PathPlannerUI.SetActive(false);
@@ -60,7 +75,10 @@ public class OptionsModal : MonoBehaviour
         TopicEchoUI.SetActive(false);
         ParamChangerUI.SetActive(false);
         TopicPublisherUI.SetActive(false);
-        ConfigUI.SetActive(true);
+
+        if(ConfigUI.activeSelf) ConfigUI.SetActive(false);
+        else ConfigUI.SetActive(true);
+        
         TFAdjusterUI.SetActive(false);
         PathPlannerUI.SetActive(false);
         TFFrameMeasurerUI.SetActive(false);
@@ -75,7 +93,10 @@ public class OptionsModal : MonoBehaviour
         ParamChangerUI.SetActive(false);
         TopicPublisherUI.SetActive(false);
         ConfigUI.SetActive(false);
-        TFAdjusterUI.SetActive(true);
+
+        if(TFAdjusterUI.activeSelf) TFAdjusterUI.SetActive(false);
+        else TFAdjusterUI.SetActive(true);
+
         PathPlannerUI.SetActive(false);
         TFFrameMeasurerUI.SetActive(false);
         ToggleTFFrameUI.SetActive(false);
@@ -90,7 +111,10 @@ public class OptionsModal : MonoBehaviour
         TopicPublisherUI.SetActive(false);
         ConfigUI.SetActive(false);
         TFAdjusterUI.SetActive(false);
-        PathPlannerUI.SetActive(true);
+
+        if(PathPlannerUI.activeSelf) PathPlannerUI.SetActive(false);
+        else PathPlannerUI.SetActive(true);
+
         TFFrameMeasurerUI.SetActive(false);
         ToggleTFFrameUI.SetActive(false);
         TeleopUI.SetActive(false);
@@ -105,7 +129,10 @@ public class OptionsModal : MonoBehaviour
         ConfigUI.SetActive(false);
         TFAdjusterUI.SetActive(false);
         PathPlannerUI.SetActive(false);
-        TFFrameMeasurerUI.SetActive(true);
+
+        if(TFFrameMeasurerUI.activeSelf) TFFrameMeasurerUI.SetActive(false);
+        else TFFrameMeasurerUI.SetActive(true);
+
         ToggleTFFrameUI.SetActive(false);
         TeleopUI.SetActive(false);
         PointCloudConfigUI.SetActive(false);
@@ -120,7 +147,10 @@ public class OptionsModal : MonoBehaviour
         TFAdjusterUI.SetActive(false);
         PathPlannerUI.SetActive(false);
         TFFrameMeasurerUI.SetActive(false);
-        ToggleTFFrameUI.SetActive(true);
+
+        if(ToggleTFFrameUI.activeSelf) ToggleTFFrameUI.SetActive(false);
+        else ToggleTFFrameUI.SetActive(true);
+
         TeleopUI.SetActive(false);
         PointCloudConfigUI.SetActive(false);
     }
@@ -135,7 +165,10 @@ public class OptionsModal : MonoBehaviour
         PathPlannerUI.SetActive(false);
         TFFrameMeasurerUI.SetActive(false);
         ToggleTFFrameUI.SetActive(false);
-        TeleopUI.SetActive(true);
+
+        if(TeleopUI.activeSelf) TeleopUI.SetActive(false);
+        else TeleopUI.SetActive(true);
+
         PointCloudConfigUI.SetActive(false);
     }
 
@@ -150,7 +183,47 @@ public class OptionsModal : MonoBehaviour
         TFFrameMeasurerUI.SetActive(false);
         ToggleTFFrameUI.SetActive(false);
         TeleopUI.SetActive(false);
-        PointCloudConfigUI.SetActive(true);
+
+        if(PointCloudConfigUI.activeSelf) PointCloudConfigUI.SetActive(false);
+        else PointCloudConfigUI.SetActive(true);
     }
-    
+
+    public void OnClickVisualizeSurfaces()
+    {
+        GameObject trackables = XROrigin.transform.Find("Trackables").gameObject;
+        DebugSlider slider = ARTrackablesSlider.GetComponent<DebugSlider>();
+        if(slider == null) return;
+        if(slider.value == 0) 
+        {
+            trackables.SetActive(true);
+            slider.value = 1;
+            return;
+        }
+        if(slider.value == 1) 
+        {
+            trackables.SetActive(false);
+            slider.value = 0;
+            return;
+        }
+    }
+
+    public void OnClickARDebugMenu()
+    {
+        DebugSlider slider = ARDebugMenuSlider.GetComponent<DebugSlider>();
+        if(slider == null) return;
+        if(slider.value == 0) 
+        {
+            DebugMenuUI.SetActive(true);
+            slider.value = 1;
+            return;
+        }
+
+        if(slider.value == 1) 
+        {
+            DebugMenuUI.SetActive(false);
+            slider.value = 0;
+            return;
+        }
+    }
+
 }
