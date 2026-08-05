@@ -3,6 +3,7 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace App.ROSUtilities.Services
 {
@@ -20,12 +21,12 @@ namespace App.ROSUtilities.Services
         public bool HasResult() =>
             result != null && result.Count > 0;
 
-        protected void InvokeService(
+        protected async void InvokeService(
             string service, 
             Message request, 
             Message response,
-            Action<Message>? callback
-        ) => ROSServicesHelper.InvokeService(
+            Action<Message> callback
+        ) => await ROSServicesHelper.InvokeService(
                 service,
                 request,
                 response,

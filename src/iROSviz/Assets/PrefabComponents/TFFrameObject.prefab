@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 5640114028572825327}
   - component: {fileID: 832942086610658721}
   - component: {fileID: 628048115561468364}
+  - component: {fileID: 231931898095250163}
   m_Layer: 0
   m_Name: TFFrameObject
   m_TagString: Untagged
@@ -142,6 +143,7 @@ Transform:
   - {fileID: 4283168878364840452}
   - {fileID: 2868332622451792128}
   - {fileID: 8240291650798036455}
+  - {fileID: 6971145964429188153}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &2104558570084054247
@@ -355,6 +357,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PointCloudVisualizer
   meshPrefab: {fileID: 8648453496007533796, guid: 306fbce61db2b573690dafc967bfe15d, type: 3}
   pointCloudParent: {fileID: 9214484371607438657}
+--- !u!114 &231931898095250163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788407744152203492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28a6ea45d5e5663feadfdfaddd1cb10a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlannedPathVisualizer
+  tfRootGO: {fileID: 0}
+  plannedPathGO: {fileID: 2271840697027805045}
+  plannedMarkerPrefab: {fileID: 5820735985129896400, guid: 47a87421797764a21b4be485409dd7bd, type: 3}
 --- !u!1 &1378472483631479691
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +486,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &2271840697027805045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6971145964429188153}
+  m_Layer: 0
+  m_Name: PlannedPath
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6971145964429188153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2271840697027805045}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3775072713640240826}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4833577265833640297
 GameObject:
   m_ObjectHideFlags: 0

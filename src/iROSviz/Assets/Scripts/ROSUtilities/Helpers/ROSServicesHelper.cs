@@ -19,9 +19,8 @@ namespace App.ROSUtilities
     public class ROSServicesHelper
     {
         private static ROSConnection _ros = ROSConnection.GetOrCreateInstance();
-        private static int timeoutMs = 2000; // 2s
-        private Task currentRequest;
-        private Task watchdogsTask;
+        private Task? currentRequest;
+        private Task? watchdogsTask;
 
 
         public static async Task InvokeService(string serviceName, 
@@ -30,7 +29,7 @@ namespace App.ROSUtilities
             Action<Message>? callback)
         {
             ROSServicesHelper instance = new();
-            instance.InvokeInstanceService(serviceName, requestMessage, responseMessage, callback);
+            await instance.InvokeInstanceService(serviceName, requestMessage, responseMessage, callback);
         }
 
         public async Task InvokeInstanceService(string serviceName, 

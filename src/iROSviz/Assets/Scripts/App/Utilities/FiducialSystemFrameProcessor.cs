@@ -177,8 +177,9 @@ namespace App.Utilities
                 yield return ModalTagNameSelector.ShowDialog();
                 string tagName = ModalTagNameSelector.GetTagName();
                 string frame = ModalTagNameSelector.GetFrame();
+                string pathVisualizer = ModalTagNameSelector.GetPathVisualization();
 
-                TagDatabase.StoreTag(tagId, tagName, frame);
+                TagDatabase.StoreTag(tagId, tagName, frame, pathVisualizer);
                 TagDatabase.SaveDatabase();
             }       
         }

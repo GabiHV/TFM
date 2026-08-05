@@ -200,7 +200,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27570023631048704
-    m_Key: namespace
+    m_Key: path_visualizer
     m_Metadata:
       m_Items: []
   - m_Id: 27570137623842816
@@ -233,6 +233,46 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 30167284168937472
     m_Key: yaw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43546220164698112
+    m_Key: point_cloud_config
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43916362132377600
+    m_Key: teleop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43919998526836736
+    m_Key: visualize_surfaces
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43921093105963008
+    m_Key: point_cloud_confi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43922496411029504
+    m_Key: path_planning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43923756191207424
+    m_Key: measuring_frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43925024485822464
+    m_Key: frame_adjustment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928184235380736
+    m_Key: topic_echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928460220583936
+    m_Key: topic_publisher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928891462144000
+    m_Key: change_params
     m_Metadata:
       m_Items: []
   m_Metadata:

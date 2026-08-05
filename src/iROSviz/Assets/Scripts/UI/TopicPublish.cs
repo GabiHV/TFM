@@ -100,12 +100,23 @@ public class TopicPublish : MonoBehaviour
     {
         if (!stopFlag)
         {
-            EnableInputs();
-            SetButtonLabelToConfirm();
-            SetTrueStopFlag();
+            PerformStopPublish();
             return;
         }
 
+        PerformPublish();
+    }
+
+    private void PerformStopPublish()
+    {
+        EnableInputs();
+        SetButtonLabelToConfirm();
+        SetTrueStopFlag();
+        StopCoroutine(PublishLoop());
+    }
+
+    private void PerformPublish()
+    {
         DisableInputs();
         SetButtonLabelToStop();
         SetFalseStopFlag();
@@ -206,5 +217,11 @@ public class TopicPublish : MonoBehaviour
         messageTypeDropdown.interactable = true;
         messageInput.interactable = true;
         frequencyText.interactable = true;
+    }
+
+    public void Close()
+    {
+        PerformStopPublish();
+        gameObject.SetActive(false);
     }
 }

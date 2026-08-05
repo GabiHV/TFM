@@ -22,19 +22,6 @@ namespace App.ROSUtilities.Subscribers
         public static Dictionary<string, PointCloud2Msg> GetPointClouds() =>
             GetOrCreateInstance().GetResult();
 
-         public static void SubscribeToPointCloudTopic(
-            string topic, 
-            Action<string, PointCloud2Msg> callback
-        )
-        {
-            PointCloud2Msg pointCloud = new();
-            GetOrCreateInstance().SubscribeToTopic(
-                topic,
-                pointCloud,
-                msg => callback(topic, (PointCloud2Msg)msg)
-            );
-        }
-
         private static ROSPointCloudSubscriber GetOrCreateInstance()
         {
             if(_instance == null) _instance = new();

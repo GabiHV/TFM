@@ -1,0 +1,273 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using TMPro;
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+using App.Utilities;
+using App.Utilities.Collections;
+using App.ROSUtilities.Subscribers;
+
+public class GoalPlacement : MonoBehaviour
+{
+    public Camera arCamera;
+    public GameObject goalMarkerPrefab;
+    public GameObject goalPathGO;
+    public GameObject tfRootGO;
+    public TMP_Dropdown topicDropdown;
+
+    private GameObject clickedObj;
+    private Vector3 hitPoint;
+    private static readonly int maxPath = 10;
+    private App.Utilities.Collections.Queue<GoalMarker> pathQueue = new (maxPath);
+    private App.Utilities.Collections.Queue<GameObject> reusableMarkers;
+    private bool isReady = true;
+    private string selectedNode;
+
+    class GoalMarker
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+        public GameObject goalMarkerGO;
+
+        public GoalMarker()
+        {
+            SpawnGoalMarker();   
+        }
+
+        public GoalMarker(Vector3 position, GameObject goalMarkerGO = null)
+        {
+            this.position = position;
+            this.goalMarkerGO = goalMarkerGO;
+            SpawnGoalMarker();
+        }
+
+        private void SpawnGoalMarker()
+        {
+            this.goalMarkerGO.transform.position = this.position;
+            this.goalMarkerGO.SetActive(true);
+        }
+    
+        public void DespawnGoalMarker() =>
+            this.goalMarkerGO.SetActive(false);
+
+        public void UpdateLineRenderer(Vector3 previousPosition)
+        {
+            LineRenderer lr = this.goalMarkerGO?.GetComponent<LineRenderer>();
+            if(lr == null) return;
+
+            lr.positionCount = 2;
+            lr.SetPosition(0, this.position);
+            lr.SetPosition(1, previousPosition);
+        }
+
+        public void UpdateRotation(Quaternion rot) =>
+            this.rotation = rot;
+        
+        public void UpdatePosition(Vector3 pos) =>
+            this.position = pos;
+
+        public void UpdateRotation(Vector3 lookingAt) 
+        {
+            Vector3 direction = this.position - lookingAt;
+            this.rotation = Quaternion.LookRotation(direction.normalized);
+            Debug.Log($"Rotation: {rotation}");
+        }
+    }
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        StartCoroutine(LoadPoseStampedTopics());        
+        InstantiateReusableGoalMarkers();
+        UpdateSelectedFrame();
+    }
+
+    private IEnumerator LoadPoseStampedTopics()
+    {
+        while (true)
+        {
+            List<string> topics = ROSTopicInfoSubscriber.GetTopicsByType("geometry_msgs/PoseStamped");
+            string selectedTopic = DropdownHelper.GetDropdownSelectedText(topicDropdown);
+
+            DropdownHelper.ClearDropdownAndSetOption(topicDropdown, topics, () => selectedTopic);
+            yield return new WaitForSeconds(5);
+        }
+    }
+
+    private void InstantiateReusableGoalMarkers()
+    {
+        reusableMarkers = new(maxPath);
+        for(int i = 0; i < maxPath; i++)
+        {
+            GameObject go = Instantiate(goalMarkerPrefab, goalPathGO.transform);
+            go.SetActive(false);
+            reusableMarkers.Enqueue(go);
+        }
+    }
+
+    private void UpdateSelectedFrame() =>
+        NodeHighlighter.GetSelectedTag();
+
+    // Update is called once per frame
+    void Update()
+    {
+        ChangePredictedTopic();
+        PerformGoalPlacement();
+        ResetPathIfFrameChanged();
+        UpdateSelectedNode();
+    }
+
+    private void ChangePredictedTopic()
+    {
+        if(!HasChangedFrame()) return; // No changes
+        List<string> options = topicDropdown.options.Select(o => o.text).ToList();
+        string tfTopic = NodeHighlighter.GetSelectedTFTopic();
+
+        string preferredTopic = 
+                options.OrderByDescending(c => OutputHelper.PathSimilarity(tfTopic, c)).FirstOrDefault();
+        
+        DropdownHelper.SetDropdownOption(topicDropdown, preferredTopic);
+    }
+    
+    private bool HasChangedFrame() =>
+        selectedNode != NodeHighlighter.GetSelectedTag();
+
+    private void UpdateSelectedNode() =>
+        selectedNode = NodeHighlighter.GetSelectedTag();
+
+    private void PerformGoalPlacement()
+    {
+        if(!IsClickPerformed()) return;
+        if(IsPointingUI()) return;
+        if(!IsFrameReady()) return;
+        GetClickedObj();
+        PlaceMarker();
+    }
+
+    private void ResetPathIfFrameChanged()
+    {
+        if (!HasChangedFrame()) return;
+        CleanPath();
+    }
+
+    private bool IsClickPerformed() =>
+        Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
+
+    private bool IsPointingUI() =>
+        EventSystem.current.IsPointerOverGameObject();
+
+    private void GetClickedObj()
+    {
+        // Clean previous references
+        clickedObj = null;
+        hitPoint = Vector3.zero;
+
+        Vector2 pointerPosition = Pointer.current.position.ReadValue();
+        Ray ray = arCamera.ScreenPointToRay(pointerPosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit)) return; // No hit
+        if (hit.collider == null) return; // No collider
+
+        clickedObj = hit.collider.gameObject;
+        hitPoint = hit.point;
+    } 
+
+    private bool IsClickedInTrackablePlane() => 
+        clickedObj != null && clickedObj.name.Contains("ARPlane");
+
+    private void PlaceMarker()
+    {
+        if(!IsClickedInTrackablePlane()) return;
+        if(IsMarkerQueueFull()) return;
+        
+        Debug.Log($"Point clicked: {hitPoint}");
+        StoreGoalMarker();
+    }
+
+    private bool IsMarkerQueueFull() =>
+        pathQueue.QueueFull();
+
+    private void StoreGoalMarker() =>
+        pathQueue.Enqueue(CreateNewGoalMarker());
+
+    public void DeleteLastMarker()
+    {
+        GoalMarker lastGM = pathQueue.Dequeue();
+        lastGM?.DespawnGoalMarker();
+        if(lastGM != null) reusableMarkers.Enqueue(lastGM.goalMarkerGO);
+    }
+
+    private GoalMarker CreateNewGoalMarker()
+    {
+        GameObject goalMarkerGO = reusableMarkers.Dequeue();
+        GoalMarker lastGM = pathQueue.Peek();
+        Debug.Log($"Last GoalMarker position: {lastGM?.position}");
+        GoalMarker newGM = new(hitPoint, goalMarkerGO);
+
+        newGM.UpdateLineRenderer(lastGM == null ? GetSelectedFrame()?.GO.transform.position ?? newGM.position : lastGM.position);
+        if(lastGM != null) lastGM.UpdateRotation(hitPoint);
+
+        return newGM;
+    }
+
+    public void ExecutePath()
+    {
+        if(!IsFrameReady()) return;
+        SendPathToFrame();
+        CleanPath();
+    }
+
+    private bool IsFrameReady() =>
+        isReady;
+
+    private void SendPathToFrame()
+    {
+        TFRoot.FrameNode frame = GetSelectedFrame();
+        if(frame == null) return;
+
+        Vector3[] positions = pathQueue.ToArray().Select(e => e.position).ToArray();
+        Quaternion[] rotations = pathQueue.ToArray().Select(e => e.rotation).ToArray();
+
+        PathController pc = frame.GO.GetComponent<PathController>();
+        SetNotReady();
+        pc.SetGoalTopic(DropdownHelper.GetDropdownSelectedText(topicDropdown));
+        pc.AddNotification(SetReady);
+        pc.ExecutePath(positions, rotations);
+    }
+
+
+    private void SetNotReady() =>
+        isReady = false;
+
+    private void SetReady() =>
+        isReady = true;
+
+    private void CleanPath()
+    {
+        while(!pathQueue.QueueEmpty())
+            DeleteLastMarker();
+    }
+
+    private TFRoot.FrameNode GetSelectedFrame()
+    {
+        // Tag pattern: <tf_topic>: <frame>
+        string frameName = NodeHighlighter.GetSelectedFrame();
+        string tfTopic = NodeHighlighter.GetSelectedTFTopic();
+
+        if(string.IsNullOrEmpty(frameName) || string.IsNullOrEmpty(tfTopic)) return null;
+
+        TFRoot tfRoot = tfRootGO.GetComponent<TFRoot>();
+        if(tfRoot == null) return null;
+        
+        if(!tfRoot.GetFramesByTopic().ContainsKey(tfTopic)) return null;
+        Dictionary<string, TFRoot.FrameNode> namespaceFrames = 
+            tfRoot.GetFramesByTopic()[tfTopic];
+
+        if(!namespaceFrames.ContainsKey(frameName)) return null;
+        return namespaceFrames[frameName];
+    }
+}

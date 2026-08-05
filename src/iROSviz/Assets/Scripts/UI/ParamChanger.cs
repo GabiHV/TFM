@@ -19,7 +19,6 @@ public class ParamChanger : MonoBehaviour
     public TMP_Text paramValueText;
     public TMP_InputField paramValueInput;
 
-    private bool inCourse = false;
     private Dictionary<string, Dictionary<string, (object Value, byte Type)>> _nodesWithParams;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -123,5 +122,8 @@ public class ParamChanger : MonoBehaviour
 
     private string GetInputValue() =>
         paramValueInput.text;
+
+    public void Close() =>
+        gameObject.SetActive(false);
     
 }

@@ -104,6 +104,7 @@ public class TopicEcho : MonoBehaviour
         TextMeshProUGUI text = (TextMeshProUGUI)Instantiate(templateText);
         text.text = completeMsg;
         text.transform.SetParent(scrollViewContent.transform);
+        text.color = Color.white;
     }
 
     private string GetSelectedTopic() =>
@@ -140,5 +141,11 @@ public class TopicEcho : MonoBehaviour
     {
         EnableInteractionTopicDropdown();
         EnableInteractionMessageTypeDropdown();
+    }
+
+    public void Close()
+    {
+        Unsave();
+        gameObject.SetActive(false);
     }
 }

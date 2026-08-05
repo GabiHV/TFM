@@ -14,6 +14,8 @@ public class TFRoot : MonoBehaviour
 {
     private Dictionary<string, Dictionary<string, FrameNode>> frames = new();
 
+    private GameObject TFRootGO;
+
     public class FrameNode
     {
         public string Name;
@@ -133,11 +135,17 @@ public class TFRoot : MonoBehaviour
 
         private FrameNode GetLastFrameNode() =>
             Hist.Peek();
+        
+        public string GetCompleteTag() =>
+            $"{this.Root}: {this.Name}";
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() =>
+    void Start() 
+    {
+        SetTFRootGO();
         ProcessTF();
+    }
 
     // Update is called once per frame
     void Update() =>
@@ -148,6 +156,9 @@ public class TFRoot : MonoBehaviour
         PerformTFMessageProcessing();
         StoreFramesInHist();
     }   
+
+    private void SetTFRootGO() =>
+        TFRootGO = this.gameObject;
 
     private void PerformTFMessageProcessing()
     {
@@ -214,29 +225,13 @@ public class TFRoot : MonoBehaviour
                 Root = root,
                 GO = new GameObject(frame)
             };
+        PathController pc = frameNode.GO.AddComponent<PathController>();
+        pc.SetFrameNode(frameNode);
 
         frames[root][frame] = frameNode;
 
         return frameNode;
     }
-
-    // private void LinkRootFrame(string root)
-    // {
-    //     FrameNode rootNode = frames[root][root];
-    //     FrameNode firstChild = null;
-    //     foreach (var frame in frames[root].Values)
-    //     {
-    //         if (frame.Name != root)
-    //         {
-    //             firstChild = frame;
-    //             break;
-    //         }
-    //     }
-    //     if(firstChild == null) return;
-
-    //     rootNode.Children.Add(firstChild);
-    //     firstChild.Parent = rootNode;
-    // }
 
     Vector3 RosToUnityPosition(Vector3Msg ros) => 
         new Vector3(

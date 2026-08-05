@@ -66,6 +66,8 @@ public class TFFrameCreator : MonoBehaviour
 
         PointCloudVisualizer pcv = TFFrameGO.GetComponent<PointCloudVisualizer>();
         pcv.frame = frame;
+        PlannedPathVisualizer ppv = TFFrameGO.GetComponent<PlannedPathVisualizer>();
+        ppv.frame = frame;
     }
 
     private void SetTFFrameObjParent()
@@ -86,7 +88,6 @@ public class TFFrameCreator : MonoBehaviour
 
     private Transform GetParentTransform()
     {
-        Debug.Log($"[{frame.Name}]. Root = {frame.Root}");
         if(frame.Parent != null) return frame.Parent.GO.transform;
 
         return TFRootGO.transform.Find(frame.Root);
