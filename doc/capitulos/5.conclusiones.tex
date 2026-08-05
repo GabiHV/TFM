@@ -1,1 +1,48 @@
 \chapter{Conclusiones y trabajos futuros}
+
+\section{Conclusiones}
+Durante el desarrollo del proyecto se han afrontado diferentes problemáticas que han requerido de un análisis profundo 
+y de la búsqueda de soluciones que permitan cumplir con los objetivos. 
+Aun así, se han conseguido desarrollar las funcionalidades planteadas en el diseño inicial, y se ha logrado 
+una aplicación funcional que se puede adaptar a cualquier escenario sin configuraciones 
+adicionales -- más allá de las imprescindibles -- y que permite la visualización y control de robots 
+mediante realidad aumentada, presentando una alternativa real a las aplicaciones existentes basadas en tecnologías tradicionales
+en las que la interacción es más compleja y se fundamentan en su mayoria en entradas por teclado, uso de ratón y navegación por 
+menús anidados, alejando al usuario del medio real.
+
+\section{Líneas de trabajo futuras}
+A pesar de que la aplicación desarrollada cumple con los objetivos planteados, se han encontrado limitaciones que no han podido ser 
+resueltas en tiempo y forma en el desarrollo del proyecto, pero que podrían ser abordadas en un futuro para mejorar la experiencia 
+de usuario y la funcionalidad de la aplicación. 
+
+Una de estas limitaciones es la dificultad de compilar ROS para Android, lo que obliga 
+a emplear dependencias externas que rompen con el planteamiento original de que la aplicación fuese 
+completamente autónoma.
+Durante la investigación se encontró que aunque era realmente complejo y requería de un tiempo del que 
+no se disponía, las librerías problemáticas en la compilación cruzada podían ser modificadas de modo que 
+se eliminasen los errores y, lo que es más importante, estuviesen preparadas para ejecutarse 
+sobre Android. Esto permitiría que la aplicación fuese completamente autónoma y no dependiese de servicios 
+externos para su funcionamiento, lo que podría mejorar la experiencia de usuario.
+
+Otra solución plausible para la compilación de ROS para Android 
+que podría ser aboradada en un futuro sería la utilización de máquinas virtuales que ejecuten ROS y 
+los servicios necesarios en el dispositivo Android, 
+de modo que la aplicación se conectase a estas máquinas virtuales y no dependiese de servicios externos.
+En este sentido, se experimentó con la utilización de Termux como emulador del terminal en Android 
+y se consiguió instalar una máquina virtual Ubuntu en la que se instaló ROS, superando la barrera
+de la compilación cruzada y permitiendo ejecutar los servicios directamente en el dispositivo móvil. 
+El siguiente paso sería conectar la aplicación al servicio de ROS ejecutado en la máquina virtual y 
+comprobar que la comunicación es correcta y que la aplicación funciona como se espera.
+
+Por otro lado, la visualización de nubes de puntos es una funcionalidad que no se ha podido implementar 
+de manera satisfactoria debido a la complejidad de la misma y a las limitaciones de los dispositivos móviles.
+Para solventar esta problemática, se podrían emplear técnicas de computación paralela que permitan procesar y 
+renderizar las nubes de puntos de manera más eficiente, aprovechando al máximo los recursos del dispositivo móvil. 
+Además, se podrían explorar alternativas de visualización que reduzcan la carga computacional, como la simplificación 
+de las nubes de puntos o el uso de representaciones aun más ligeras.
+
+Finalmente, y como punto adicional, aunque no sería imprescindible para el funcionamiento de la aplicación, 
+se podrían realizar pruebas de entorno con usuarios finales para evaluar su experiencia y la aceptación de la aplicación,
+y de este modo, obtener datos valiosos que permitan mejorar la aplicación y 
+adaptarla mejor a las necesidades de los usuarios. Cabe destacar que el proyecto ha sido desarrollado empleando entornos 
+simulados, por lo que la experiencia real en este momento podría diferir de la obtenida en los entornos de prueba.
