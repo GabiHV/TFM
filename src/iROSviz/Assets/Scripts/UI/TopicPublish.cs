@@ -29,6 +29,7 @@ public class TopicPublish : MonoBehaviour
     public TMP_Text buttonText;
     public LocalizedString confirm;
     public LocalizedString stop;
+    public LocalizedString invalidMessage;
 
     private bool stopFlag = true;
 
@@ -98,6 +99,12 @@ public class TopicPublish : MonoBehaviour
 
     public void PublishMessage()
     {
+        if(!IsValidMessage())
+        {
+            ModalMessage.ShowDialog(invalidMessage.GetLocalizedString());
+            return;
+        }
+
         if (!stopFlag)
         {
             PerformStopPublish();
@@ -105,6 +112,25 @@ public class TopicPublish : MonoBehaviour
         }
 
         PerformPublish();
+    }
+
+    private bool IsValidMessage()
+    {
+        string messageText = GetMessage();
+        if(string.IsNullOrEmpty(messageText)) return false;
+
+        Type messageType = ROSResolver.GetMessageType(GetSelectedMessage());
+        if(messageType == null) return false;
+
+        try
+        {
+            JsonUtility.FromJson(messageText, messageType);
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
     }
 
     private void PerformStopPublish()

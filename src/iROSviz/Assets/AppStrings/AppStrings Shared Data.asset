@@ -275,6 +275,14 @@ MonoBehaviour:
     m_Key: change_params
     m_Metadata:
       m_Items: []
+  - m_Id: 56228781391237120
+    m_Key: invalid_message
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Key: incorrect_param_value
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

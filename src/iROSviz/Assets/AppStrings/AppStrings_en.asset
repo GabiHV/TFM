@@ -273,6 +273,14 @@ MonoBehaviour:
     m_Localized: Change Parameters
     m_Metadata:
       m_Items: []
+  - m_Id: 56228781391237120
+    m_Localized: Invalid message. Please check the message format and try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Localized: Incorrect parameter value. Please check the format and try again.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
 using TMPro;
 
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using App.Utilities;
 using App.ROSUtilities.Resolvers;
 using App.ROSUtilities.Services;
+using App.Exceptions;
 
 public class ParamChanger : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class ParamChanger : MonoBehaviour
     public TMP_Dropdown paramDropdown;
     public TMP_Text paramValueText;
     public TMP_InputField paramValueInput;
+    public LocalizedString incorrectValue;
 
     private Dictionary<string, Dictionary<string, (object Value, byte Type)>> _nodesWithParams;
 
@@ -76,9 +79,18 @@ public class ParamChanger : MonoBehaviour
         string value = GetInputValue();
 
         if(type == null) return;
-
-        object valueObj = ROSResolver.GetCastedParameterValue(type ?? 0, value);
+        
+        object valueObj = null;
+        try
+        {
+            valueObj = ROSResolver.GetCastedParameterValue(type ?? 0, value);
+        } catch (CastException)
+        {
+            ModalMessage.ShowDialog(incorrectValue.GetLocalizedString());
+            return;
+        }
         Debug.Log($"Selected node: {selectedNode}. Selected param: {selectedParam}. Value: {value}");
+
         ROSParameterSetService.SetParameter(selectedNode, selectedParam, type ?? 0, valueObj);
     }
 

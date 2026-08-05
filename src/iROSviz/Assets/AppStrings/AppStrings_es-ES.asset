@@ -269,6 +269,16 @@ MonoBehaviour:
     m_Localized: Modificar Parametros
     m_Metadata:
       m_Items: []
+  - m_Id: 56228781391237120
+    m_Localized: "Mensaje inv\xE1lido. Por favor, comprueba el formato e int\xE9ntalo
+      de nuevo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Localized: "Valor de par\xE1metro incorrecto. Por favor, comprueba su formato
+      e int\xE9ntalo otra vez."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
