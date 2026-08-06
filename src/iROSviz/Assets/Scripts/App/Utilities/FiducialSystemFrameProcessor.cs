@@ -32,7 +32,8 @@ namespace App.Utilities
         Rect rect;
         public static DetectionResult lastResult = new();
         public static Dictionary<int, Vector3> tagAnchors = new(); 
-        public ARRaycastManager raycastManager;    
+        private ARRaycastManager raycastManager;   
+        public GameObject XROrigin; 
 
         // Semaphores
         volatile bool resultReady = false;
@@ -45,8 +46,8 @@ namespace App.Utilities
 
         IEnumerator LoadRaycastManager()
         {
-            yield return new WaitUntil(() => GetComponent<ARRaycastManager>() != null);
-            raycastManager = GetComponent<ARRaycastManager>();
+            yield return new WaitUntil(() => XROrigin.GetComponent<ARRaycastManager>() != null);
+            raycastManager = XROrigin.GetComponent<ARRaycastManager>();
         }
 
         void Start()
@@ -188,6 +189,7 @@ namespace App.Utilities
         {
             List<ARRaycastHit> hits = new();
             
+            Debug.Log($"screenPos: {screenPos}, hits: {hits.Count}, TrackableType: {TrackableType.Planes}, raycastManager: {raycastManager == null}");
             if(!raycastManager.Raycast(screenPos, hits, TrackableType.Planes)) return;
             if(hits.Count < 1) return;
 

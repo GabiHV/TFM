@@ -194,7 +194,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 27570023631048704
-    m_Localized: Visualizar ruta
+    m_Localized: "Visualizaci\xF3n ruta"
     m_Metadata:
       m_Items: []
   - m_Id: 27570137623842816
@@ -277,6 +277,10 @@ MonoBehaviour:
   - m_Id: 56232661688668160
     m_Localized: "Valor de par\xE1metro incorrecto. Por favor, comprueba su formato
       e int\xE9ntalo otra vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56619266391822336
+    m_Localized: Frame
     m_Metadata:
       m_Items: []
   references:
