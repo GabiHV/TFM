@@ -2,6 +2,8 @@ using UnityEngine;
 
 using System.Collections.Generic;
 
+using App.Utilities;
+
 public class TFFrameTrailVisualizer : MonoBehaviour
 {
     public TFRoot.FrameNode frame;
@@ -41,7 +43,13 @@ public class TFFrameTrailVisualizer : MonoBehaviour
     {
         if(!(Time.time - lastSampleTime > 0.05f)) return;
 
-        List<Vector3> positions = frame.GetHistPosition();
+        TagDatabase.TryGetTagId($"{frame.Root}: {frame.Name}", out int tagId);
+        Vector3 realAnchor = 
+                FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 
+                FiducialSystemFrameProcessor.tagAnchors[tagId] : 
+                Vector3.zero;
+
+        List<Vector3> positions = frame.GetHistPosition(realAnchor);
         trailRenderer.positionCount = positions.Count;
         trailRenderer.SetPositions(positions.ToArray());
         

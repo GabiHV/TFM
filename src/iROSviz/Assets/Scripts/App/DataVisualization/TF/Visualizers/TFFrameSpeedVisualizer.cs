@@ -1,5 +1,9 @@
 using UnityEngine;
 
+using System.Collections.Generic;
+
+using App.Utilities;
+
 public class TFFrameSpeedVisualizer : MonoBehaviour
 {
     public TFRoot.FrameNode frame;
@@ -60,9 +64,15 @@ public class TFFrameSpeedVisualizer : MonoBehaviour
         Vector3 axis = frame.AngularVelocity.normalized;
         if (axis == Vector3.zero) axis = Vector3.up; 
 
+        TagDatabase.TryGetTagId($"{frame.Root}: {frame.Name}", out int tagId);
+        Vector3 realAnchor = 
+                FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 
+                FiducialSystemFrameProcessor.tagAnchors[tagId] : 
+                Vector3.zero;
+
         // Ring position and orientation
         ringObj.gameObject.SetActive(true);
-        ringObj.position = frame.Position;
+        ringObj.position = frame.Position + realAnchor;
         ringObj.rotation = Quaternion.LookRotation(axis);
 
         // Color

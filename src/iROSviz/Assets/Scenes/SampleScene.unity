@@ -32522,7 +32522,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1422421292}
         m_TargetAssemblyTypeName: TopicPublish, Assembly-CSharp
         m_MethodName: CheckFrequency
         m_Mode: 1
@@ -36220,7 +36220,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.55
+  m_fontSize: 26.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

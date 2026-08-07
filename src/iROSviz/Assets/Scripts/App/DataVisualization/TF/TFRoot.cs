@@ -94,6 +94,9 @@ public class TFRoot : MonoBehaviour
         public List<Vector3> GetHistPosition() =>
             Hist.GetAll().Select(e => e.Position).ToList();
 
+        public List<Vector3> GetHistPosition(Vector3 anchor) =>
+            Hist.GetAll().Select(e => e.Position + anchor).ToList();
+
         public List<Quaternion> GetHistRotation() =>
             Hist.GetAll().Select(e => e.Rotation).ToList();
 
