@@ -479,7 +479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &17035929
 RectTransform:
   m_ObjectHideFlags: 0
@@ -515,6 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TFAdjustment
   arCamera: {fileID: 1684470714}
+  TFRoot: {fileID: 892302948}
   pauseButton: {fileID: 847923959}
   pauseSprite: {fileID: 21300000, guid: 4b8aed87b01f39860ae06deb3ad75276, type: 3}
   playSprite: {fileID: 21300000, guid: e493d376b3bc1f0beaf8b65632361015, type: 3}
@@ -31649,7 +31650,7 @@ GameObject:
   - component: {fileID: 1187934717}
   - component: {fileID: 1187934716}
   m_Layer: 5
-  m_Name: Left
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31720,7 +31721,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 17035930}
         m_TargetAssemblyTypeName: TFAdjustment, Assembly-CSharp
-        m_MethodName: MoveLeft
+        m_MethodName: MoveRight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33620,7 +33621,7 @@ GameObject:
   - component: {fileID: 1274261518}
   - component: {fileID: 1274261517}
   m_Layer: 5
-  m_Name: Right
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33691,7 +33692,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 17035930}
         m_TargetAssemblyTypeName: TFAdjustment, Assembly-CSharp
-        m_MethodName: MoveRight
+        m_MethodName: MoveLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -36220,7 +36221,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.25
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

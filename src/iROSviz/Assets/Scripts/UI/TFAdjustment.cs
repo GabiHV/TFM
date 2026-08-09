@@ -9,14 +9,19 @@ using App.Utilities;
 
 public class TFAdjustment : MonoBehaviour
 {
+    public static Dictionary<string, Vector3> offsets = new Dictionary<string, Vector3>();
+
     private static float stepSize = 0.01f;
     private const float holdTimeThreshold = 0.6f;
     private const float clickDistanceThreshold = 10f;
 
     private GameObject selectedFrame;
+    private string selectedFrameName;
     public Camera arCamera; 
+    public GameObject TFRoot;
     
     private bool isSelecting = false;
+    private bool wasButton = false;
     private float timeSinceLastClick = 0f;
     private float clickDownTimestamp = 0f;
     public Button pauseButton;
@@ -40,7 +45,7 @@ public class TFAdjustment : MonoBehaviour
             Debug.Log("Pointer down detected at: " + clickDownTimestamp);
             return;
         }
-        if (Pointer.current.press.wasReleasedThisFrame)
+        if (Pointer.current.press.wasReleasedThisFrame && !wasButton)
         {
             timeSinceLastClick = Time.time - clickDownTimestamp;
             clickDownTimestamp = 0f;
@@ -52,6 +57,12 @@ public class TFAdjustment : MonoBehaviour
     private void PerformFrameSelection()
     {
         if(Pointer.current == null) return;
+
+        if (wasButton)
+        {
+            wasButton = false;
+            return;
+        }
 
         if (!isConsideredSelection() && !lastClickWasNear())
             Deselect();
@@ -92,6 +103,7 @@ public class TFAdjustment : MonoBehaviour
         
         StoreSelectedFrame(hitObject);
         HighlightSelectedFrame(selectedFrame);
+        SetSelectedTagName();
     }
 
     private void StoreSelectedFrame(GameObject frame) =>
@@ -143,67 +155,105 @@ public class TFAdjustment : MonoBehaviour
 
     public void MoveLeft()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(-stepSize, 0, 0);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }   
 
     public void MoveRight()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(stepSize, 0, 0);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }
 
     public void MoveForward()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(0, 0, stepSize);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+        
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }
 
     public void MoveBackward()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(0, 0, -stepSize);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }
 
     public void MoveUp()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(0, stepSize, 0);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }
 
     public void MoveDown()
     {
-        int tagId = GetSelectedTagId();
-        if(tagId == -1) return;
+        wasButton = true;
+        if(selectedFrame == null) return;
 
         Vector3 move = new Vector3(0, -stepSize, 0);
-        FiducialSystemFrameProcessor.tagAnchors[tagId] += move;
+
+        if(offsets.ContainsKey(selectedFrameName))
+            offsets[selectedFrameName] += move;
+        else
+            offsets[selectedFrameName] = move;
     }
 
-    private int GetSelectedTagId()
+    private void SetSelectedTagName()
     {
-        string selectedNode = NodeHighlighter.GetSelectedTag();
-        TagDatabase.TryGetTagId(selectedNode, out int tagId);
-        return tagId;
+        string rootName = string.Empty;
+        string frameName = string.Empty;
+        GameObject currentFrame = selectedFrame;
+        while(currentFrame != null && currentFrame.transform != TFRoot.transform)
+        {
+            if(currentFrame.name == TFFrameCreator.FrameMarker)
+                frameName = currentFrame.transform.parent.name;
+
+            if(currentFrame.transform.parent == TFRoot.transform)
+                rootName = currentFrame.name;
+
+            currentFrame = currentFrame.transform.parent.gameObject;
+        }
+        selectedFrameName = rootName + ": " + frameName;
+        Debug.Log($"Selected frame name: {selectedFrameName}");
     }
 
     public void TogglePause()
     {
+        wasButton = true;
+
         Debug.Log("Is paused: " + TFRuntimeController.IsPaused());
         if(TFRuntimeController.IsPaused())
             PerformPlay();

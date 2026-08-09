@@ -34,7 +34,6 @@ public class TFFramePositionController : MonoBehaviour
     {
         bool isAssignedToFrame = 
             TagDatabase.TryGetTagId($"{frame.Root}: {frame.Name}", out int tagId);
-        Debug.Log($"Frame {frame.Name} is assigned to tag {tagId}: {isAssignedToFrame}");
 
         finalPos = frame.Position;
         // If this frame is the root visualization frame, we need to adjust its position 
@@ -47,6 +46,11 @@ public class TFFramePositionController : MonoBehaviour
                 Vector3.zero;
             finalPos = realAnchor + frame.Position;
         }
+
+        // Check if there is an offset for this frame in the TFAdjustment offsets dictionary 
+        // and apply it to the final position.
+        if(TFAdjustment.offsets.ContainsKey($"{frame.Root}: {frame.Name}"))
+            finalPos += TFAdjustment.offsets[$"{frame.Root}: {frame.Name}"];
 
         frame.GO.transform.position = finalPos;
     }
