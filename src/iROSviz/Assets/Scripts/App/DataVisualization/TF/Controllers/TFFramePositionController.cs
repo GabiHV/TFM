@@ -52,7 +52,7 @@ public class TFFramePositionController : MonoBehaviour
         if(TFAdjustment.offsets.ContainsKey($"{frame.Root}: {frame.Name}"))
             finalPos += TFAdjustment.offsets[$"{frame.Root}: {frame.Name}"];
 
-        frame.GO.transform.position = finalPos;
+        frame.GO.transform.localPosition = finalPos;
     }
 
     private void SetTFFrameObjPosition() =>
