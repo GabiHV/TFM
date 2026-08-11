@@ -16,9 +16,8 @@ indica el \textit{frame} objetivo de ciertas operaciones en diferentes funcional
 
 En la Figura \ref{fig:lineal_speed_visualization} se puede observar cómo se muestra en la aplicación la velocidad lineal. Esta variable es 
 visualizada empleando un vector de color azul en el que la longitud indica la dirección del desplazamiento, de manera que cuanto mayor sea el vector, 
-a mayor velocidad se desplazará el \textit{frame}. Además, en la parte posterior del movimiento se puede observar otro vector que indica la magnitud de la velocidad,
-de forma que mediante un código de colores puede determinarse su adecuación. Así pues, el verde indica que la velocidad lineal es menor a 0.5m/s, el amarillo que está entre
-0,5m/s y 1m/s y rojo que está por encima del último umbral mencionado.
+a mayor velocidad se desplazará el \textit{frame}. Además, en la parte posterior del movimiento se puede observar otro elemento que indica el \textit{trail}, es decir,
+la trayectoria seguida por el \textit{frame}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/speed.png}
@@ -223,88 +222,89 @@ de la medida en la que se encuentran cubiertos en la aplicación, así pues, no 
 la aceptación de esos requisitos.
 
 \section{Resultados de las pruebas}
-En esta sección se mostrarán la cantidad de pruebas diferentes realizadas, las que han sido un éxito y las que no han sido superadas.
+En esta sección se mostrarán la cantidad de pruebas diferentes realizadas, las que han sido un éxito y las que no han sido superadas 
+\footnote{Solo se incluyen las realizadas en la etapa de pruebas. Las llevadas a cabo en la etapa de desarrollo no se computan. }.
 \begin{longtable}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
 \textbf{Prueba} & \textbf{Pruebas Realizadas} & \textbf{Pruebas Superadas} & \textbf{Pruebas No Superadas} \\
 \hline
-CP-01 & & & \\
+CP-01 & - & - & - \\
 \hline
-CP-02 & & & \\
+CP-02 & 10 & 10 & 0 \\
 \hline
-CP-03 & & & \\
+CP-03 & 6 & 6 & 0 \\
 \hline
-CP-04 & & & \\
+CP-04 & - & - & - \\
 \hline
 CP-05 & 1 & 1 & 0 \\
 \hline
 CP-06 & 1 & 1 & 0 \\
 \hline
-CP-07 & & & \\
+CP-07 & 1 & 1 & 0 \\
 \hline
-CP-08 & & & \\
+CP-08 & 3 & 3 & 0 \\
 \hline
-CP-09 & & & \\
+CP-09 & 1 & 1 & 0 \\
 \hline
 CP-10 & 1 & 1 & 0 \\
 \hline
 CP-11 & 1 & 1 & 0 \\
 \hline
-CP-12 & & & \\
+CP-12 & 1 & 1 & 0 \\
 \hline
-CP-13 & & & \\
+CP-13 & 1 & 1 & 0 \\
 \hline
-CP-14 & & & \\
+CP-14 & 1 & 1 & 0 \\
 \hline
-CP-15 & & & \\
+CP-15 & 1 & 1 & 0 \\
 \hline
-CP-16 & & & \\
+CP-16 & 1 & 1 & 0 \\
 \hline
-CP-17 & & & \\
+CP-17 & 1 & 1 & 0 \\
 \hline
-CP-18 & & & \\
+CP-18 & 1 & 1 & 0 \\
 \hline
-CP-19 & & & \\
+CP-19 & 1 & 1 & 0 \\
 \hline
-CP-20 & & & \\
+CP-20 & 1 & 1 & 0 \\
 \hline
-CP-21 & & & \\
+CP-21 & 5 & 5 & 0 \\
 \hline
-CP-22 & & & \\
+CP-22 & 5 & 5 & 0 \\
 \hline
-CP-23 & & & \\
+CP-23 & 3 & 3 & 0 \\
 \hline
-CP-24 & & & \\
+CP-24 & 5 & 5 & 0 \\
 \hline
-CP-25 & & & \\
+CP-25 & 5 & 5 & 0 \\
 \hline
-CP-26 & & & \\
+CP-26 & 5 & 5 & 0 \\
 \hline
-CP-27 & & & \\
+CP-27 & 5 & 5 & 0 \\
 \hline
-CP-28 & & & \\
+CP-28 & 5 & 5 & 0 \\
 \hline
-CP-29 & & & \\
+CP-29 & 5 & 5 & 0 \\
 \hline
-CP-30 & & & \\
+CP-30 & 3 & 3 & 0 \\
 \hline
-CP-31 & & & \\
+CP-31 & 4 & 4 & 0 \\
 \hline
-CP-32 & & & \\
+CP-32 & 4 & 4 & 0 \\
 \hline
-CP-33 & & & \\
+CP-33 & 5 & 5 & 0 \\
 \hline
-CP-34 & & & \\
+CP-34 & 3 & 3 & 0 \\
 \hline
-CP-35 & & & \\
+CP-35 & 2 & 2 & 0 \\
 \hline
-CP-36 & & & \\
+CP-36 & 8 & 8 & 0 \\
 \hline
 \caption{Resultados de las pruebas de integración}
 \end{longtable}
 
-\section{Rendimiento}
-% Si aplica: tiempo de respuesta, consumo de memoria, tasa de errores, escalabilidad, capacidad de procesamiento, etc.
+% \section{Rendimiento}
+% % Si aplica: tiempo de respuesta, consumo de memoria, tasa de errores, escalabilidad, capacidad de procesamiento, etc.
 
 \section{Limitaciones encontradas}
 Durante el desarrollo del proyecto se experimentó con la compilación cruzada del \textit{framework} de ROS para Android, 
