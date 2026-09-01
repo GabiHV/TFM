@@ -1,15 +1,15 @@
-#include "apriltag.h"
+#include "common/apriltag/apriltag.h"
 
-#include "tag36h11.h"
-#include "tag16h5.h"
-#include "tag25h9.h"
-#include "tag36h10.h"
-#include "tagCircle21h7.h"
-#include "tagCircle49h12.h"
-#include "tagCustom48h12.h"
-#include "tagStandard41h12.h"
-#include "tagStandard52h13.h"
-#include "apriltag_pose.h"
+#include "common/apriltag/tag36h11.h"
+#include "common/apriltag/tag16h5.h"
+#include "common/apriltag/tag25h9.h"
+#include "common/apriltag/tag36h10.h"
+#include "common/apriltag/tagCircle21h7.h"
+#include "common/apriltag/tagCircle49h12.h"
+#include "common/apriltag/tagCustom48h12.h"
+#include "common/apriltag/tagStandard41h12.h"
+#include "common/apriltag/tagStandard52h13.h"
+#include "common/apriltag/apriltag_pose.h"
 #include <stdint.h>
 #include <stdio.h>
 

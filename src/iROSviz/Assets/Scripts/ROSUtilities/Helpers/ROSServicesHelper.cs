@@ -20,7 +20,6 @@ namespace App.ROSUtilities
     {
         private static ROSConnection _ros = ROSConnection.GetOrCreateInstance();
         private Task? currentRequest;
-        private Task? watchdogsTask;
 
 
         public static async Task InvokeService(string serviceName, 
@@ -43,6 +42,8 @@ namespace App.ROSUtilities
                 responseMessage.RosMessageName
             );
             
+            Task watchdogsTask = GetWatchdogs();
+            
             currentRequest = SendServiceMessage(serviceName, 
                 requestMessage, 
                 responseMessage, 
@@ -54,6 +55,8 @@ namespace App.ROSUtilities
                 throw new TimeoutException("ROS has not responded");
             }
         }
+
+        private Task GetWatchdogs() => Task.Delay(500);
 
         private static async Task SendServiceMessage(
             string serviceName, 

@@ -202,14 +202,15 @@ namespace App.Utilities
         {
             if(lastResult == null || lastResult.ids == null) return;
 
-            GUI.color = Color.red;
             foreach(DetectionResult.ApriltagDetection tag in lastResult.ids)
             {
+                GUIStyle style = new GUIStyle();
+                style.fontSize = (int)(Screen.height * .05f);
+                style.normal.textColor = Color.red;
                 Vector2 screenPos = new Vector2((float)tag.cx, height-(float)tag.cy);
                 GUI.Label(new Rect(screenPos.x - 50, screenPos.y - 10, 100, 50), 
-                    TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}");
-            }
-            GUI.color = Color.white;    
+                    TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}", style);
+            }  
         }
     }
 }

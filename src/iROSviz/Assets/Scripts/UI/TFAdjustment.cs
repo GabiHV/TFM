@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,6 +22,7 @@ public class TFAdjustment : MonoBehaviour
     public Camera arCamera; 
     public GameObject TFRoot;
     
+    private bool _isPC = true;
     private bool isSelecting = false;
     private bool wasButton = false;
     private float timeSinceLastClick = 0f;
@@ -97,7 +100,7 @@ public class TFAdjustment : MonoBehaviour
         if (!Physics.Raycast(ray, out RaycastHit hit)) return; // No hit
         if (hit.collider == null) return; // No collider
         GameObject hitObject = hit.collider.gameObject;
-        Debug.Log($"Hit object: {hitObject.name}");
+        // Debug.Log($"Hit object: {hitObject.name}");
 
         if(hitObject.name != TFFrameCreator.FrameMarker) return;
         
@@ -117,27 +120,34 @@ public class TFAdjustment : MonoBehaviour
 
     private void PerformFrameScaling()
     {
-        PCScaling();
-        MobileScaling();
+        if(_isPC) PCScaling();
+        if(!_isPC) MobileScaling();
     }
 
     private void PCScaling()
     {
-        float scroll = Mouse.current.scroll.ReadValue().y;
-        if(scroll == 0 || !isFrameSelected()) return;
-        ScaleSelectedFrame(new Vector3(scroll * stepSize, scroll * stepSize, scroll * stepSize));
+        try
+        {    
+            float scroll = Mouse.current.scroll.ReadValue().y;
+            if(scroll == 0 || !isFrameSelected()) return;
+            ScaleSelectedFrame(new Vector3(scroll * stepSize, scroll * stepSize, scroll * stepSize));
+        } catch (NullReferenceException ex)
+        {
+            _isPC = false;
+        }
     }
 
     private void MobileScaling()
     {
-        if (Input.touchCount != 2 || !isFrameSelected()) return;
-        Touch touch0 = Input.GetTouch(0);
-        Touch touch1 = Input.GetTouch(1);
-        Vector2 touch0PrevPos = touch0.position - touch0.deltaPosition;
-        Vector2 touch1PrevPos = touch1.position - touch1.deltaPosition;
+        var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+        if (activeTouches.Count != 2 || !isFrameSelected()) return;
+        Vector2 touch0Pos = activeTouches[0].screenPosition;
+        Vector2 touch1Pos = activeTouches[1].screenPosition;
+        Vector2 touch0PrevPos = touch0Pos - activeTouches[0].delta;
+        Vector2 touch1PrevPos = touch1Pos - activeTouches[1].delta;
 
         float prevDistance = Vector2.Distance(touch0PrevPos, touch1PrevPos);
-        float currentDistance = Vector2.Distance(touch0.position, touch1.position);
+        float currentDistance = Vector2.Distance(touch0Pos, touch1Pos);
 
         float difference = currentDistance - prevDistance;
 

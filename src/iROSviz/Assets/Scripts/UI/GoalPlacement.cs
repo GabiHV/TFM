@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.XR.ARFoundation;
 using TMPro;
 
 using System.Collections;
@@ -18,6 +19,9 @@ public class GoalPlacement : MonoBehaviour
     public GameObject goalPathGO;
     public GameObject tfRootGO;
     public TMP_Dropdown topicDropdown;
+    public GameObject ARTrackablesSlider;
+    public GameObject XROrigin;
+
 
     private GameObject clickedObj;
     private Vector3 hitPoint;
@@ -26,6 +30,7 @@ public class GoalPlacement : MonoBehaviour
     private App.Utilities.Collections.Queue<GameObject> reusableMarkers;
     private bool isReady = true;
     private string selectedNode;
+    private bool wasTrackablesActive;
 
     class GoalMarker
     {
@@ -87,6 +92,12 @@ public class GoalPlacement : MonoBehaviour
         UpdateSelectedFrame();
     }
 
+    void OnEnable() =>
+        EnableTrackables();
+
+    void OnDisable() =>
+        DisableTrackables();
+
     private IEnumerator LoadPoseStampedTopics()
     {
         while (true)
@@ -112,6 +123,29 @@ public class GoalPlacement : MonoBehaviour
 
     private void UpdateSelectedFrame() =>
         NodeHighlighter.GetSelectedTag();
+
+    private void EnableTrackables()
+    {
+        GameObject trackables = XROrigin.transform.Find("Trackables").gameObject;
+        wasTrackablesActive = trackables.activeSelf;
+        if(wasTrackablesActive) return; // if trackables are currently active
+        trackables.SetActive(true);
+
+        // Change Trackables slider to on
+        DebugSlider slider = ARTrackablesSlider.GetComponent<DebugSlider>();
+        slider.value = 1;
+    }
+
+    private void DisableTrackables()
+    {
+        if(wasTrackablesActive) return;
+        GameObject trackables = XROrigin.transform.Find("Trackables").gameObject;
+        trackables.SetActive(false);
+
+        // Change Trackables slider to off
+        DebugSlider slider = ARTrackablesSlider.GetComponent<DebugSlider>();
+        slider.value = 0;
+    }
 
     // Update is called once per frame
     void Update()
