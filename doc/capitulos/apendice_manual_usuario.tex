@@ -1,0 +1,182 @@
+\chapter{Manual de usuario}
+
+\section{Interfaz principal: \textit{HUD}}
+Al ejecutar la aplicación el usuario podrá observar dos elementos en la pantalla que serán una constante durante todas las operaciones.
+En la parte superior se encuentran tanto el remarcador de marcos o \textit{frames} a los que van dirigidas las acciones 
+realizadas en, por ejemplo, la planificación de rutas, como el botón de acceso al menú.
+
+\section{Menú principal}
+La aplicación cuenta con un menú simple a modo de selector.
+
+Pulsando en el icono de tres puntos en la esquina superior derecha de la pantalla del dispositivo se desplegará o 
+esconderá el menú. Desde este se podrán acceder pulsando 
+las opciones pertinentes a las diferentes funcionalidades desarrolladas, además de activar o desactivar
+características necesarias para su funcionamiento o emplear herramientas de depuración.
+
+Las opciones disponibles son las siguientes:
+\begin{itemize}
+    \item Teleoperación: permite al usuario manejar robots móviles publicando las órdenes en un tema o \textit{topic} presente 
+    en la interfaz (\textit{HUD}).
+    \item Configuración de nube de puntos: permite al usuario configurar el tema (\textit{topic}) que publica la nuve de puntos
+    del sensor en cada marco (\textit{frame}).
+    \item Planificar ruta: permite al usuario planificar una ruta con origen en el marco seleccionado en el selector superior 
+    del \textit{HUD}.
+    \item Activar o desactivar \textit{frames}: permite al usuario visualizar u ocultar los marcos presentes en la sesión.
+    \item Medición de frames: permite al usuario realizar mediciones entre los marcos presentes. Entre estas se incluye la distancia,
+    la rotación, el \textit{pitch} y el \textit{yaw}.
+    \item Ajuste de frames: permite a los usuarios realizar escalados de marcos (aumentar o disminuir su tamaño) y modificar su posición
+    en el mundo virtual.
+    \item \textit{Topic echo}: permite al usuario suscribirse a un tema y ver los contenidos publicados.
+    \item \textit{Topic publisher}: permite al usuario publicar mensajes en un tema.
+    \item Modificar parámetros: permite al usuario modificar los parámetros de los nodos presenetes.
+    \item Configuración: permite al usuario modificar aspectos de la aplicación como el idioma, el sistema de puntos de referencia,
+    la dirección IP del servidor ROS, etc.
+    \item Visualización de superficies: permite al usuario visualizar u ocultar las superficies detectadas por el sistema de realidad
+    aumentada.
+    \item Menú de depuración de realidad aumentada: permite al usuario obtener información de depuración como los marcos/cuadros por 
+    segundo a los que se está ejecutando la aplicación.
+\end{itemize}
+
+\section{Representación de \textit{frames} en la aplicación}
+Los marcos ROS se representan en la aplicación como objetos flotantes esféricos de los que sobresalen sus ejes.
+
+La esfera interna proporciona información de estado de la actualización de las transformaciones, de manera que 
+el color verde representará que no existe ningún problema, el color azul indicará que se está en modo pausa y el color rojo
+indicará que el marco no ha sido refrescado en un periodo de tiempo elevado.
+
+Las relaciones entre marcos (hijos y padres) se visualizarán como una línea roja con origen y destino de marcos diferentes.
+
+En los marcos móviles es posible también visualizar el vector de velocidad como una línea azul que sale 
+del centro de la esfera en la que la longitud indica su magnitud.
+
+Es posible, además, visualizar el \textit{trial} de las últimas 10 posiciones de la tranformación como un vector opuesto al de
+la velocidad que tiene origen, de igual manera, en el centro de la esfera. De esta forma
+se indica si hay problemas de conexión o retardos en la red mediante un código de colores formado por rojo, verde y amarillo.
+
+\section{Remarcador de marcos}
+El remarcador o \textit{highlighter} de marcos se encuentra en la parte superior de la pantalla durante toda su ejecución.
+Este sirve para diferentes propósitos.
+
+En primer lugar, permite reconfigurar las etiquetas de detección (\textit{AprilTags}) de forma que si el usuario comete un 
+error al asignar un marco o \textit{frame} a una etiqueta, puede pulsar en el icono de la papelera y esta asociación quedará 
+disuelta.
+Una vez que la cámara detecte de nuevo la etiqueta liberada, volverá a solicitar al usuario la configuración.
+
+Por otra parte, permite que las acciones realizadas en ciertas funcionalidades tengan como objetivo el marco mostrado en el 
+seleccionados. Por ejemplo, en la planificación de ruta, el objetivo del movimiento será el \textit{frame} seleccionado en este 
+componente. De hecho, esto se indicará de forma visual al usuario como una linea azul que saldrá del marco hasta la primera 
+posición de la ruta.
+
+\section{Teleoperación}
+Para operar telemáticamente a un robot, se selecciona la opción "Teleop" en el menú de la aplicación.
+Esta interfaz añade diferentes elementos al \textit{HUD}.
+
+En primer lugar, en el lateral izquierdo de la pantalla se encuentra un botón que al ser pulsado despliega una 
+ventana. En esta se pueden modificar los parámetros del movimiento como son la velocidad angular y lineal.
+
+En la parte inferior izquierda se encuentran dos circulos concénctricos de diferente color. Estos se corresponden al 
+\textit{joystick} que el usuario emplea para enviar las órdenes de movimiento en el plano horizontal (moverse hacia adelante,
+atrás, izquierda o derecha).
+
+En la pate inferior central, se encuentra un selector en el que se muestra el tema (\textit{topic}) objetivo del movimiento,
+siendo necesario que el usuario seleccione una entre las opciones disponibles.
+
+En la parte inferior derecha se encuentran dos botones con flechas hacia arriba y abajo. Al pulsarlos, el usuario podrá 
+enviar la órden de movimiento en el plano vertical.
+
+\section{Configuración de nube de puntos}
+Para realizar la configuración de la nube de puntos se selecciona "Configuración de Nube de Puntos" en el menú.
+La aplicación muestra la lista de los \textit{frames} en el lado izquierdo y un selector en el lado derecho.
+
+Una vez realizada la selección, la aplicación almacena automáticamente la información y procede a mostrar la nube en el marco
+correspondiente.
+
+El usuario puede cerrar la ventana pulsando en el botón de cierre en la esquina superior derecha sin necesidad de guardar los cambios.
+
+\section{Planificación de rutas}
+Para realizar la planificación de rutas se selecciona "Path planning" en el menú de la aplicación.
+Esta interfaz añade diferentes elementos al \textit{HUD}.
+En la parte inferior izquierda se encuentra el botón de deshacer. Este elimina el último punto de ruta introducido.
+
+En la parte inferior central se encuentra el selector del tema (\textit{topic}) objetivo del movimiento (dónde se publicarán los mensajes).
+
+En la parte inferior derecha se encuentra el botón de ejecución de ruta. Este envía punto por punto la información 
+al tema seleccionado, lo que tiene como resultado que el robot se mueva siguiendo la ruta introducida.
+
+Para esta funcionalidad es necesario tener la visualización de superficies capturadas por la realidad aumentada activada. 
+La aplicación lo realizará de manera automática y almacenará el estado anterior para retomarlo al abandonar la característica.
+Sin embargo, el usuario puede en todo momento desactivarlas dentro de esta funcionalidad, pero no podrá situar puntos de ruta nuevos.
+
+\section{Medición de \textit{frames}}
+Para realizar mediciones entre marcos se selecciona en el menú la opción "Medición de frames".
+Esta interfaz introduce una nueva ventana al \textit{HUD} de la aplicación.
+En esta se indica la distancia y rotación de los marcos seleccionados.
+
+Para seleccionar un marco el usuario pulsará durante unos instantes a su representación en realidad aumentada. Tras esto, 
+la representación cambiará de color y quedará seleccionada. 
+
+Seleccionado dos marcos, la información se actualiza en la ventana.
+
+\section{Ajuste de marcos}
+Para realizar ajustes en la posición de las representación de los marcos o modificar su tamaño se selecciona "Ajuste de frames" en 
+el menú.
+
+Esta funcionalidad añade diferentes elementos en el \textit{HUD} de la aplicación.
+
+El botón de pausa se puede emplear para detener la actualización de las transformaciones, de manera que se genera una 
+instantánea de la situación.
+
+El resto de elementos permiten ajustar la posición del marco en el mundo. 
+
+Pulsando en los botones de color rojo la representación del marco se moverá en el eje X. 
+Pulsando en los botones de color azul la representación del marco se moverá en el eje Z.
+Pulsando en los botones de color verde la representación del marco se moverá en el eje Y.
+
+\section{\textit{Topic echo}}
+Para visualizar los mensajes publicados en un tema se selecciona en el menú la opción "Topic echo".
+
+Esta interfaz cuenta con dos selectores y una ventana de visualización.
+
+El selector de tema permite escoger entre las diferentes opciones el \textit{topic} deseado.
+El segundo selector permite seleccionar el tipo de mensaje deseado del tema (típicamente solo se dispone de una opción).
+
+Al pulsar en iniciar, el contenido publicado en el tema se muestra en la ventana de visualización y los selectores 
+se bloquean hasta que se pulsa en parar.
+
+\section{\textit{Topic Publisher}}
+Para publicar un mensaje en un tema, se selecciona en el menú la opción "Topic Publisher".
+
+El selector de temas muestra las opciones disponibles (los \textit{topics} presentes en la red ROS).
+Al seleccionar una opción se modificará también el tipo de mensaje mostrado en el selector siguiente y la plantilla del mensaje.
+Generalmente solo existe un tipo de mensaje por tema, pero se ha habilitado la selección pora posibles
+modificaciones futuras.
+
+Se introduce el mensaje deseado y se modifica la frecuencia de publicación.
+
+Al pulsar en aceptar se publica en el tema el mansaje correspondiente siguiendo la frecuencia.
+
+\section{Modificar parámetros}
+Para modificar un paŕametro en la ventana de modificación de parámetros, se selecciona un nodo entre los presentes,
+el parámetro deseado, se introduce el nuevo valor en la caja de texto inferior y se pulsa el botón de guardado.
+
+Al guardar el parámetro tomará el nuevo valor y se mostrará refrescado.
+
+\section{Configuración}
+Para acceder a la configuración, se selecciona en el menú la opción "Configuración".
+
+La configuración permite modificar el idioma, seleccionar el sistema de puntos de referencia empleados en la aplicación y 
+variar parámetros de conexión con el servidor.
+
+Al itroducir cualquier modificación, se debe pulsar en el botón de guardado, de lo contrario los cambios no se verán reflejados.
+
+\section{Visualización de superficies}
+Para visualizar u ocultar las superficies capturadas por el núcleo de realidad aumentada se selecciona "Visualizar superficies"
+en el menú.
+
+Esta opción es un botón con estado, es decir, que se indicará si se encuentra activo o inactivo en todo momento, de manera que 
+al estar el deslizador en la parte derecha de color verde, las superficies se visualizarán.
+
+De lo contrario, el botón estará de color gris y las superficies serán desactivadas.
+
+\section{Menú de depuración}
+Para visualizar u ocultar el menú de depuración de realidad aumentada, se seleccionma la opción "AR Debug Menu".
