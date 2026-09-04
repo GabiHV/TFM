@@ -276,6 +276,10 @@ MonoBehaviour:
     m_Localized: Parameter value incorrect. Please, check format and try again.
     m_Metadata:
       m_Items: []
+  - m_Id: 43923756191207424
+    m_Localized: Measuring frames
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

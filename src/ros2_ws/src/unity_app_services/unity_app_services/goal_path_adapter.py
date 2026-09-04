@@ -50,11 +50,6 @@ class GoalPathAdapter():
             self.subscribers[robot_ns] = sub
 
             self._node.get_logger().info(f"📡 Listening in topic: {topic_name}")
-        
-        if not self.clients:
-            self._node.get_logger().warn("No robots were found with NavigateToPose")
-        else:
-            self._node.get_logger().info(f"Detected robots: {list(self.clients.keys())}")
     
     def get_actions_and_types(self):
         result = subprocess.run(
@@ -93,6 +88,7 @@ class GoalPathAdapter():
         goal_msg = NavigateToPose.Goal()
         goal_msg.pose = msg
 
+        self._node.get_logger().info(f"Sending pose: {msg}")
         send_goal_future = client.send_goal_async(
             goal_msg,
             feedback_callback=lambda fb: self.feedback_callback(fb, robot_ns)
