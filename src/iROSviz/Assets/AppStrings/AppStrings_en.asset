@@ -152,7 +152,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10559199431512064
-    m_Localized: Enter Port...
+    m_Localized: Input Port...
     m_Metadata:
       m_Items: []
   - m_Id: 10559337608663040
@@ -198,6 +198,82 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 56619266391822336
     m_Localized: Frame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17451527098224640
+    m_Localized: New label detected. Please, select its frame.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570137623842816
+    m_Localized: Visualization base
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28003338028732416
+    m_Localized: Enable/Disable frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164230837260288
+    m_Localized: Freame measures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164687936704512
+    m_Localized: 'Distance: {distance} m'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166198804697088
+    m_Localized: 'Delta rotation:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166515139104768
+    m_Localized: "Roll: {roll} \xBA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166791887671296
+    m_Localized: "Pitch: {pitch} \xBA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30167284168937472
+    m_Localized: "Yaw: {yaw} \xBA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43546220164698112
+    m_Localized: Point cloud config
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43916362132377600
+    m_Localized: Teleop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43919998526836736
+    m_Localized: Visualize surfaces
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43922496411029504
+    m_Localized: Path planning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43925024485822464
+    m_Localized: Frame adjustement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928184235380736
+    m_Localized: Topci Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928460220583936
+    m_Localized: Topic Publisher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928891462144000
+    m_Localized: Modify parameters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56228781391237120
+    m_Localized: Invalid message. Please, check format and try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Localized: Parameter value incorrect. Please, check format and try again.
     m_Metadata:
       m_Items: []
   references:

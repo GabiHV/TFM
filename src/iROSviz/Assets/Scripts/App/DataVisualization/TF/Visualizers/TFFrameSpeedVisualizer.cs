@@ -70,6 +70,9 @@ public class TFFrameSpeedVisualizer : MonoBehaviour
                 FiducialSystemFrameProcessor.tagAnchors[tagId] : 
                 Vector3.zero;
 
+        if(TFAdjustment.offsets.ContainsKey($"{frame.Root}: {frame.Name}"))
+            realAnchor += TFAdjustment.offsets[$"{frame.Root}: {frame.Name}"];
+
         // Ring position and orientation
         ringObj.gameObject.SetActive(true);
         ringObj.position = frame.Position + realAnchor;

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: AddressableAssetGroupSortSettings
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.GroupSchemas.AddressableAssetGroupSortSettings
   sortOrder:
+  - 53892f907fd490e2e9fb0b63a76658f5
+  - 57b45d279f15b4fbeb7fc00b20414e23
   - b20883fcfa77a7109a3729c0949ddebc
   - 75e1c6f05ed6c34b199243ed9c0950a8
   - 73abee41298d669a0ac3e73f4eebe211
