@@ -1,6 +1,7 @@
 using UnityEngine;
 using RosMessageTypes.Geometry;
 using RosMessageTypes.Std;
+using RosMessageTypes.UnityServerInterfaces;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 using System;
@@ -8,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using App.ROSUtilities.Helpers;
+using App.ROSUtilities.Subscribers;
 using System.Reflection;
 
 public class PathController : MonoBehaviour
@@ -19,7 +21,8 @@ public class PathController : MonoBehaviour
     private int _msgPtr = 0;
     private Vector3 posTarget;
     private HashSet<Action> notifActions = new();
-    private static float error = .05f;
+    private Int16 transactionID = 0;
+    private Int16 lastTransaction = 0;
     
     public void SetGoalTopic(string topic) =>
         goalTopic = topic;
@@ -72,7 +75,11 @@ public class PathController : MonoBehaviour
         _msgPtr = 0;
         for(int i = 0; i < poseStampedMsgs.Length; i++)
         {
-            PoseStampedMsg poseStamped = CreatePoseStampedMsg(path[i], orientations[i]);
+            PoseStampedMsg poseStamped = 
+                CreatePoseStampedMsg(
+                    path[i], 
+                    orientations[i]
+                );
             poseStampedMsgs[i] = poseStamped;
         }        
     } 
@@ -107,15 +114,19 @@ public class PathController : MonoBehaviour
             NotifyFinishSending();
             return;
         }
-        if(!IsFrameInTarget()) return;
+        if(!IsFirstTransaction() && !IsFrameInTarget()) return;
         SendNextMessage();
     }
 
     private bool IsFrameInTarget()
     {
-        Vector3 distance = frame.Position - posTarget;
-        return distance.magnitude <= error;
+        HashSet<Int16> finishedTransactions = ROSPlanPathSubscriber.GetFinishedTransactions();
+        Debug.Log($"Nº Transaccciones finalizadas: {finishedTransactions.Count}. Ultima transaccion: {lastTransaction}");
+        return finishedTransactions.Contains(lastTransaction);
     }
+
+    private bool IsFirstTransaction() =>
+        transactionID == 0;
 
     private bool ThereAreMoreMessages() =>
         !IsStampedMsgsNull() && _msgPtr < poseStampedMsgs.Length;
@@ -125,20 +136,31 @@ public class PathController : MonoBehaviour
 
     private void SendNextMessage()
     {
-        PoseStampedMsg msg = poseStampedMsgs[_msgPtr++];
+        PoseStampedOwnMsg msg = new();
+        msg.transaction_id = transactionID++;
+        lastTransaction = msg.transaction_id;
+        msg.pose = poseStampedMsgs[_msgPtr++];
         Debug.Log($">> [{nameof(PathController)}] Sending message pose: {msg}");
 
-        float x = (float)msg.pose.position.x;
-        float y = (float)msg.pose.position.y;
-        float z = (float)msg.pose.position.z;
+        float x = (float)msg.pose.pose.position.x;
+        float y = (float)msg.pose.pose.position.y;
+        float z = (float)msg.pose.pose.position.z;
         posTarget = new Vector3(x, y, z);
         ROSPublisherHelper.PublishMessage(goalTopic, msg);
     }
 
     private void NotifyFinishSending()
     {
+        Debug.Log("Notifying finish path");
         foreach (Action action in notifActions)
             action();
     }
+
+    Vector3 RosToUnityPosition(Vector3 ros) => 
+        new Vector3(
+            (float)-ros.y,
+            (float)ros.z,
+            (float)ros.x
+        );
 
 }

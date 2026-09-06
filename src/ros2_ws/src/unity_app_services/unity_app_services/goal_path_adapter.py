@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
+from unity_server_interfaces.msg import Int16Array, PoseStampedOwn
 from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 import subprocess
@@ -10,12 +11,22 @@ class GoalPathAdapter():
         self._node = node
         self.clients = {}
         self.subscribers = {}
+        self.finished_transactions = set()
+        self
 
         self.detect_robots()
 
         self._node.create_timer(3.0, self.detect_robots)
 
     def detect_robots(self):
+
+        status_topic_name = f"/goal_pose_status_unity".replace("//", "/")
+        self.publisher = self._node.create_publisher(
+            Int16Array,
+            status_topic_name,
+            10
+        )
+        self._node.create_timer(2, self.publish_finished_transactions)
 
         actions = self.get_actions_and_types()
 
@@ -41,12 +52,12 @@ class GoalPathAdapter():
             topic_name = f"{robot_ns}/goal_pose".replace("//", "/")
 
             sub = self._node.create_subscription(
-                PoseStamped,
+                PoseStampedOwn,
                 topic_name,
                 lambda msg, ns=robot_ns: self.goal_callback(msg, ns),
                 10
             )
-
+            
             self.subscribers[robot_ns] = sub
 
             self._node.get_logger().info(f"📡 Listening in topic: {topic_name}")
@@ -85,8 +96,9 @@ class GoalPathAdapter():
             self._node.get_logger().error(f"Nav2 not available in: {robot_ns}")
             return
 
+        transaction_id = msg.transaction_id
         goal_msg = NavigateToPose.Goal()
-        goal_msg.pose = msg
+        goal_msg.pose = msg.pose
 
         self._node.get_logger().info(f"Sending pose: {msg}")
         send_goal_future = client.send_goal_async(
@@ -95,10 +107,10 @@ class GoalPathAdapter():
         )
 
         send_goal_future.add_done_callback(
-            lambda future: self.goal_response_callback(future, robot_ns)
+            lambda future: self.goal_response_callback(future, robot_ns, transaction_id)
         )
 
-    def goal_response_callback(self, future, robot_ns):
+    def goal_response_callback(self, future, robot_ns, transaction_id):
         goal_handle = future.result()
 
         if not goal_handle.accepted:
@@ -108,7 +120,7 @@ class GoalPathAdapter():
         result_future = goal_handle.get_result_async()
 
         result_future.add_done_callback(
-            lambda future: self.result_callback(future, robot_ns)
+            lambda future: self.result_callback(future, robot_ns, transaction_id)
         )
     
     def feedback_callback(self, feedback_msg, robot_ns):
@@ -117,5 +129,14 @@ class GoalPathAdapter():
             f"Distance remaining: {feedback.distance_remaining:.2f}"
         )
 
-    def result_callback(self, future, robot_ns):
+    def result_callback(self, future, robot_ns, transaction_id):
         self._node.get_logger().info(f"Goal completed: {robot_ns}")
+        self.finished_transactions.add(transaction_id)
+        
+
+    def publish_finished_transactions(self):
+        msg = Int16Array()
+        msg.data = list(self.finished_transactions)
+
+        self.publisher.publish(msg)
+

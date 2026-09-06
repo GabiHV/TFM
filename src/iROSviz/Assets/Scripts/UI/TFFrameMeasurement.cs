@@ -30,6 +30,9 @@ public class TFFrameMeasurement : MonoBehaviour
         if(RecalculateFrame() && BothSelected())
             VisualizeMeasurement();
     }
+
+    void OnDisable() =>
+        ClearSelections();
     
     private void FrameSelection()
     {
@@ -46,6 +49,8 @@ public class TFFrameMeasurement : MonoBehaviour
         GameObject hitObject = hit.collider.gameObject;
         Debug.Log($"Hit object: {hitObject.name}. Turn: {(isFrameATurn ? 'A' : 'B')}");
 
+        if(hitObject == null || hitObject?.name != TFFrameCreator.FrameMarker)
+            ClearSelections();
         if(hitObject?.name == TFFrameCreator.FrameMarker)
             PerformSelection(hitObject);
     }
@@ -53,12 +58,16 @@ public class TFFrameMeasurement : MonoBehaviour
     private void PerformSelection(GameObject frameMarker)
     {
         if (isFrameATurn)
-        {
-            frameMarkerA?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
-            frameMarkerB?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
-        }
+            ClearSelections();
         frameMarker.GetComponent<TFFrameMeasurementShadersController>().Highlight();
         StoreFrameAndChangeTurn(frameMarker);
+    }
+
+    private void ClearSelections()
+    {
+        frameMarkerA?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
+        frameMarkerB?.GetComponent<TFFrameMeasurementShadersController>().Unhighlight();
+        isFrameATurn = true;
     }
 
     private void StoreFrameAndChangeTurn(GameObject frameMarker)

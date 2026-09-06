@@ -1,0 +1,2 @@
+int16 transaction_id
+geometry_msgs/PoseStamped pose

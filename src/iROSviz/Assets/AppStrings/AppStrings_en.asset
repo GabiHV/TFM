@@ -219,7 +219,8 @@ MonoBehaviour:
   - m_Id: 30164687936704512
     m_Localized: 'Distance: {distance} m'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8447938358756769794
   - m_Id: 30166198804697088
     m_Localized: 'Delta rotation:'
     m_Metadata:
@@ -227,15 +228,18 @@ MonoBehaviour:
   - m_Id: 30166515139104768
     m_Localized: "Roll: {roll} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8447938358756769794
   - m_Id: 30166791887671296
     m_Localized: "Pitch: {pitch} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8447938358756769794
   - m_Id: 30167284168937472
     m_Localized: "Yaw: {yaw} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8447938358756769794
   - m_Id: 43546220164698112
     m_Localized: Point cloud config
     m_Metadata:
@@ -289,3 +293,7 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 13100660261801984
+        - id: 30166791887671296
+        - id: 30166515139104768
+        - id: 30167284168937472
+        - id: 30164687936704512

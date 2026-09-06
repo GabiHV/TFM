@@ -14,6 +14,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/TopicInfoArray.msg"
   "msg/TFStaticArray.msg"
   "msg/TFStatic.msg"
+  "msg/Int16Array.msg"
+  "msg/PoseStampedOwn.msg"
   DEPENDENCIES geometry_msgs
 )
 

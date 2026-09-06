@@ -239,10 +239,9 @@ public class GoalPlacement : MonoBehaviour
     {
         GameObject goalMarkerGO = reusableMarkers.Dequeue();
         GoalMarker lastGM = pathQueue.Peek();
-        Debug.Log($"Last GoalMarker position: {lastGM?.position}");
         GoalMarker newGM = new(hitPoint, goalMarkerGO);
 
-        newGM.UpdateLineRenderer(lastGM == null ? GetSelectedFrame()?.GO.transform.position ?? newGM.position : lastGM.position);
+        if(lastGM != null) newGM.UpdateLineRenderer(lastGM.position);
         if(lastGM != null) lastGM.UpdateRotation(hitPoint);
 
         return newGM;
@@ -263,8 +262,10 @@ public class GoalPlacement : MonoBehaviour
         TFRoot.FrameNode frame = GetSelectedFrame();
         if(frame == null) return;
 
-        Vector3[] positions = pathQueue.ToArray().Select(e => e.position).ToArray();
-        Quaternion[] rotations = pathQueue.ToArray().Select(e => e.rotation).ToArray();
+        Vector3[] positions = GetPositions();
+        Quaternion[] rotations = pathQueue.ToArray().Select(e => UnityToRosRotation(e.rotation)).ToArray();
+        // positions[0] = new Vector3(0, 0, 1);
+        Debug.Log($"Positions: {positions.ToArray()}");
 
         PathController pc = frame.GO.GetComponent<PathController>();
         SetNotReady();
@@ -273,6 +274,23 @@ public class GoalPlacement : MonoBehaviour
         pc.ExecutePath(positions, rotations);
     }
 
+    private Vector3[] GetPositions()
+    {
+        Vector3[] positions = pathQueue.ToArray().Select(e => UnityToRosPosition(e.position)).ToArray();
+        string tfTopic = NodeHighlighter.GetSelectedTFTopic();
+        List<string> tags = TagDatabase.GetAllTagNames();
+        string relatedTag = tags.Where(t => t.Contains(tfTopic)).FirstOrDefault() ?? string.Empty;
+        bool exists = TagDatabase.TryGetTagId(relatedTag, out int tagId);
+        Vector3 anchor = new Vector3();
+        
+        if(FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId)) 
+            anchor = FiducialSystemFrameProcessor.tagAnchors[tagId];
+        
+        for(int i = 0; i < positions.Length; i++)
+            positions[i] = positions[i] - anchor;
+        
+        return positions;
+    }
 
     private void SetNotReady() =>
         isReady = false;
@@ -304,4 +322,19 @@ public class GoalPlacement : MonoBehaviour
         if(!namespaceFrames.ContainsKey(frameName)) return null;
         return namespaceFrames[frameName];
     }
+
+    Vector3 UnityToRosPosition(Vector3 unity) => 
+        new Vector3(
+            (float)unity.z,
+            (float)-unity.x,
+            (float)unity.y
+        );
+
+    Quaternion UnityToRosRotation(Quaternion unity) =>
+        new Quaternion(
+            (float)unity.z,
+            (float)-unity.x,
+            (float)unity.y,
+            (float)-unity.w
+        );
 }

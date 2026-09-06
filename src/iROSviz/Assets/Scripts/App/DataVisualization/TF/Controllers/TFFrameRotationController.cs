@@ -26,7 +26,7 @@ public class TFFrameRotationController : MonoBehaviour
     }
 
     private void SetTFRotation() =>
-        frame.GO.transform.rotation = frame.Rotation;
+        frame.GO.transform.localRotation = frame.Rotation;
 
     private void SetTFFrameObjRotation() =>
         TFFrameObj.transform.rotation = frame.GO.transform.rotation;

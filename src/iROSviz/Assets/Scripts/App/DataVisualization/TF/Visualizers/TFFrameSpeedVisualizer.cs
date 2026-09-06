@@ -64,19 +64,9 @@ public class TFFrameSpeedVisualizer : MonoBehaviour
         Vector3 axis = frame.AngularVelocity.normalized;
         if (axis == Vector3.zero) axis = Vector3.up; 
 
-        TagDatabase.TryGetTagId($"{frame.Root}: {frame.Name}", out int tagId);
-        Vector3 realAnchor = 
-                FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 
-                FiducialSystemFrameProcessor.tagAnchors[tagId] : 
-                Vector3.zero;
-
-        if(TFAdjustment.offsets.ContainsKey($"{frame.Root}: {frame.Name}"))
-            realAnchor += TFAdjustment.offsets[$"{frame.Root}: {frame.Name}"];
-
-        // Ring position and orientation
+        // Ring orientation
         ringObj.gameObject.SetActive(true);
-        ringObj.position = frame.Position + realAnchor;
-        ringObj.rotation = Quaternion.LookRotation(axis);
+        ringObj.transform.localRotation = Quaternion.LookRotation(axis);
 
         // Color
         Color c = GetAngularColor(speed);

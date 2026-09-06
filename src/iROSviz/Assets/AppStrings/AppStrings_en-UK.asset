@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en-UK
   m_SharedData: {fileID: 11400000, guid: e9273c8ab4453e5c7a040e2b1d5d4ac2, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 5855802267529904207
   m_TableData:
   - m_Id: 51595659857920
     m_Localized: Topic
@@ -213,7 +214,8 @@ MonoBehaviour:
   - m_Id: 30164687936704512
     m_Localized: 'Distance: {distance} m'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5855802267529904207
   - m_Id: 30166198804697088
     m_Localized: 'Delta rotation:'
     m_Metadata:
@@ -221,15 +223,18 @@ MonoBehaviour:
   - m_Id: 30166515139104768
     m_Localized: "Roll: {roll} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5855802267529904207
   - m_Id: 30166791887671296
     m_Localized: "Pitch: {pitch} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5855802267529904207
   - m_Id: 30167284168937472
     m_Localized: "Yaw: {yaw} \xBA"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5855802267529904207
   - m_Id: 43546220164698112
     m_Localized: Point cloud config
     m_Metadata:
@@ -280,4 +285,13 @@ MonoBehaviour:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5855802267529904207
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 30166791887671296
+        - id: 30166515139104768
+        - id: 30167284168937472
+        - id: 30164687936704512

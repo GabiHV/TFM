@@ -43,18 +43,12 @@ public class TFFrameTrailVisualizer : MonoBehaviour
     {
         if(!(Time.time - lastSampleTime > 0.05f)) return;
 
-        TagDatabase.TryGetTagId($"{frame.Root}: {frame.Name}", out int tagId);
-        Vector3 realAnchor = 
-                FiducialSystemFrameProcessor.tagAnchors.ContainsKey(tagId) ? 
-                FiducialSystemFrameProcessor.tagAnchors[tagId] : 
-                Vector3.zero;
-            
-        if(TFAdjustment.offsets.ContainsKey($"{frame.Root}: {frame.Name}"))
-            realAnchor += TFAdjustment.offsets[$"{frame.Root}: {frame.Name}"];
-
-        List<Vector3> positions = frame.GetHistPosition(realAnchor);
-        trailRenderer.positionCount = positions.Count;
-        trailRenderer.SetPositions(positions.ToArray());
+        Vector3[] positions = frame.GetHistPosition().ToArray();
+        for(int i = 0; i < positions.Length; i++)
+            positions[i] = frame.Position - positions[i];
+        
+        trailRenderer.positionCount = positions.Length;
+        trailRenderer.SetPositions(positions);
         
         float jitter = TFFrameObj.GetComponent<TFFrameJitterVisualizer>().GetJitter();
         Gradient g = new Gradient();
