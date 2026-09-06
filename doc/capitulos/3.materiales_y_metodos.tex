@@ -1,16 +1,16 @@
 \chapter{Materiales y métodos}
 
 \section{Diseño metodológico del proyecto}
-En el proyecto se empleó el modelo de desarrollo incremental de \textit{software}, el cual permite dividir los esfuerzos en incrementos, 
-de forma que cada uno se integra con los anteriores y se prueba de manera independiente. Se optó por seguir esta metodología
-puesto que en las primeras etapas se desconocía las tecnologías empleadas más allá de sus fundamentos, por lo que se requería de 
-un proceso de aprendizaje y experimentación que permitiera la familiarización con las herramientas a emplear a la par que se 
-concretaba el diseño final y los requisitos principales que se debían cubrir.
+En el proyecto se empleará el modelo de desarrollo incremental de \textit{software}, el cual permite dividir los esfuerzos en incrementos, 
+de forma que cada uno se integra con los anteriores y se prueba de manera independiente. Se opta por seguir esta metodología
+puesto que en las primeras etapas se desconocen las tecnologías empleadas más allá de sus fundamentos, por lo que se requiere de 
+un proceso de aprendizaje y experimentación que permita la familiarización con las herramientas a emplear a la par que se 
+concreta el diseño final y los requisitos principales que se deben cubrir.
 
 \section{Entorno de trabajo}
-Durante el desarrollo del proyecto se empleó un entorno de trabajo basado en linux, específicamente la 
+Durante el desarrollo del proyecto se empleará un entorno de trabajo basado en linux, específicamente la 
 distribución \textit{Linux Mint 22.2} con el entorno de escritorio \textit{Cinnamon}. 
-Se empleó un equipo con las siguientes características:
+Este sistema operativo se ejecutará sobre un equipo con las siguientes características:
 \begin{itemize}
     \item Procesador: AMD Ryzen 7 3700X.
     \item Memoria RAM: 16 GB DDR4.
@@ -18,16 +18,15 @@ Se empleó un equipo con las siguientes características:
     \item Tarjeta gráfica: NVIDIA GeForce RTX 3070.
 \end{itemize}
 
-En lo referente a los dispositivos móviles empleados para la prueba de la aplicación, se emplearon los siguientes:
+En lo referente a los dispositivos móviles, se empleará en las pruebas el siguiente modelo:
 \begin{itemize}
     \item \textbf{Xiaomi 11T Pro} con sistema operativo Android 14
-    \item \textbf{iPhone 15 Plus:} con sistema operativo iOS 26
 \end{itemize}
 
-Debido a la carencia de equipamiento específico, no se emplearon robots físicos, sino que fueron simulados mediante el uso de un \textit{software}, 
+Debido a la carencia de equipamiento específico, no se emplearán robots físicos, sino que serán simulados mediante el uso de un \textit{software}, 
 concretamente \textit{Gazebo}, que permite la simulación de robots y entornos en 3D.
 
-Para el desarrollo \textit{software} se emplearon las siguientes herramientas:
+Para el desarrollo \textit{software} se emplearán las siguientes herramientas:
 \begin{itemize}
     \item \textbf{Visual Studio Code:} IDE para el desarrollo de aplicaciones web y de escritorio, que incluye herramientas de depuración y extensiones para diferentes lenguajes de programación.
     \item \textbf{Git:} Sistema de control de versiones distribuido, que
@@ -51,12 +50,12 @@ Para el desarrollo \textit{software} se emplearon las siguientes herramientas:
 \end{itemize}
 
 \section{Materiales empleados}
-Para la realización del proyecto se emplearon los siguientes materiales y repositorios:
+Para la realización del proyecto se emplearán los siguientes materiales y repositorios:
 \begin{itemize}
     \item \textbf{ROS-TCP-Endpoint:} Paquete de ROS que permite la comunicación entre un nodo ROS y una aplicación externa a través de TCP/IP.
     \item \textbf{ROS-TCP-Connector:} Interfaz C\# de alto nivel para la comunicación entre la aplicación y los nodos ROS.
-    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos.
     \item \textbf{AprilRobotics/apriltag:} Librería C++ que permite la detección y seguimiento de los marcadores visuales (\textit{AprilTags}).
+    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos.
 \end{itemize}
 
 \section{Análisis de requisitos}
@@ -683,7 +682,7 @@ CP-17 & Mensaje de bajada & Robot baja el elemento correspondiente a velocidad e
 \hline
 \textbf{ID} & \textbf{Datos de entrada} & \textbf{Resultado esperado} \\
 \hline
-CP-18 & Posición de marca de referencia añadida & La marca se visualiza encadenada a la anterior (o al robot en caso de ser la primera) en la posición establecida \\
+CP-18 & Posición de marca de referencia añadida & La marca se visualiza encadenada a la anterior en la posición establecida \\
 \hline
 CP-19 & Accionamiento de eliminación de marca de referencia & La ultima marca se deja de visualizar \\
 \hline

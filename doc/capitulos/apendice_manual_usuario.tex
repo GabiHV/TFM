@@ -38,7 +38,13 @@ Las opciones disponibles son las siguientes:
 \end{itemize}
 
 \section{Representación de \textit{frames} en la aplicación}
-Los marcos ROS se representan en la aplicación como objetos flotantes esféricos de los que sobresalen sus ejes.
+Los marcos ROS se representan en la aplicación como objetos flotantes esféricos de los que sobresalen sus ejes (Figura \ref{fig:frame_rep}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/frame_gizmo.png}
+    \caption{Representación de un marco.}
+    \label{fig:frame_rep}
+\end{figure}
 
 La esfera interna proporciona información de estado de la actualización de las transformaciones, de manera que 
 el color verde representará que no existe ningún problema, el color azul indicará que se está en modo pausa y el color rojo
@@ -48,14 +54,25 @@ Las relaciones entre marcos (hijos y padres) se visualizarán como una línea ro
 
 En los marcos móviles es posible también visualizar el vector de velocidad como una línea azul que sale 
 del centro de la esfera en la que la longitud indica su magnitud.
-
 Es posible, además, visualizar el \textit{trial} de las últimas 10 posiciones de la tranformación como un vector opuesto al de
 la velocidad que tiene origen, de igual manera, en el centro de la esfera. De esta forma
-se indica si hay problemas de conexión o retardos en la red mediante un código de colores formado por rojo, verde y amarillo.
+se indica si hay problemas de conexión o retardos en la red mediante un código de colores formado por rojo, verde y amarillo (Figura \ref{fig:lineal_vel_trail}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/lineal_velocity_trail.png}
+    \caption{Visualización de la velocidad lineal y estados anteriores.}
+    \label{fig:lineal_vel_trail}
+\end{figure}
 
 \section{Remarcador de marcos}
 El remarcador o \textit{highlighter} de marcos se encuentra en la parte superior de la pantalla durante toda su ejecución.
-Este sirve para diferentes propósitos.
+Este sirve para diferentes propósitos (Figura \ref{fig:frame_highlighter}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/highlighter_recortado.png}
+    \caption{Remarcador de \textit{frames}.}
+    \label{fig:frame_highlighter}
+\end{figure}
 
 En primer lugar, permite reconfigurar las etiquetas de detección (\textit{AprilTags}) de forma que si el usuario comete un 
 error al asignar un marco o \textit{frame} a una etiqueta, puede pulsar en el icono de la papelera y esta asociación quedará 
@@ -69,7 +86,13 @@ posición de la ruta.
 
 \section{Teleoperación}
 Para operar telemáticamente a un robot, se selecciona la opción "Teleop" en el menú de la aplicación.
-Esta interfaz añade diferentes elementos al \textit{HUD}.
+Esta interfaz añade diferentes elementos al \textit{HUD} (Figura \ref{fig:teleop_interface}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/teleop.png}
+    \caption{Interfaz de teleoperación.}
+    \label{fig:teleop_interface}
+\end{figure}
 
 En primer lugar, en el lateral izquierdo de la pantalla se encuentra un botón que al ser pulsado despliega una 
 ventana. En esta se pueden modificar los parámetros del movimiento como son la velocidad angular y lineal.
@@ -86,45 +109,109 @@ enviar la órden de movimiento en el plano vertical.
 
 \section{Configuración de nube de puntos}
 Para realizar la configuración de la nube de puntos se selecciona "Configuración de Nube de Puntos" en el menú.
-La aplicación muestra la lista de los \textit{frames} en el lado izquierdo y un selector en el lado derecho.
+La aplicación muestra la lista de los \textit{frames} en el lado izquierdo y un selector en el lado derecho (Figura \ref{fig:point_cloud_config_interface}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/point_cloud_config.png}
+    \caption{Interfaz de configuración de nube de puntos.}
+    \label{fig:point_cloud_config_interface}
+\end{figure}
+El usuario puede cerrar la ventana pulsando en el botón de cierre en la esquina superior derecha sin necesidad de guardar los cambios.
 
 Una vez realizada la selección, la aplicación almacena automáticamente la información y procede a mostrar la nube en el marco
-correspondiente.
-
-El usuario puede cerrar la ventana pulsando en el botón de cierre en la esquina superior derecha sin necesidad de guardar los cambios.
+correspondiente (Figura \ref{fig:point_cloud_active}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/points_cloud_active.png}
+    \caption{Nube de puntos activa.}
+    \label{fig:point_cloud_active}
+\end{figure}
 
 \section{Planificación de rutas}
 Para realizar la planificación de rutas se selecciona "Path planning" en el menú de la aplicación.
-Esta interfaz añade diferentes elementos al \textit{HUD}.
+Esta interfaz añade diferentes elementos al \textit{HUD} (Figura \ref{fig:path_planning_interface}).
 En la parte inferior izquierda se encuentra el botón de deshacer. Este elimina el último punto de ruta introducido.
-
 En la parte inferior central se encuentra el selector del tema (\textit{topic}) objetivo del movimiento (dónde se publicarán los mensajes).
-
 En la parte inferior derecha se encuentra el botón de ejecución de ruta. Este envía punto por punto la información 
 al tema seleccionado, lo que tiene como resultado que el robot se mueva siguiendo la ruta introducida.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/path_planning.png}
+    \caption{Interfaz de planificación de rutas.}
+    \label{fig:path_planning_interface}
+\end{figure}
 
 Para esta funcionalidad es necesario tener la visualización de superficies capturadas por la realidad aumentada activada. 
 La aplicación lo realizará de manera automática y almacenará el estado anterior para retomarlo al abandonar la característica.
 Sin embargo, el usuario puede en todo momento desactivarlas dentro de esta funcionalidad, pero no podrá situar puntos de ruta nuevos.
 
+En el selector de marco objetivo de la parte superior de la interfaz se establece el \textit{frame} correspondiente al sistema de coordenadas
+global y fijo del entorno (generalmente tomará el nombre de \textbf{map}). En el selector del tema se selecciona aquel que 
+contenga el espacio de nombres correcto y esté asociado con la acción de navegación a posición (todos ellos terminarán en \textit{goal\_pose}, puesto
+que se ha desarrollado un nodo en el servidor de comunicaciones que realiza tal conversión).
+
+Tras esto, se puede comenzar a situar puntos de ruta que se visualizarán como esferas azules en las superficies de seguimiento detectadas por el motor de 
+realidad aumentada (Figura \ref{fig:path_planning_marks}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/path_planning_marks.png}
+    \caption{Puntos de ruta.}
+    \label{fig:path_planning_marks}
+\end{figure}
+
+Cuando se supere el máximo (10 puntos) o el usuario desee enviar la planificación, se pulsa en el botón con un icono de avión. El robot, entonces, 
+comenzará a moverse siguiendo la ruta planificada.
+
 \section{Medición de \textit{frames}}
 Para realizar mediciones entre marcos se selecciona en el menú la opción "Medición de frames".
 Esta interfaz introduce una nueva ventana al \textit{HUD} de la aplicación.
-En esta se indica la distancia y rotación de los marcos seleccionados.
+En esta se indica la distancia y rotación de los marcos seleccionados (Figura \ref{fig:frame_meas_interface}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/medicion_frames.png}
+    \caption{Interfaz de medición de marcos.}
+    \label{fig:frame_meas_interface}
+\end{figure}
 
-Para seleccionar un marco el usuario pulsará durante unos instantes a su representación en realidad aumentada. Tras esto, 
-la representación cambiará de color y quedará seleccionada. 
+Para seleccionar un marco el usuario pulsará a su representación en realidad aumentada. Tras esto, 
+la representación cambiará de color y quedará seleccionada (Figura \ref{fig:one_frame_meas_sel}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/medicion_frames_seleccion_uno.png}
+    \caption{Selección de un marco para calculo de medidas.}
+    \label{fig:one_frame_meas_sel}
+\end{figure}
 
-Seleccionado dos marcos, la información se actualiza en la ventana.
+Seleccionado dos marcos, la información se actualiza en la ventana (Figura \ref{fig:frame_meas_sel}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/medicion_frames_2.png}
+    \caption{Cálculo de medidas entre frames.}
+    \label{fig:frame_meas_sel}
+\end{figure}
+
+El usuario puede cancelar las selecciones realizadas pulsando en otro objeto que no sea la representación de un frame.
 
 \section{Ajuste de marcos}
 Para realizar ajustes en la posición de las representación de los marcos o modificar su tamaño se selecciona "Ajuste de frames" en 
-el menú.
+el menú (Figura \ref{fig:frame_adjus_inter}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/ajuste_frames_1.png}
+    \caption{Interfaz de ajuste de marcos.}
+    \label{fig:frame_adjus_inter}
+\end{figure}
 
 Esta funcionalidad añade diferentes elementos en el \textit{HUD} de la aplicación.
 
 El botón de pausa se puede emplear para detener la actualización de las transformaciones, de manera que se genera una 
-instantánea de la situación.
+instantánea de la situación (Figura \ref{fig:tf_paused}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/ajuste_frames_pausa.png}
+    \caption{Transformaciones pausadas.}
+    \label{fig:tf_paused}
+\end{figure}
 
 El resto de elementos permiten ajustar la posición del marco en el mundo. 
 
@@ -134,17 +221,36 @@ Pulsando en los botones de color verde la representación del marco se moverá e
 
 \section{\textit{Topic echo}}
 Para visualizar los mensajes publicados en un tema se selecciona en el menú la opción "Topic echo".
-
-Esta interfaz cuenta con dos selectores y una ventana de visualización.
+Esta interfaz cuenta con dos selectores y una ventana de visualización (Figura \ref{fig:topic_echo_interface}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/topic_echo.png}
+    \caption{Interfaz de escucha de temas.}
+    \label{fig:topic_echo_interface}
+\end{figure}
 
 El selector de tema permite escoger entre las diferentes opciones el \textit{topic} deseado.
 El segundo selector permite seleccionar el tipo de mensaje deseado del tema (típicamente solo se dispone de una opción).
 
 Al pulsar en iniciar, el contenido publicado en el tema se muestra en la ventana de visualización y los selectores 
-se bloquean hasta que se pulsa en parar.
+se bloquean hasta que se pulsa en parar (Figura \ref{fig:topic_echo_active}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/topic_echo_activo.png}
+    \caption{Escucha de temas activa.}
+    \label{fig:topic_echo_active}
+\end{figure}
+
 
 \section{\textit{Topic Publisher}}
 Para publicar un mensaje en un tema, se selecciona en el menú la opción "Topic Publisher".
+Esto abrirá una ventana superpuesta con diferentes entradas de usuario (\ref{fig:topic_publisher_interface})
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/topic_publisher.png}
+    \caption{Interfaz de publicación en temas.}
+    \label{fig:topic_publisher_interface}
+\end{figure}
 
 El selector de temas muestra las opciones disponibles (los \textit{topics} presentes en la red ROS).
 Al seleccionar una opción se modificará también el tipo de mensaje mostrado en el selector siguiente y la plantilla del mensaje.
@@ -152,31 +258,58 @@ Generalmente solo existe un tipo de mensaje por tema, pero se ha habilitado la s
 modificaciones futuras.
 
 Se introduce el mensaje deseado y se modifica la frecuencia de publicación.
-
 Al pulsar en aceptar se publica en el tema el mansaje correspondiente siguiendo la frecuencia.
 
 \section{Modificar parámetros}
 Para modificar un paŕametro en la ventana de modificación de parámetros, se selecciona un nodo entre los presentes,
 el parámetro deseado, se introduce el nuevo valor en la caja de texto inferior y se pulsa el botón de guardado.
-
 Al guardar el parámetro tomará el nuevo valor y se mostrará refrescado.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/mod_parameter.png}
+    \caption{Interfaz de modificación de parámetros.}
+    \label{fig:mod_parameter_interface}
+\end{figure}
 
 \section{Configuración}
 Para acceder a la configuración, se selecciona en el menú la opción "Configuración".
-
 La configuración permite modificar el idioma, seleccionar el sistema de puntos de referencia empleados en la aplicación y 
-variar parámetros de conexión con el servidor.
+variar parámetros de conexión con el servidor (Figura \ref{fig:config_interface}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/configuracion.png}
+    \caption{Interfaz de configuración.}
+    \label{fig:config_interface}
+\end{figure}
 
-Al itroducir cualquier modificación, se debe pulsar en el botón de guardado, de lo contrario los cambios no se verán reflejados.
+Al introducir cualquier modificación, se debe pulsar en el botón de guardado, de lo contrario los cambios no se verán reflejados.
 
 \section{Visualización de superficies}
 Para visualizar u ocultar las superficies capturadas por el núcleo de realidad aumentada se selecciona "Visualizar superficies"
 en el menú.
 
 Esta opción es un botón con estado, es decir, que se indicará si se encuentra activo o inactivo en todo momento, de manera que 
-al estar el deslizador en la parte derecha de color verde, las superficies se visualizarán.
+al estar el deslizador en la parte derecha de color verde, las superficies se visualizarán (figura \ref{fig:surface_vis_on}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/visualizar_superficies_on.png}
+    \caption{Visualización de superficies activada.}
+    \label{fig:surface_vis_on}
+\end{figure}
 
-De lo contrario, el botón estará de color gris y las superficies serán desactivadas.
+De lo contrario, el botón estará de color gris y las superficies serán desactivadas (Figura \ref{fig:surface_vis_off}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/visualizacion_superficies_off.png}
+    \caption{Visualización de superficies desactivada.}
+    \label{fig:surface_vis_off}
+\end{figure}
 
 \section{Menú de depuración}
 Para visualizar u ocultar el menú de depuración de realidad aumentada, se seleccionma la opción "AR Debug Menu".
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/menu_depuracion.png}
+    \caption{Menú depuración.}
+    \label{fig:debug_menu}
+\end{figure}
