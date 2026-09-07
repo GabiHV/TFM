@@ -28,34 +28,34 @@ concretamente \textit{Gazebo}, que permite la simulación de robots y entornos e
 
 Para el desarrollo \textit{software} se emplearán las siguientes herramientas:
 \begin{itemize}
-    \item \textbf{Visual Studio Code:} IDE para el desarrollo de aplicaciones web y de escritorio, que incluye herramientas de depuración y extensiones para diferentes lenguajes de programación.
+    \item \textbf{Visual Studio Code:} IDE para el desarrollo de aplicaciones web y de escritorio, que incluye herramientas de depuración y extensiones para diferentes lenguajes de programación \cite{visualstudioVisualStudio}.
     \item \textbf{Git:} Sistema de control de versiones distribuido, que
-    permite llevar un registro de los cambios realizados en el código fuente y colaborar con otros desarrolladores.
-    \item \textbf{GitHub:} Plataforma de alojamiento de repositorios Git, que permite compartir el código fuente y colaborar con otros desarrolladores.
-    \item \textbf{Unity:} Motor de desarrollo de videojuegos y aplicaciones interactivas, que permite crear aplicaciones para diferentes plataformas, incluyendo Android.
-    \item \textbf{Android Studio:} IDE para el desarrollo de aplicaciones Android, que incluye herramientas de depuración y emulación de dispositivos. 
+    permite llevar un registro de los cambios realizados en el código fuente y colaborar con otros desarrolladores \cite{gitscm}.
+    \item \textbf{GitHub:} Plataforma de alojamiento de repositorios Git, que permite compartir el código fuente y colaborar con otros desarrolladores \cite{githubWhatGitHub}.
+    \item \textbf{Unity:} Motor de desarrollo de videojuegos y aplicaciones interactivas, que permite crear aplicaciones para diferentes plataformas, incluyendo Android \cite{unityUnityDevelop}.
+    \item \textbf{Android Studio:} IDE para el desarrollo de aplicaciones Android, que incluye herramientas de depuración y emulación de dispositivos \cite{androidDownloadAndroid}. 
     En concreto, se empleó para las pruebas de contenerización del servicio ROS necesario para el funcionamiento de la aplicación, puesto que permite 
     la instalación de \textit{termux} y la consiguiente ejecución de contenedores en un entorno Android. 
-    \item \textbf{Unity Hub:} Herramienta de gestión de proyectos y versiones de Unity, que permite crear y administrar proyectos de Unity y descargar diferentes versiones del motor.
-    \item \textbf{ROS:} Sistema operativo para robots, que proporciona un conjunto de herramientas y bibliotecas para el desarrollo de aplicaciones robóticas.
-    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleó para el desarrollo de la aplicación en Unity.
-    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleó para el desarrollo de los nodos ROS.
-    \item \textbf{C++:} Lenguaje de programación compilado, que se empleó para el desarrollo del plugin de detección de AprilTags.
-    \item \textbf{Termux:} Emulador de terminal para Android, que permite ejecutar aplicaciones de línea de comandos y contenedores en un entorno Android.
-    \item \textbf{Gazebo:} Simulador de robots y entornos en 3D, que permite la simulación de robots y entornos en un entorno virtual.
-    \item \textbf{Rviz:} Herramienta de visualización de datos de ROS, que permite visualizar los datos generados por los nodos ROS en un entorno gráfico.
-    \item \textbf{Terminator:} Emulador de terminal para Linux, que permite ejecutar aplicaciones de línea de comandos en un entorno Linux.
-    \item \textbf{Terminal de Linux:} Emulador de terminal para Linux, que permite ejecutar aplicaciones de línea de comandos en un entorno Linux.
-    \item \textbf{Draw.io:} Herramienta web que permite crear diagramas UML, de entidad relación, flujogramas, etc.
+    \item \textbf{Unity Hub:} Herramienta de gestión de proyectos y versiones de Unity, que permite crear y administrar proyectos de Unity y descargar diferentes versiones del motor \cite{unityUnityUnity}.
+    \item \textbf{ROS:} Sistema operativo para robots, que proporciona un conjunto de herramientas y bibliotecas para el desarrollo de aplicaciones robóticas \cite{rosROSHome}.
+    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleó para el desarrollo de la aplicación en Unity \cite{microsoftLenguajeProgramacin}.
+    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleó para el desarrollo de los nodos ROS \cite{pythonGeneralPython}.
+    \item \textbf{C++:} Lenguaje de programación compilado, que se empleó para el desarrollo del plugin de detección de AprilTags \cite{microsoftBienvenidoNuevo}.
+    \item \textbf{Termux:} Emulador de terminal para Android, que permite ejecutar aplicaciones de línea de comandos y contenedores en un entorno Android \cite{termuxTermux}.
+    \item \textbf{Gazebo:} Simulador de robots y entornos en 3D, que permite la simulación de robots y entornos en un entorno virtual \cite{gazebo}.
+    \item \textbf{Rviz:} Herramienta de visualización de datos de ROS, que permite visualizar los datos generados por los nodos ROS en un entorno gráfico \cite{rosMakingSure}.
+    \item \textbf{Terminator:} Emulador de terminal para Linux, que permite ejecutar aplicaciones de línea de comandos en un entorno Linux \cite{gnometerminatorOverview}.
+    \item \textbf{Terminal de Linux:} Emulador de terminal para Linux, que permite ejecutar aplicaciones por línea de comandos.
+    \item \textbf{Draw.io:} Herramienta web que permite crear diagramas UML, de entidad relación, flujogramas, etc \cite{diagramsFlowchartMaker}.
 \end{itemize}
 
 \section{Materiales empleados}
 Para la realización del proyecto se emplearán los siguientes materiales y repositorios:
 \begin{itemize}
-    \item \textbf{ROS-TCP-Endpoint:} Paquete de ROS que permite la comunicación entre un nodo ROS y una aplicación externa a través de TCP/IP.
-    \item \textbf{ROS-TCP-Connector:} Interfaz C\# de alto nivel para la comunicación entre la aplicación y los nodos ROS.
-    \item \textbf{AprilRobotics/apriltag:} Librería C++ que permite la detección y seguimiento de los marcadores visuales (\textit{AprilTags}).
-    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos.
+    \item \textbf{ROS-TCP-Endpoint:} Paquete de ROS que permite la comunicación entre un nodo ROS y una aplicación externa a través de TCP/IP \cite{githubGitHubUnityTechnologiesROSTCPEndpoint}.
+    \item \textbf{ROS-TCP-Connector:} Interfaz C\# de alto nivel para la comunicación entre la aplicación y los nodos ROS \cite{githubGitHubUnityTechnologiesROSTCPConnector}.
+    \item \textbf{AprilRobotics/apriltag:} Librería C++ que permite la detección y seguimiento de los marcadores visuales (\textit{AprilTags}) \cite{githubGitHubAprilRoboticsapriltag}.
+    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos \cite{umichAprilTag}.
 \end{itemize}
 
 \section{Análisis de requisitos}
