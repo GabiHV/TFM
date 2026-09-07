@@ -56,7 +56,7 @@ namespace App.ROSUtilities
             }
         }
 
-        private Task GetWatchdogs() => Task.Delay(500);
+        private Task GetWatchdogs() => Task.Delay(750);
 
         private static async Task SendServiceMessage(
             string serviceName, 

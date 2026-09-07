@@ -38,7 +38,7 @@ public class ParamChanger : MonoBehaviour
             ChangeParamsDropdown();
             ChangeParamValue();
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(5);
         }
     }
 
