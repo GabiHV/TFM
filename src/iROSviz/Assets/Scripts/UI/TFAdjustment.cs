@@ -131,7 +131,7 @@ public class TFAdjustment : MonoBehaviour
             float scroll = Mouse.current.scroll.ReadValue().y;
             if(scroll == 0 || !isFrameSelected()) return;
             ScaleSelectedFrame(new Vector3(scroll * stepSize, scroll * stepSize, scroll * stepSize));
-        } catch (NullReferenceException ex)
+        } catch (NullReferenceException)
         {
             _isPC = false;
         }
