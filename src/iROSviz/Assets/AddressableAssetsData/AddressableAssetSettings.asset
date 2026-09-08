@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 73abee41298d669a0ac3e73f4eebe211
   m_currentHash:
     serializedVersion: 2
-    Hash: 753f8954c6d6498df407bb793e7c7c94
+    Hash: 7e7514928d263c1021dcd7bf44e134a4
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -63,8 +63,12 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 9c73b8dadc3ce3443ab1b02f58a8d402, type: 2}
   - {fileID: 11400000, guid: 19c4040514a6384f5bae37e304c7689c, type: 2}
+  - {fileID: 11400000, guid: 1d3b4d8f6ae0a31198868d38e3f7f857, type: 2}
+  - {fileID: 11400000, guid: ecfb093bd8a0a6523b8aea1669714458, type: 2}
   - {fileID: 11400000, guid: dacc4ed7452c409f092b16282acf1e77, type: 2}
+  - {fileID: 11400000, guid: cd57dab2c4891fc16a0b09a651c9d409, type: 2}
   - {fileID: 11400000, guid: 90a90bb625b1d6fb6a28489679a771f2, type: 2}
+  - {fileID: 11400000, guid: 10da0311a4ff434548de80f01627d34e, type: 2}
   - {fileID: 11400000, guid: 3d1633323ceb902179c75838a5fe2011, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -109,6 +113,8 @@ MonoBehaviour:
     - Locale-en
     - Locale-es-ES
     - Preload
+    - Locale-en-UK
+    - Locale-en-US
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 59af76c86556df3bdb7907711928eb86, type: 2}

@@ -1,14 +1,18 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
 using TMPro;
 
-using App.Utilities;
-using App.ROSUtilities;
-
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using App.Utilities;
+using App.ROSUtilities.Resolvers;
+using App.ROSUtilities.Services;
+using App.Exceptions;
 
 public class ParamChanger : MonoBehaviour
 {
@@ -16,23 +20,26 @@ public class ParamChanger : MonoBehaviour
     public TMP_Dropdown paramDropdown;
     public TMP_Text paramValueText;
     public TMP_InputField paramValueInput;
-
+    public LocalizedString incorrectValue;
 
     private Dictionary<string, Dictionary<string, (object Value, byte Type)>> _nodesWithParams;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        InvokeRepeating(nameof(GetNodesWithParams), 0.0f, 1.0f);
-    }
+    void Start() =>  
+        StartCoroutine(GetNodesWithParams());
 
-    private void GetNodesWithParams()
+    private IEnumerator GetNodesWithParams()
     {
-        _nodesWithParams = ROSParameterListService.RefreshParameterList();
-        
-        AddNodesToDropdown();
-        ChangeParamsDropdown();
-        ChangeParamValue();
+        while (true)
+        {
+           _nodesWithParams = ROSParameterListService.GetParameters();
+
+            AddNodesToDropdown();
+            ChangeParamsDropdown();
+            ChangeParamValue();
+
+            yield return new WaitForSeconds(5);
+        }
     }
 
     private void AddNodesToDropdown() =>
@@ -72,10 +79,19 @@ public class ParamChanger : MonoBehaviour
         string value = GetInputValue();
 
         if(type == null) return;
+        
+        object valueObj = null;
+        try
+        {
+            valueObj = ROSResolver.GetCastedParameterValue(type ?? 0, value);
+        } catch (CastException)
+        {
+            ModalMessage.ShowDialog(incorrectValue.GetLocalizedString());
+            return;
+        }
+        Debug.Log($"Selected node: {selectedNode}. Selected param: {selectedParam}. Value: {value}");
 
-        object valueObj = ROSResolver.GetCastedParameterValue(type ?? 0, value);
-
-        ROSParameterListService.SetParameter(selectedNode, selectedParam, type ?? 0, valueObj);
+        ROSParameterSetService.SetParameter(selectedNode, selectedParam, type ?? 0, valueObj);
     }
 
     private object GetSelectedParamValue()
@@ -118,5 +134,8 @@ public class ParamChanger : MonoBehaviour
 
     private string GetInputValue() =>
         paramValueInput.text;
+
+    public void Close() =>
+        gameObject.SetActive(false);
     
 }

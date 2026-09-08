@@ -1,8 +1,11 @@
 import rclpy
 import datetime as dt
 from rclpy.node import Node
-from .topic_list_service import TopicListService
-from .node_list_service import NodeListService
+from .topic_linfo_publisher import TopicInfoPublisher
+from .node_info_publisher import NodeInfoPublisher
+from .robot_info_publisher import RobotInfoPublisher
+from .tf_static_publisher import TFStaticCollector
+from .goal_path_adapter import GoalPathAdapter
 
 class UnityAppService(Node):
     def __init__(self):
@@ -10,8 +13,12 @@ class UnityAppService(Node):
         self.setup_node()
 
     def setup_node(self):
-        TopicListService(self)
-        NodeListService(self)
+        TFStaticCollector(self)
+        GoalPathAdapter(self)
+
+        TopicInfoPublisher(self)
+        NodeInfoPublisher(self)
+        RobotInfoPublisher(self)
 
 def main():
     rclpy.init()

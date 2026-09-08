@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
@@ -6,10 +5,14 @@ using Unity.Collections;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+using Newtonsoft.Json;
+
 using System;
 using System.Threading;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace App.Utilities
 {
@@ -18,8 +21,6 @@ namespace App.Utilities
         static readonly int frameGap = 10;
         static int width = 800;
         static int height = 600;
-        static Plane rayCastPlane = new(Vector3.up, Vector3.zero);
-        static Vector3 rayCastVector = new Vector3(0, 0, 0);
         
         int frameCounter = 0;
         byte[] rgbaBuffA;
@@ -29,9 +30,10 @@ namespace App.Utilities
         RenderTexture render;
         Texture2D texture;
         Rect rect;
-        DetectionResult lastResult = new();
-        private List<GameObject> rays = new();
-
+        public static DetectionResult lastResult = new();
+        public static Dictionary<int, Vector3> tagAnchors = new(); 
+        private ARRaycastManager raycastManager;   
+        public GameObject XROrigin; 
 
         // Semaphores
         volatile bool resultReady = false;
@@ -39,13 +41,22 @@ namespace App.Utilities
         volatile bool bufferBReady = false;
         volatile bool useBufferA = false;
 
+        void Awake() =>
+            StartCoroutine(LoadRaycastManager());
+
+        IEnumerator LoadRaycastManager()
+        {
+            yield return new WaitUntil(() => XROrigin.GetComponent<ARRaycastManager>() != null);
+            raycastManager = XROrigin.GetComponent<ARRaycastManager>();
+        }
+
         void Start()
         {
             GameConfig config = ConfigHelper.GetConfig();
             ConfigHelper.ChangeFiduciarySys(config);
 
-            width = Screen.currentResolution.width;
-            height = Screen.currentResolution.height;
+            width = Screen.width;
+            height = Screen.height;
             
             rgbaBuffA = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
             rgbaBuffB = new byte[width * height * 4]; // 4 bytes per pixel (R, G, B, A)
@@ -56,6 +67,8 @@ namespace App.Utilities
             texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             rect = new Rect(0, 0, width, height);
 
+            TagDatabase.LoadDatabase();
+
             Thread worker = new Thread(ProcessFrame);
             worker.IsBackground = true;
             worker.Start();
@@ -63,13 +76,12 @@ namespace App.Utilities
 
         void Update()
         {
-            if(frameCounter++ >= frameGap) 
-            {
+            if(frameCounter++ % frameGap == 0) {
                 CaptureFrame();
                 frameCounter = 0;
             }
 
-            if(resultReady) HighlightAprilTags();
+            if(resultReady) StartCoroutine(ProcessAprilTags());
         }
 
         private void CaptureFrame()
@@ -123,7 +135,7 @@ namespace App.Utilities
                 
                 lastResult = DetectAprilTags();
 
-                resultReady = true;
+                resultReady = true;      
             }
         }
 
@@ -146,34 +158,59 @@ namespace App.Utilities
         private DetectionResult DetectAprilTags() =>
             AprilTagWrapper.Detect(grayBuff, width, height);
 
-        private void HighlightAprilTags()
+        private IEnumerator ProcessAprilTags()
         {
             foreach(DetectionResult.ApriltagDetection tagInfo in lastResult.ids)
-                DrawTagIndicator(tagInfo);
+            {
+                Vector2 screenPos = new Vector2((float)tagInfo.cx, height-(float)tagInfo.cy);
+
+                yield return StoreTag(tagInfo.id);
+                StoreTagAnchor(tagInfo.id, screenPos);
+            }
 
             resultReady = false;
         }
 
-        private void DrawTagIndicator(DetectionResult.ApriltagDetection tag)
+        private IEnumerator StoreTag(int tagId)
         {
-            Vector3? wordlPos = Raytracing((float)tag.cx, (float)tag.cy);
-            if(wordlPos == null) return;
+            if(!TagDatabase.TryGetTagName(tagId, out string name))
+            {
+                yield return ModalTagNameSelector.ShowDialog();
+                string tagName = ModalTagNameSelector.GetTagName();
+                string frame = ModalTagNameSelector.GetFrame();
+                string pathVisualizer = ModalTagNameSelector.GetPathVisualization();
 
-            Debug.Log($"Tag #{tag.id} position: ({wordlPos?.x}, {wordlPos?.y}, {wordlPos?.z})");
+                TagDatabase.StoreTag(tagId, tagName, frame, pathVisualizer);
+                TagDatabase.SaveDatabase();
+            }       
         }
 
-        private Vector3? Raytracing(float x, float y)
+        private void StoreTagAnchor(int tagId, Vector2 screenPos)
         {
-            rayCastVector.x = x;
-            rayCastVector.y = y;
-            Ray ray = Camera.main.ScreenPointToRay(rayCastVector);
-            float distance;
+            List<ARRaycastHit> hits = new();
+            
+            Debug.Log($"screenPos: {screenPos}, hits: {hits.Count}, TrackableType: {TrackableType.Planes}, raycastManager: {raycastManager == null}");
+            if(!raycastManager.Raycast(screenPos, hits, TrackableType.Planes)) return;
+            if(hits.Count < 1) return;
 
-            if(!rayCastPlane.Raycast(ray, out distance)) return null;
+            Pose hitPose = hits[0].pose;
+            Vector3 worldPos = hitPose.position;
+            if(!tagAnchors.ContainsKey(tagId)) tagAnchors.Add(tagId, worldPos);
+        }
 
-            Vector3 worldPos = ray.GetPoint(distance);
-            return worldPos;
+        void OnGUI()
+        {
+            if(lastResult == null || lastResult.ids == null) return;
+
+            foreach(DetectionResult.ApriltagDetection tag in lastResult.ids)
+            {
+                GUIStyle style = new GUIStyle();
+                style.fontSize = (int)(Screen.height * .05f);
+                style.normal.textColor = Color.red;
+                Vector2 screenPos = new Vector2((float)tag.cx, height-(float)tag.cy);
+                GUI.Label(new Rect(screenPos.x - 50, screenPos.y - 10, 100, 50), 
+                    TagDatabase.TryGetTagName(tag.id, out string name) ? name : $"Tag #{tag.id}", style);
+            }  
         }
     }
 }
-

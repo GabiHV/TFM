@@ -20,8 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: be44bdc7c3ad5e40bb787edf64a77347, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 5eb5ac13889f467f4979e4612fb67ac3, type: 2}
+    - {fileID: 11400000, guid: 7577393a1c1cbfd0f9e32ce8a563326e, type: 2}

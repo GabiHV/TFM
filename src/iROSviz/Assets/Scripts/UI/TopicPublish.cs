@@ -1,19 +1,20 @@
 using UnityEngine;
 using UnityEngine.Localization;
-using TMPro;
-
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
-using App.ROSUtilities;
-
-using App.Utilities;
-using App.Exceptions;
+using TMPro;
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+
+using App.Utilities;
+using App.Exceptions;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Resolvers;
+using App.ROSUtilities.Helpers;
 
 public class TopicPublish : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class TopicPublish : MonoBehaviour
     public TMP_Text buttonText;
     public LocalizedString confirm;
     public LocalizedString stop;
+    public LocalizedString invalidMessage;
 
     private bool stopFlag = true;
 
@@ -39,7 +41,7 @@ public class TopicPublish : MonoBehaviour
 
     private void GetTopics()
     {
-        _topicsDict = ROSTopicListService.RefreshTopicsWithTypes();
+        _topicsDict = ROSTopicInfoSubscriber.GetTopicsWithTypes();
         
         AddTopicsToDropdown();
         ChangeMessageTypesDropdown();
@@ -97,14 +99,50 @@ public class TopicPublish : MonoBehaviour
 
     public void PublishMessage()
     {
-        if (!stopFlag)
+        if(!IsValidMessage())
         {
-            EnableInputs();
-            SetButtonLabelToConfirm();
-            SetTrueStopFlag();
+            ModalMessage.ShowDialog(invalidMessage.GetLocalizedString());
             return;
         }
 
+        if (!stopFlag)
+        {
+            PerformStopPublish();
+            return;
+        }
+
+        PerformPublish();
+    }
+
+    private bool IsValidMessage()
+    {
+        string messageText = GetMessage();
+        if(string.IsNullOrEmpty(messageText)) return false;
+
+        Type messageType = ROSResolver.GetMessageType(GetSelectedMessage());
+        if(messageType == null) return false;
+
+        try
+        {
+            JsonUtility.FromJson(messageText, messageType);
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    private void PerformStopPublish()
+    {
+        EnableInputs();
+        SetButtonLabelToConfirm();
+        SetTrueStopFlag();
+        StopCoroutine(PublishLoop());
+    }
+
+    private void PerformPublish()
+    {
         DisableInputs();
         SetButtonLabelToStop();
         SetFalseStopFlag();
@@ -205,5 +243,11 @@ public class TopicPublish : MonoBehaviour
         messageTypeDropdown.interactable = true;
         messageInput.interactable = true;
         frequencyText.interactable = true;
+    }
+
+    public void Close()
+    {
+        PerformStopPublish();
+        gameObject.SetActive(false);
     }
 }

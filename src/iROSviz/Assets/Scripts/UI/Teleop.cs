@@ -1,21 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using TMPro;
-
 using RosMessageTypes.Geometry;
-
-using App.ROSUtilities;
-using App.Utilities;
-using App.Exceptions;
+using TMPro;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Numerics;
 
+using App.Utilities;
+using App.Exceptions;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Helpers;
+
 public class Teleop : MonoBehaviour
 {
-    private Dictionary<string, List<string>> _topicsDict;
+    private List<string> _topics;
     private readonly float _defaultForwardSpeed = 1.0f;
     private readonly float _defaultVerticalSpeed = 1.0f;
     private readonly float _defaultYawSpeed = 0.50f;
@@ -43,7 +43,10 @@ public class Teleop : MonoBehaviour
     public Button downButton;
     private Color colorNormal;
     public Color colorPressed;
+    public GameObject openParamsPanel;
+    public GameObject paramsPanel;
 
+    private TwistMsg movement = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -80,7 +83,7 @@ public class Teleop : MonoBehaviour
 
     private void GetTopics()
     {
-        _topicsDict = ROSTopicListService.GetTopicsWithTypes();
+        _topics = ROSTopicInfoSubscriber.GetTopicsByType(movement.RosMessageName);
 
         AddTopicsToDropdown();
     }
@@ -93,7 +96,7 @@ public class Teleop : MonoBehaviour
     }
 
     private void SetInitialButtonColors() =>
-        colorNormal = forwardButton.GetComponent<Image>().color;
+        colorNormal = upButton.GetComponent<Image>().color;
 
     private void EnableJoystick() =>
         inputActions.FindActionMap("Robot").Enable();
@@ -101,7 +104,7 @@ public class Teleop : MonoBehaviour
     private void AddTopicsToDropdown() => 
         DropdownHelper.ClearDropdownAndSetOption(
             topicDropdown, 
-            new List<string>(_topicsDict.Keys),
+            _topics,
             GetSelectedTopic
         );
 
@@ -153,7 +156,6 @@ public class Teleop : MonoBehaviour
 
     public void MakeMovement()
     {
-        TwistMsg movement = new();
         float forward = GetForward();
         float vertical = GetVertical();
         float yaw = GetYaw();
@@ -186,19 +188,21 @@ public class Teleop : MonoBehaviour
     public void SwitchRightState()
     {
         pressedRight = SwitchButtonState(pressedRight, rightButton);
-        if (pressedLeft) pressedLeft = SwitchButtonState(pressedLeft, leftButton);        
+        if (pressedLeft) pressedLeft = SwitchButtonState(pressedLeft, leftButton);
     }
 
     public void SwitchUpState()
     {
         pressedUp = SwitchButtonState(pressedUp,  upButton);
-        if (pressedDown) pressedDown = SwitchButtonState(pressedDown,  downButton);
+        if (pressedUp && pressedDown) pressedDown = SwitchButtonState(true,  downButton);
+        MakeMovement();
     }
 
     public void SwitchDownState()
     {
         pressedDown = SwitchButtonState(pressedDown,  downButton);
-        if (pressedUp) pressedUp = SwitchButtonState(pressedUp,  upButton);
+        if (pressedUp && pressedDown) pressedUp = SwitchButtonState(true,  upButton);
+        MakeMovement();        
     }
 
     public void StopMovement()
@@ -213,8 +217,20 @@ public class Teleop : MonoBehaviour
     
     private bool SwitchButtonState(bool flag, Button button)
     {
-        flag =! flag;
-        button.GetComponent<Image>().color = !flag ? colorNormal : colorPressed;
-        return flag;
+        bool newFlag = !flag;
+        button.GetComponent<Image>().color = !newFlag ? colorNormal : colorPressed;
+        return newFlag;
+    }
+
+    public void OnSpeedParamsPanelCloseBtnClick()
+    {
+        paramsPanel.SetActive(false);
+        openParamsPanel.SetActive(true);
+    }
+    
+    public void OnOpenParamsPanelBtnClick()
+    {
+        openParamsPanel.SetActive(false);
+        paramsPanel.SetActive(true);
     }
 }

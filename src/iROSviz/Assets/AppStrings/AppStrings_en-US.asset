@@ -1,0 +1,297 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: AppStrings_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: e9273c8ab4453e5c7a040e2b1d5d4ac2, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 5855802267529904206
+  m_TableData:
+  - m_Id: 51595659857920
+    m_Localized: Topic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52316631355392
+    m_Localized: Input topic...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52738414759936
+    m_Localized: Buffer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56153459019776
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56882475192320
+    m_Localized: Messages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66937618583552
+    m_Localized: Speed Parameters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68203543416832
+    m_Localized: Forward (m/s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69894527406080
+    m_Localized: Vertical (m/s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70500201680896
+    m_Localized: Yaw (rad/s)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77759854039040
+    m_Localized: Message Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 78613071941632
+    m_Localized: Input Message Type...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79191957196800
+    m_Localized: Message
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79606023081984
+    m_Localized: Input Message...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79901637627904
+    m_Localized: Frequency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80216772464640
+    m_Localized: 'Input '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83526883627008
+    m_Localized: Start ROS visualization
+    m_Metadata:
+      m_Items: []
+  - m_Id: 84213612826624
+    m_Localized: Start GAZEBO simulation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 86840975183872
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2243448563978240
+    m_Localized: Select Param
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2243698041180160
+    m_Localized: Param Value
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2244112883011584
+    m_Localized: Input Value...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2244862883287040
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2558094617497600
+    m_Localized: Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2558306819919872
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5124789907378176
+    m_Localized: Up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5125170636935168
+    m_Localized: Down
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5129736069730304
+    m_Localized: Select Node
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5811112578273280
+    m_Localized: 'Value:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5811294225190912
+    m_Localized: 'New Value:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10554755058913280
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10555721124564992
+    m_Localized: Fiducial System
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10557995238445056
+    m_Localized: ROS Config
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10558994078388224
+    m_Localized: Enter IP...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10559199431512064
+    m_Localized: Input Port...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10559337608663040
+    m_Localized: Port
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10560604087144448
+    m_Localized: Connect on Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10563160175693824
+    m_Localized: Keepalive Time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10563335560515584
+    m_Localized: Network timeout seconds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10563552393449472
+    m_Localized: Sleep time seconds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10563708924874752
+    m_Localized: Show HUD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10563817729314816
+    m_Localized: Listen for TF messages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13100660261801984
+    m_Localized: Topic {n_topic}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14941266961387520
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17451527098224640
+    m_Localized: New label detected. Please, select its frame.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570023631048704
+    m_Localized: Path Visualizer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570137623842816
+    m_Localized: Visualization base
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28003338028732416
+    m_Localized: Enable/Disable frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164230837260288
+    m_Localized: Freame measures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164687936704512
+    m_Localized: 'Distance: {distance} m'
+    m_Metadata:
+      m_Items:
+      - rid: 5855802267529904206
+  - m_Id: 30166198804697088
+    m_Localized: 'Delta rotation:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166515139104768
+    m_Localized: "Roll: {roll} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 5855802267529904206
+  - m_Id: 30166791887671296
+    m_Localized: "Pitch: {pitch} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 5855802267529904206
+  - m_Id: 30167284168937472
+    m_Localized: "Yaw: {yaw} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 5855802267529904206
+  - m_Id: 43546220164698112
+    m_Localized: Point cloud config
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43916362132377600
+    m_Localized: Teleop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43919998526836736
+    m_Localized: Visualize surfaces
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43922496411029504
+    m_Localized: Path planning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43925024485822464
+    m_Localized: Frame adjustement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928184235380736
+    m_Localized: Topci Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928460220583936
+    m_Localized: Topic Publisher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928891462144000
+    m_Localized: Modify parameters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56228781391237120
+    m_Localized: Invalid message. Please, check format and try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Localized: Parameter value incorrect. Please, check format and try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56619266391822336
+    m_Localized: Frame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43923756191207424
+    m_Localized: Measuring frames
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5855802267529904206
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 30166791887671296
+        - id: 30166515139104768
+        - id: 30167284168937472
+        - id: 30164687936704512

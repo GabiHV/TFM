@@ -14,7 +14,6 @@ namespace App.Utilities
     public static class ConfigHelper
     {
         private static readonly string _configPath = Path.Combine(Application.persistentDataPath, "config.json");
-        
         public static GameConfig GetConfig()
         {
             try
@@ -71,6 +70,9 @@ namespace App.Utilities
             _ros.ShowHud = config.ROS_HUD; 
             _ros.listenForTFMessages = config.ROS_TF; 
             _ros.TFTopics = config.ROS_TF_TOPICS.ToArray();
+
+            _ros.TryGetComponent<HudPanel>(out var hud);
+            if(hud != null) hud.enabled = config.ROS_HUD;
 
             if(!config.ROS_HUD) GameObject.Destroy(_ros.HUDPanel);
             if(config.ROS_HUD && _ros.gameObject.GetComponent<HudPanel>() == null) 

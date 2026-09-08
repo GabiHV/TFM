@@ -188,6 +188,101 @@ MonoBehaviour:
     m_Localized: Aceptar
     m_Metadata:
       m_Items: []
+  - m_Id: 17451527098224640
+    m_Localized: Nueva etiqueta detectada. Por favor, selecciona el frame al que
+      le corresponde.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570023631048704
+    m_Localized: "Visualizaci\xF3n ruta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27570137623842816
+    m_Localized: "Base visualizaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28003338028732416
+    m_Localized: Activar/Desactivar frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164230837260288
+    m_Localized: Medidas de frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30164687936704512
+    m_Localized: 'Distancia: {distance} m'
+    m_Metadata:
+      m_Items:
+      - rid: 8447938358756769795
+  - m_Id: 30166198804697088
+    m_Localized: "Delta rotaci\xF3n:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30166515139104768
+    m_Localized: "Roll: {roll} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 8447938358756769795
+  - m_Id: 30166791887671296
+    m_Localized: "Pitch: {pitch} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 8447938358756769795
+  - m_Id: 30167284168937472
+    m_Localized: "Yaw: {yaw} \xBA"
+    m_Metadata:
+      m_Items:
+      - rid: 8447938358756769795
+  - m_Id: 43546220164698112
+    m_Localized: "Configuraci\xF3n de Nube de Puntos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43916362132377600
+    m_Localized: Teleop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43919998526836736
+    m_Localized: Visualizar superficies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43922496411029504
+    m_Localized: Path planning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43923756191207424
+    m_Localized: "Medici\xF3n de frames"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43925024485822464
+    m_Localized: Ajuste de Frames
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928184235380736
+    m_Localized: Topic Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928460220583936
+    m_Localized: Topic Publisher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43928891462144000
+    m_Localized: Modificar Parametros
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56228781391237120
+    m_Localized: "Mensaje inv\xE1lido. Por favor, comprueba el formato e int\xE9ntalo
+      de nuevo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56232661688668160
+    m_Localized: "Valor de par\xE1metro incorrecto. Por favor, comprueba su formato
+      e int\xE9ntalo otra vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56619266391822336
+    m_Localized: Frame
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -197,3 +292,7 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 13100660261801984
+        - id: 30164687936704512
+        - id: 30166515139104768
+        - id: 30166791887671296
+        - id: 30167284168937472

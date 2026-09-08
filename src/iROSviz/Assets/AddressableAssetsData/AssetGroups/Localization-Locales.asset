@@ -16,13 +16,25 @@ MonoBehaviour:
   m_GUID: f7a782e77d9a1953887acae05205fa3c
   m_SerializeEntries:
   - m_GUID: 2fdf0d5ef5314a689a6cc6598f037f99
-    m_Address: Spanish (Spain) (es-ES)
+    m_Address: Spanish (Spain)
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 662491d01bf0995d98a359f5e516887e
+    m_Address: English (en) (US)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8b361ae618f098bef9879206e5f4c887
     m_Address: English (en)
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a154f249db043f3a792b5e64641dc929
+    m_Address: English (en) (UK)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

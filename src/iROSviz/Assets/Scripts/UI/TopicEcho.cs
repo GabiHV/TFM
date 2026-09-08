@@ -1,17 +1,19 @@
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using TMPro;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 using RosMessageTypes.Geometry;
 using RosMessageTypes.Std;
 
-using App.ROSUtilities;
-using App.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Security;
+
+using App.Utilities;
+using App.ROSUtilities.Subscribers;
+using App.ROSUtilities.Resolvers;
 
 public class TopicEcho : MonoBehaviour
 {
@@ -20,7 +22,9 @@ public class TopicEcho : MonoBehaviour
     public TMP_Dropdown messageTypeDropdown;
     public TextMeshProUGUI templateText;
 
+    private string subscribedTopic;
     Dictionary<string, List<string>> typeDict = new();
+    HashSet<string> subscribedTopics = new();
     ROSConnection ros;
 
     void Start()
@@ -33,7 +37,7 @@ public class TopicEcho : MonoBehaviour
 
     void GetTopics()
     {
-        typeDict = ROSTopicListService.RefreshTopicsWithTypes();
+        typeDict = ROSTopicInfoSubscriber.GetTopicsWithTypes();
         if (typeDict == null || typeDict.Count <= 0)
         {
             Debug.LogWarning("Service didn't respond or no topics available");
@@ -77,10 +81,12 @@ public class TopicEcho : MonoBehaviour
         Unsave();
 
         string selectedTopic = GetSelectedTopic();
+        subscribedTopic = selectedTopic;
         string completeMessageType = GetSelectedMessageType();
         string messageName = ROSResolver.GetMessageNameWithoutType(completeMessageType);
-            
-        ros.SubscribeByMessageName(selectedTopic, messageName, SubscribeTopicCallback);
+        
+        if(!subscribedTopics.Contains($"{selectedTopic} : {messageName}"))
+            ros.SubscribeByMessageName(selectedTopic, messageName, OnMessage(selectedTopic, messageName));
         Debug.Log($"Subscribed to: {selectedTopic}");
 
         DisableDropdowns();
@@ -88,21 +94,30 @@ public class TopicEcho : MonoBehaviour
 
     public void Unsave()
     {
-        string currentTopic = GetSelectedTopic();
-        ros.Unsubscribe(currentTopic ?? "");
-        Debug.Log($"Unsubscribed to: {currentTopic}");
+        // There is a known bug unsubscribing ROS topics with ROS-TCP-Connector
+        // Due to this, it is necessary to change method invokation with a flag to stop
+        // processing incoming messages
+        Debug.Log($"Unsubscribed to: {subscribedTopic}");
+        subscribedTopic = string.Empty;
+        // ros.Unsubscribe(currentTopic ?? "");
 
         EnableDropdowns();
     }
 
-    void SubscribeTopicCallback(Message msg)
+    Action<Message> OnMessage(string topicName, string messageType)
     {
-        string retunedMessage = msg.ToString().Replace("\n", " ");
-        string completeMsg = $"{DateTime.Now}: {retunedMessage}";
-        TextMeshProUGUI text = (TextMeshProUGUI)Instantiate(templateText);
-        text.text = completeMsg;
-        text.transform.SetParent(scrollViewContent.transform);
-    }
+        return (Message msg) =>
+        {
+            if(subscribedTopic != topicName) return;
+            subscribedTopics.Add($"{topicName} : {messageType}");
+            string retunedMessage = msg.ToString().Replace("\n", " ");
+            string completeMsg = $"{DateTime.Now}: {retunedMessage}";
+            TextMeshProUGUI text = (TextMeshProUGUI)Instantiate(templateText);
+            text.text = completeMsg;
+            text.transform.SetParent(scrollViewContent.transform);
+            text.color = Color.white;
+        };
+    } 
 
     private string GetSelectedTopic() =>
         DropdownHelper.GetDropdownSelectedText(topicDropdown);
@@ -138,5 +153,11 @@ public class TopicEcho : MonoBehaviour
     {
         EnableInteractionTopicDropdown();
         EnableInteractionMessageTypeDropdown();
+    }
+
+    public void Close()
+    {
+        Unsave();
+        gameObject.SetActive(false);
     }
 }
