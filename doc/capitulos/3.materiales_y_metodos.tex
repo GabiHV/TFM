@@ -1,4 +1,4 @@
-\chapter{Materiales y métodos}
+\chapter{Materiales y métodos} \label{chapter:materiales_metodos}
 
 \section{Diseño metodológico del proyecto}
 En el proyecto se empleará el modelo de desarrollo incremental de \textit{software}, el cual permite dividir los esfuerzos en incrementos, 
@@ -28,34 +28,52 @@ concretamente \textit{Gazebo}, que permite la simulación de robots y entornos e
 
 Para el desarrollo \textit{software} se emplearán las siguientes herramientas:
 \begin{itemize}
-    \item \textbf{Visual Studio Code:} IDE para el desarrollo de aplicaciones web y de escritorio, que incluye herramientas de depuración y extensiones para diferentes lenguajes de programación \cite{visualstudioVisualStudio}.
+    \item \textbf{Visual Studio Code:} IDE para el desarrollo de aplicaciones web y de escritorio, que incluye herramientas de depuración y extensiones para diferentes lenguajes de programación \parencite{visualstudioVisualStudio}.
+    Se escoge este IDE sobre alternativas como \textbf{Visual Studio} por la cantidad de extensiones disponibles, la facilidad de integración con herramientas de control de versiones y la posibilidad de trabajar con diferentes lenguajes de programación y entornos de desarrollo.
     \item \textbf{Git:} Sistema de control de versiones distribuido, que
-    permite llevar un registro de los cambios realizados en el código fuente y colaborar con otros desarrolladores \cite{gitscm}.
-    \item \textbf{GitHub:} Plataforma de alojamiento de repositorios Git, que permite compartir el código fuente y colaborar con otros desarrolladores \cite{githubWhatGitHub}.
-    \item \textbf{Unity:} Motor de desarrollo de videojuegos y aplicaciones interactivas, que permite crear aplicaciones para diferentes plataformas, incluyendo Android \cite{unityUnityDevelop}.
-    \item \textbf{Android Studio:} IDE para el desarrollo de aplicaciones Android, que incluye herramientas de depuración y emulación de dispositivos \cite{androidDownloadAndroid}. 
+    permite llevar un registro de los cambios realizados en el código fuente y colaborar con otros desarrolladores \parencite{gitscm}.
+    Se escoge \textbf{Git} sobre alternativas como \textbf{Subversion} o \textbf{Mercurial} por su popularidad, su integración con plataformas de alojamiento de repositorios y su capacidad para trabajar de manera distribuida.
+    \item \textbf{GitHub:} Plataforma de alojamiento de repositorios Git, que permite compartir el código fuente y colaborar con otros desarrolladores \parencite{githubWhatGitHub}.
+    Se escoge \textbf{GitHub} sobre alternativas como \textbf{GitLab} o \textbf{Bitbucket} por su popularidad, su integración con herramientas de desarrollo y su comunidad de usuarios.
+    \item \textbf{Unity:} Motor de desarrollo de videojuegos y aplicaciones interactivas, que permite crear aplicaciones para diferentes plataformas, incluyendo Android \parencite{unityUnityDevelop}.
+    Se escoge \textbf{Unity} sobre alternativas como \textbf{Unreal Engine} o \textbf{Godot} por su facilidad de uso, su comunidad de usuarios y su capacidad para crear aplicaciones multiplataforma.
+    \item \textbf{Android Studio:} IDE para el desarrollo de aplicaciones Android, que incluye herramientas de depuración y emulación de dispositivos \parencite{androidDownloadAndroid}. 
     En concreto, se empleó para las pruebas de contenerización del servicio ROS necesario para el funcionamiento de la aplicación, puesto que permite 
     la instalación de \textit{termux} y la consiguiente ejecución de contenedores en un entorno Android. 
-    \item \textbf{Unity Hub:} Herramienta de gestión de proyectos y versiones de Unity, que permite crear y administrar proyectos de Unity y descargar diferentes versiones del motor \cite{unityUnityUnity}.
-    \item \textbf{ROS:} Sistema operativo para robots, que proporciona un conjunto de herramientas y bibliotecas para el desarrollo de aplicaciones robóticas \cite{rosROSHome}.
-    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleó para el desarrollo de la aplicación en Unity \cite{microsoftLenguajeProgramacin}.
-    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleó para el desarrollo de los nodos ROS \cite{pythonGeneralPython}.
-    \item \textbf{C++:} Lenguaje de programación compilado, que se empleó para el desarrollo del plugin de detección de AprilTags \cite{microsoftBienvenidoNuevo}.
-    \item \textbf{Termux:} Emulador de terminal para Android, que permite ejecutar aplicaciones de línea de comandos y contenedores en un entorno Android \cite{termuxTermux}.
-    \item \textbf{Gazebo:} Simulador de robots y entornos en 3D, que permite la simulación de robots y entornos en un entorno virtual \cite{gazebo}.
-    \item \textbf{Rviz:} Herramienta de visualización de datos de ROS, que permite visualizar los datos generados por los nodos ROS en un entorno gráfico \cite{rosMakingSure}.
-    \item \textbf{Terminator:} Emulador de terminal para Linux, que permite ejecutar aplicaciones de línea de comandos en un entorno Linux \cite{gnometerminatorOverview}.
+    Se escoge \textbf{Android Studio} sobre alternativas por su capacidad de emulación nativa de dispositivos Android sin necesidad de configuraciones adicionales.
+    \item \textbf{Unity Hub:} Herramienta de gestión de proyectos y versiones de Unity, que permite crear y administrar proyectos de Unity y descargar diferentes versiones del motor \parencite{unityUnityUnity}.
+    Se escoge \textbf{Unity Hub} por integración nativa con el entorno de desarrollo de \textbf{Unity}.
+    \item \textbf{ROS:} Sistema operativo para robots que proporciona un conjunto de herramientas y bibliotecas para el desarrollo de aplicaciones robóticas \parencite{rosROSHome}.
+    Se escoge \textbf{ROS} sobre alternativas como \textbf{PX4} o \textbf{ArduPilot} por su popularidad, su comunidad de usuarios y su capacidad para integrarse con diferentes lenguajes de programación y entornos de desarrollo.
+    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleó para el desarrollo de la aplicación en Unity \parencite{microsoftLenguajeProgramacin}.
+    Se escoge \textbf{C\#} sobre alternativas como \textbf{C++} o \textbf{Java} por su integración nativa con el entorno de desarrollo de \textbf{Unity}.
+    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleó para el desarrollo de los nodos ROS \parencite{pythonGeneralPython}.
+    Se escoge \textbf{Python} sobre alternativas como \textbf{C++} en el desarrollo de los nodos ROS por su facilidad de uso, sintaxis y comunidad.
+    \item \textbf{C++:} Lenguaje de programación compilado, que se empleó para el desarrollo del plugin de detección de AprilTags \parencite{microsoftBienvenidoNuevo}.
+    Se escoge \textbf{C++} puesto que es el lenguaje empleado para el desarrollo de código nativo en Unity.
+    \item \textbf{Termux:} Emulador de terminal para Android, que permite ejecutar aplicaciones de línea de comandos y contenedores en un entorno Android \parencite{termuxTermux}.
+    Se escoge \textbf{Termux} sobre alternativas como \textbf{UserLAnd} o \textbf{Andronix} puesto que proporciona un entorno de terminal completo para Android, lo que permite ejecutar las aplicaciones deseadas.
+    \item \textbf{Gazebo:} Simulador de robots y entornos en 3D, que permite la simulación de robots y entornos en un entorno virtual \parencite{gazebo}.
+    Se escoge \textbf{Gazebo} sobre alternativas como \textbf{Webots} por su integración nativa con ROS y su capacidad para simular entornos complejos.
+    \item \textbf{Rviz:} Herramienta de visualización de datos de ROS, que permite visualizar los datos generados por los nodos ROS en un entorno gráfico \parencite{rosMakingSure}.
+    Se escoge \textbf{Rviz} sobre alternativas como \textbf{Foxglove Studio} por su integración nativa con ROS y su capacidad para visualizar datos en tiempo real.
+    \item \textbf{Terminator:} Emulador de terminal para Linux, que permite ejecutar aplicaciones de línea de comandos en un entorno Linux \parencite{gnometerminatorOverview}.
+    Se escoge \textbf{Terminator} sobre alternativas como \textbf{Konsole} por su facilidad de uso, su capacidad para dividir la ventana en múltiples terminales y su integración con el entorno de escritorio \textit{Cinnamon}.
     \item \textbf{Terminal de Linux:} Emulador de terminal para Linux, que permite ejecutar aplicaciones por línea de comandos.
-    \item \textbf{Draw.io:} Herramienta web que permite crear diagramas UML, de entidad relación, flujogramas, etc \cite{diagramsFlowchartMaker}.
+    \item \textbf{Draw.io:} Herramienta web que permite crear diagramas UML, de entidad relación, flujogramas, etc \parencite{diagramsFlowchartMaker}.
+    Se escoge \textbf{Draw.io} sobre alternativas como \textbf{StarUML} por su facilidad de uso, su capacidad para crear diferentes tipos de diagramas y su integración con los diferentes navegadores.
 \end{itemize}
 
 \section{Materiales empleados}
 Para la realización del proyecto se emplearán los siguientes materiales y repositorios:
 \begin{itemize}
-    \item \textbf{ROS-TCP-Endpoint:} Paquete de ROS que permite la comunicación entre un nodo ROS y una aplicación externa a través de TCP/IP \cite{githubGitHubUnityTechnologiesROSTCPEndpoint}.
-    \item \textbf{ROS-TCP-Connector:} Interfaz C\# de alto nivel para la comunicación entre la aplicación y los nodos ROS \cite{githubGitHubUnityTechnologiesROSTCPConnector}.
-    \item \textbf{AprilRobotics/apriltag:} Librería C++ que permite la detección y seguimiento de los marcadores visuales (\textit{AprilTags}) \cite{githubGitHubAprilRoboticsapriltag}.
-    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos \cite{umichAprilTag}.
+    \item \textbf{ROS-TCP-Endpoint:} Paquete de ROS que permite la comunicación entre un nodo ROS y una aplicación externa a través de TCP/IP \parencite{githubGitHubUnityTechnologiesROSTCPEndpoint}.
+    \item \textbf{ROS-TCP-Connector:} Interfaz C\# de alto nivel para la comunicación entre la aplicación y los nodos ROS \parencite{githubGitHubUnityTechnologiesROSTCPConnector}.
+    Se escogen \textbf{ROS-TCP-Endpoint} y \textbf{ROS-TCP-Connector} sobre alternativas como \textbf{rosbridge} por su facilidad de uso y su interfaz sencilla.
+    \item \textbf{AprilRobotics/apriltag:} Librería C++ que permite la detección y seguimiento de los marcadores visuales (\textit{AprilTags}) \parencite{githubGitHubAprilRoboticsapriltag}.
+    \item \textbf{AprilTags:} Sistema de marcadores visuales que permite la detección y seguimiento de objetos en imágenes y videos \parencite{umichAprilTag}.
+    Se escoge \textbf{AprilTag} (y su librería \textbf{AprilRobotics/apriltag}) sobre alternativas como \textbf{QR} principalmente por su facilidad de uso y robustez en la detección, puesto que 
+    a diferencia de los códigos QR, almacenan menor cantidad de información y son más fáciles de detectar en entornos con ruido o iluminación variable.
 \end{itemize}
 
 \section{Análisis de requisitos}
@@ -127,7 +145,7 @@ RF-027 & Configuración de ajustes & El usuario podrá modificar los ajustes de 
 \hline
 \textbf{ID} & \textbf{Categoría} & \textbf{Descripción} & \textbf{Prioridad} \\
 \hline
-RNF-001 & Usbilidad & Deben evitrarse las interacciones innecesarias del usuario priorizando la configuración automática cuando sea posible para reducir carga cognitiva.  & Alta \\
+RNF-001 & Usabilidad & Deben evitrarse las interacciones innecesarias del usuario priorizando la configuración automática cuando sea posible para reducir carga cognitiva.  & Alta \\
 \hline
 RNF-002 & Escalabilidad & Los módulos deben desarrollarse teniendo en cuenta la posibilidad de su ampliación y la inclusión futura de sistemas de \textit{plugins}.  & Alta \\
 \hline
@@ -487,56 +505,87 @@ Realizar exitosamente la modificación de un parámetro en un nodo.
 
 
 \section{Diseño del sistema}
-En este apartado se muestran los diagramas de los módulos principales de la aplicación,
-los cuales se describen en el apartado de implementación del sistema.
+En este apartado se mostrarán los diagramas de los módulos principales de la aplicación y se enlazarán brevemente con sus funcionalidades para 
+presentar una visión general del sistema, de modo que se pueda comprender la arquitectura de la aplicación y su funcionamiento.
+Concretamente, se revisarán los módulos de transformaciones, de visualización de nubes de puntos, de control espacial,
+de suscripción y de invocación de servicios.
 
-En la Figura \ref{fig:tf_module} se muestra el diagrama del módulo 
-de transformaciones de ROS, el cual se encarga de reconstruir la jerarquía 
+El primero de los módulos mencionados (Figura \ref{fig:tf_module}) se encarga de reconstruir la jerarquía 
 de ROS en Unity y mostrarla al usuario mediante diferentes funcionalidades (visualización de velocidades,
-saltos, \textit{trail}, etc.).
+saltos, \textit{trail}, etc.). 
+Este está compuesto principalmente por la clase \textit{FrameNode} que representa un nodo de las transformaciones 
+de ROS y la clase \textit{TFRoot}, el encargado de la construcción de la jerarquía de \textit{frames}. 
+Una vez construida, debe presentarse al usuario mediante la clase \textit{TFRender}, que será 
+quien formará la representación visual de los \textit{frames} en la escena invocando a \textit{TFFrameCreator} del paquete \textit{Creators},
+que proporcionará las funcionalidades de visualización y control a cada \textit{frame} de la jerarquía mediante inyección de dependencias.
+Dentro del paquete \textit{Controllers} se situarán los controladores de la representación de cada \textit{frame} que se 
+encargarán de la actualización de la posición (\textit{TFFramePositionController}), 
+de la rotación (\textit{TFFrameRotationController}), de las etiquetas (\textit{TFFrameLabelsController}),
+de la representación de dependencia entre \textit{frame} padre e hijo (\textit{TFFrameTreeController}) y 
+del sombreado aplicado a la representación (\textit{TFFrameShaderController}).
+Por otro lado, el paquete \textit{Visualizers} se encargará de la visualización de los datos de cada \textit{frame} 
+como la velocidad lineal y angular (\textit{TFFrameSpeedVisualizer}), el estado del \textit{frame} en la comunicación (\textit{TFFrameStatusVisualizer}),
+el \textit{jitter} (\textit{TFFrameJitterVisualizer}), los saltos (\textit{TFFrameJumpVisualizer}) y el \textit{flipping} (\textit{TFFrameFlippingVisualizer}).
+Esta actualización de datos puede ser suspendida o reanudada mediante la clase \textit{TFFramesRuntimeController}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/diagramas/TF.png}
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/TF.png}
     \caption{Módulo TF}
     \label{fig:tf_module}
 \end{figure}
 
-La Figura \ref{fig:point_clouds_module} muestra el diagrama del módulo de nubes de puntos, 
-el cual se encarga de mostrar en el mundo virtual las nubes de puntos emitidas por los sensores de detección de profundidad como \textit{LiDAR}.
+El módulo de visualización de nubes de puntos (Figura \ref{fig:point_clouds_module}) será el encargado de mostrar en el mundo virtual la información captada 
+por los sensores de detección de profundidad como \textit{LiDAR}. Para ello, se emplean dos clases dentro del paquete \textit{PointClouds}: 
+\textit{PointCloudData} que obtendrá, 
+procesará y almacenará los datos de la nube de puntos y \textit{PointCloudVisualizer} 
+que empleará esta información para representarla como una malla de puntos blancos en el \textit{frame} correspondiente.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/diagramas/PointClouds.png}
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/PointClouds.png}
     \caption{Módulo PointClouds}
     \label{fig:point_clouds_module}
 \end{figure}
 
-En la Figura \ref{fig:spatial_control_module} se muestra el diagrama del módulo de control espacial.
-Este se encarga de permitir la planificación de rutas y visualizarlas en el mundo virtual.
+El módulo de control espacial (Figura \ref{fig:spatial_control_module}), a su vez, permitirá la planificación de rutas empleando la 
+clase \textit{PathController} del paquete \textit{Controllers} -- que se encargará de la ejecución de la ruta introducida -- y 
+la visualización en el mundo virtual mediante la clase \textit{PlannedPathVisualizer} del paquete \textit{Visualizers}, que se 
+suscribirá los temas de ruta planificada indicados por el usuario y mostrará la información en la escena.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/diagramas/SpatialControl.png}
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/SpatialControl.png}
     \caption{Módulo SpatialControl}
     \label{fig:spatial_control_module}
 \end{figure}
 
-El módulo de suscripción a temas de ROS se muestra en la Figura \ref{fig:ros_subscriber_module}.
-Este se encarga de establecer la comunicación con los nodos de ROS y recibir los mensajes 
+El módulo de suscripción a temas de ROS (Figura \ref{fig:ros_subscriber_module})
+se encargará de establecer la comunicación con los nodos de ROS y recibir los mensajes 
 publicados en los \textit{topics} a los que se suscribe, para ello, se emplea la clase base 
-\textit{ROSSubscriber} que permite la suscripción a cualquier \textit{topic} de ROS.
+\textit{ROSSubscriber} que permite la suscripción a cualquier \textit{topic}. Para cada funcionalidad de la aplicación que requiera suscribirse 
+a un tema, se creará una subclase de \textit{ROSSubscriber} que implementará la lógica concreta del almacenamiento de los datos para que 
+posteriormente puedan ser utilizados en otras partes. 
+Así pues, por ejemplo, la clase \textit{ROSTFSubscriber} se encargará de suscribirse a los \textit{topics} de transformación y almacenar la información de los \textit{frames} en la jerarquía de ROS.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/diagramas/ROSSubscriber.png}
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/ROSSubscriber.png}
     \caption{Módulo ROSSubscriber}
     \label{fig:ros_subscriber_module}
 \end{figure}
+Puesto que la publicación de mensajes es una funcionalidad más simple que la suscripción ya que únicamente requiere enviar un mensaje a 
+un \textit{topic} concreto, no se ha considerado necesario crear un módulo específico para ello, pero si 
+una clase de ayuda que actúe como intermediario entre la aplicación y la librería de comunicación. 
+Esta se trata de \textit{ROSPublisherHelper} que permite publicar mensajes en cualquier tema de ROS.
 
-De forma similar al módulo de suscripción a temas, el módulo de publicación de temas de ROS se muestra 
-en la Figura \ref{fig:ros_service_module}.
-Este es el encargado de gestionar la comunicación con los servicios publicados en los nodos, para ello, 
-se emplea la clase base \textit{ROSService} que permite la invocación de cualquier servicio de ROS.
+Finalmente, el módulo de invocación de servicios (Figura \ref{fig:ros_service_module})
+se encargará de gestionar la comunicación con los servicios publicados en los nodos, para ello, 
+se emplea la clase base \textit{ROSService} que permite invocar a cualquier servicio de ROS.
+De forma similar a la suscripción, para cada funcionalidad que requiera la invocación de un servicio, 
+se creará una subclase de \textit{ROSService} que almacenará los datos para que
+posteriormente puedan ser empleados en otros lugares de la aplicación. De esta manera, la clase \textit{ROSParameterSetService}
+se encargará de invocar al servicio de modificación de parámetros de un nodo, mientras que \textit{ROSParameterListService}
+obtendrá la lista de parámetros de un nodo.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/diagramas/ROSService.png}
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/ROSService.png}
     \caption{Módulo ROSService}
     \label{fig:ros_service_module}
 \end{figure}
@@ -581,7 +630,7 @@ programada. Puesto que ejecutar la acción del movimiento cuando el usuario posi
 el usuario será quien decida cuando ejecutar cada plan en cada robot.
 
 Además de los mencionados anteriormente, existen submódulos que proporcionan funcionalidades que los usuarios pueden considerar como de gran importancia para 
-la consecución de sus objetivos con la aplicación. Entre ellos destacan los módulos de publicación y observación de mensajes en \textit{topics}. Con estas funcionalidades
+la consecución de sus objetivos con la aplicación. Entre ellas destacan la suscripción y publicación en temas y la modificación de parámetros. Con estas funcionalidades
 pueden realizarse acciones en robots que no tienen actualmente una función específica desarrollada en la aplicación o suscribirse a cadenas de mensajes en un robot para observar
 qué es lo que le ocurre en caso de problemas no descubiertos.
 

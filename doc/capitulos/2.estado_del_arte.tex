@@ -1,9 +1,50 @@
-\chapter{Estado del Arte}
-En este apartado se estudiarán las soluciones existentes en 
-teleoperación y visualización de 
-parámetros de robots 
-mediante computador, interfaces móviles y realidad aumentada.
+\chapter{Estado del Arte} \label{chapter:estado_del_arte}
+Las interfaces en general permiten a los usuarios interactuar con los sistemas, de forma que 
+la complejidad asociada a estos queda oculta para que solo sea necesario 
+conocer una parte pequeña del dominio del problema que estas resuelven, facilitando 
+la usabilidad y posibilitando, entre otras cosas, que usuarios no conocedores del entorno completo empleen
+los sistemas correspondientes. Este concepto puede aplicarse a cualquier situación cotidiana, por ejemplo,
+en la conducción, donde no es necesario conocer cada pieza del coche para poder manejarlo, sino que 
+es el fabricante de vehículos el que proporciona una interfaz (volante, pedales, palanca de cambios, etc.)
+para que esto se lleve a término. 
 
+El uso de interfaces está universalmente extendido en la computación y especialmente en la personal
+donde el usuario final prácticamente no es conocedor -- ni necesita serlo -- de los elementos internos necesarios
+para realizar sus tareas. Así pues cualquier persona en la actualidad puede, por ejemplo, navegar por internet, crear ficheros y 
+directorios, documentos de texto, editar fotos o vídeos, jugar a videojuegos, sin necesidad de entender 
+los protocolos de internet, cómo funcionan los sistemas de ficheros o los algoritmos de compresión de imágenes, sino que son 
+los desarrolladores los que les proporcionan interfaces sencillas de utilizar y faciles de entender para que puedan llevar a cabo sus objetivos.
+
+En cuanto a la robótica, si bien en el desarrollo de aplicaciones están involucrados en su mayoría usuarios conocedores
+de los dominios implicados, en el despliegue de estas soluciones pueden intervenir personas que carezcan de los conocimientos
+necesarios. Por otro lado, la información presente en el sistema en 
+muchas ocasiones puede resultar críptica e incomprensible para cualquier usuario o directamente no ser legible 
+de modo que es imprescindible transformarla para que pueda ser 
+interpretada adecuadamente y eso solo puede realizarse mediante interfaces. 
+Anteriormente esta información era representada directamente
+en las própias máquinas a través terminales analógicos que permitían visualizar diferentes datos de interés. Con el tiempo, 
+se mejoraron las formas de representación unificándolas en interfaces humano-máquina digitales que aún seguían presentes en la propia máquina 
+y que centralizaban las operaciones. Con la robótica móvil y la automatización de procesos, sin embargo, fue necesario desacoplar esta representación 
+de datos en otros
+lugares puesto que las máquinas no se encontraban fijas en un único lugar o debían comunicarse entre ellas para lograr sus objetivos. Es entonces
+cuando entran en juego las interfaces de control y visualización de datos descentralizadas, donde la información es presentada en otro dispositivo 
+diferente del que se obtiene.
+
+En cualquier interfaz digital los datos pueden presentarse de manera textual o visual mediante vídeos, imágenes, diagramas, esquemas u objetos en tres dimensiones.
+La forma que el usuario tiene de interactuar con estas interfaces se basa generalmente en el uso de componentes periféricos que permiten introducir 
+datos y visualizarlos. 
+Sin embargo, el avance tecnológico ha permitido crear otro tipo en el que predominan la interacción directa con el usuario mediante
+el uso de dispositivos especializados como los visores de realidad virtual. Estos dispositivos presentan al usuario el mundo virtual mediante 
+objetos en tres dimensiones sobre los puede realizar acciones. A pesar de su inmensa utilidad por la facilidad de inmersión al que el usuario
+se ve sometido mediante su utilización, este tipo de interfaces no permiten directamente fusionar ambos mundos: el virtual y el real.
+
+Para que converjan ambos mundos, se desarrolla la realidad aumentada, que permite superponer información virtual con el mundo real empleando 
+dispositivos con capacidad de captación de imágenes, es decir, cámaras de vídeo. La información se representa de diferentes maneras sobre la 
+pantalla del dispositivo y el usuario interactúa con este para realizar acciones sobre el sistema. Esta convergencia no indica bidireccionalidad
+en la información puesto que los objetos virtuales no pueden interactuar directamente con el entorno físico, sino que solo son representaciones.
+Para que ambas condiciones se pudieran cumplir, se desarrolló la realidad mixta, que, al igual que la aumentada, superpone información virtual con 
+el mundo real, pero el mundo real también condiciona esta realidad, es decir, los objetos virtuales interactúan con el entorno físico, por ejemplo, 
+reconociendo superficies o siendo ocluido por los objetos reales.
 
 \section{Soluciones de escritorio}
 En cuanto a la operación telemática y visualización de parámetros 
@@ -22,7 +63,7 @@ cámaras a una localización especificada, medir la distancia existente
 entre dos puntos del espacio, establecer el punto inicial del sistema 
 de localización y el objetivo, etc. Además, permite realizar simulaciones 
 de manera que los operadores puedan validar las acciones previamente
-a ejecutarlas en el entorno real.
+a ejecutarlas en el entorno real. 
 
 A pesar de que \textit{RViz} puede resultar una herramienta realmente útil
 para la simulación o teleoperación de sistemas robóticos, la digitalización 
@@ -35,17 +76,23 @@ entorno real mediante gemelos digitales, lo que impide la operación
 directa sobre la robótica instalada y necesita de navegación 
 por diferentes paneles y ventanas para modificar parámetros, lo que puede generar confusiones o 
 excesivas cargas cognitivas para operadores no experimentados o 
-familiarizados con la herramienta.
+familiarizados con la herramienta. Con todo, es la herramienta estándar de ROS, por lo que 
+su uso está altamente extendido, generalmente, en la validación de sistemas. Por ejemplo, 
+\cite{Rezgui2025} presenta una metodología para integrar robots móviles autónomos con ROS en la que se emplea RViz para
+confirmar el rendimiento del robot.
+\cite{ctx3510288280009461}, por otro lado, presentan un sistéma robótico inteligente
+de rescate en situaciones de catástrofes meteorológicas como terremotos
+en el que se emplea \textit{RViz} como herramienta de visualización bajo el marco de trabajo de ROS. 
 
-\textit{Foxglobe Studio} es una plataforma para registrar, subir, organizar
+\textit{Foxglove Studio} es una plataforma para registrar, subir, organizar
 y visualizar datos de registro multimodales como series de tiempo, 
 registros de texto, vídeo, 3D, mapas y otros \parencite{foxgloveFoxgloveDocumentation}.
-La aplicación permite la integración con ROS2 mediante \textit{Foxglobe Bridge}. 
+La aplicación permite la integración con ROS2 mediante \textit{Foxglove Bridge}. 
 De manera similar al caso anterior, es posible cargar modelos, audio, mapas, registros 
 de texto, etc. y además de otras operativas, permite la teleoperación básica publicando 
 mensajes en un \textit{topic} específico.
 
-A diferencia de \textit{RViz}, \textit{Foxglobe Studio} no solo permite 
+A diferencia de \textit{RViz}, \textit{Foxglove Studio} no solo permite 
 utilizar otros \textit{framework} como \textit{PX4} o \textit{LeRobot}, sino 
 que se trata de una aplicación más compleja con mayores funcionalidades que 
 permite una gestión de grano fino de los diferentes procesos de la visualización 
@@ -53,7 +100,10 @@ de parámetros y gestión de datos. Sin embargo, se pueden encontrar las mismas 
 que con la herramienta anterior, potenciando, en este caso, la complejidad de utilización
 de la aplicación por estar más enfocada a procesos industriales en el que los 
 operadores cuentan con mayor experiencia, de manera que puede ser inconveniente para 
-usuarios no instruidos adecuadamente.
+usuarios no instruidos adecuadamente. Existen numerosos casos industriales que emplean \textit{Foxglove}
+como interfaz de visualización y control de robots. Por ejemplo, Wayve, una empresa automovilística enfocada 
+en la inteligencia artificial emplea esta herramienta para depurar sus sistemas de manera más rapida y sencilla \parencite{foxgloveWayveCustomer} o
+Dexterity, una empresa de logística robótica al que el uso de esta herramienta ha ahorrado dinero y acelerado su desarrollo \parencite{foxgloveDexterityCustomer}.
 
 \textit{Webviz} permite visualizar parámetros del robot empleando el navegador \parencite{webvizWebviz},
 lo que permite cruzar la frontera de los dispositivos de mayor potencia como 
@@ -63,8 +113,9 @@ añadir nuevos componentes que permitan visualizar otros datos diferentes.
 
 A pesar de que esta aplicación permite ser empleada en todos los dispositivos al 
 tratarse de una herramienta web, cuenta con problemáticas similares a las mencionadas
-anteriormente.
-
+anteriormente. La literatura científica revisada, por otro lado, muestra una escasez de publicaciones
+que evalúen formalmente su adopción, siendo la mayor evidenca disponible procedente de la docuementación
+oficial del proyecto.
 
 \section{Soluciones móviles}
 En cuanto a la operación telemática y visualización de parámetros empleando 
@@ -72,53 +123,55 @@ dispositivos móviles se pueden encontrar soluciones como \textit{ROS-Mobile},
 \textit{Robot Steering App}, \textit{ROS2 Connect Mobile} o soluciones 
 propietarias de ciertos fabricantes de robots.
 
-\textit{ROS-Mobile} es una aplicación Android diseñada para el control dinámico y 
+\textit{ROS-Mobile} es una aplicación Android diseñada para el control directo y 
 visualización de sistémas robóticos móviles ROS \parencite{rosROSMobileWiki} basada
-en menús para la visualización de parámetros y la operación del robot.
+en menús para la visualización de parámetros y la operación del robot. Según indican sus autores,
+la interfaz ha sido empleada en diferentes proyectos de investigación como en robots domésticos, 
+concretamente en cortacéspedes, para probar diferentes escenarios, en el proyecto A-DRZ en el que se investiga
+el uso de robots para prevención de peligros terrestres civiles en entornos inhóspitos, de nuevo como visualizador
+y herramienta de control remoto y en el proyecto MIRANA en el que se emplean robots para guiar a usuarios de manera 
+autónoma en entornos sanitarios, una vez más, como herramienta de visualización
+\parencite{RottmannNils2020RAAa}. Aparte de los proyectos llevados a cabo por los desarrolladores de la herramienta, 
+\cite{BarbechoJimbo2023RemoteOO} presentan una metodología de validación para un sistema remoto cuyo objetivo está centrado en un robot social empleando
+como interfaz de visualización y control \textit{ROS-Mobile}. \cite{Nwankwo2022ROMRAR}, a su vez, presentan una alternativa barata, de código abierto y modular a 
+los robots de transporte inteligentes comerciales en la también se emplea \textit{ROS-Mobile} como interfaz. 
 
 \textit{Robot Steering App} es una aplicación iOS que permite controlar 
 la velocidad lineal y angular, la gestión de los \textit{topics}, ejecutar paradas 
 de emergencia y obtener flujos de vídeo en tiempo real de las cámaras de los robots ROS2
 \parencite{appleRobotSteering}.
-
-\textit{ROS2 Connect Mobile} proporciona una interfaz móvil para el monitoreo 
-de \textit{topics} de ROS2 \parencite{appleROS2Connect}. A diferencia de las otras aplicaciones
-no permite teleoperar los robots.
+\textit{ROS2 Connect Mobile}, por su parte, proporciona una interfaz móvil para el monitoreo 
+de \textit{topics} de ROS2 \parencite{appleROS2Connect}, pero a diferencia de las otras aplicaciones
+no permite teleoperar los robots. A diferencia de \textit{ROS-Mobile}, \textit{Robot Steering App} y \textit{ROS2 Connect Mobile}
+presentan una adopción científica todavía lmitada, de modo que la búsqueda bibliográfica realizada no identificó publicaciones
+que las empleen explícitamente como herramienta de experimentación o monitorización. La evidencia disponible se limita a la documentación
+de los productos.
 
 Las aplicaciones existentes en su mayoría se tratan de soluciones básicas 
 para la visualización y operación en entornos limitadas en 
 la interacción espacial empleando, además, 
 navegación mediante menús, lo que aumenta la carga cognitiva del operador.
 
-
-\section{Soluciones con realidad aumentada}
-Existen diferentes soluciones que emplean realidad aumentada para la visualización de 
-parámetros y teleoperación de robots. Sin embargo, en su mayoría se tratan de herramientas
-diseñadas para solucionar un problema concreto empleando 
-dispositivos HMD (\textit{Head Mounted Display}) en lugar de tratarse de aplicaciones 
-multidominio que puedan ser aplicadas en diferentes entornos y dispositivos.
-
-\cite{adekoya2025horusmixedrealityinterface} introduce HORUS, una interfaz de realidad aumentada 
-para gestionar equipos de robots móviles empleando \textit{Meta Quest 2}.
+\section{Soluciones basadas en realidad aumentada y mixta}
+Existen diferentes soluciones basadas en realidad aumentada y mixta para la visualización de 
+parámetros y control de robots.
 
 \cite{10.1145/3610978.3640571} introduce AR-STAR 
 una herramienta de realidad aumentada
 que permite modificar nubes de puntos empleando sobre superficies
 el visor \textit{HoloLens 2} para la reparación
-de superficies corrodidas mediante robots tele-operados.
+de superficies corroidas mediante robots tele-operados.
 
 \cite{alietal} proponen una solución basada en realidad aumentada para la 
 operativa telemática y visualización de datos de robots quirúrjicos empleando
 \textit{HoloLens 2} para controlar el movimiento de la cabeza, las 
 órdenes verbales y proporcionar la retroalimentación al usuario.
 
-\cite{nevesetal} introduce una implementación de interfaz de realidad mixta mediante 
-\textit{Microsoft HoloLens} con para proporcionar 
-información sobre la tarea que se está realizando e interactuando con 
+\cite{nevesetal} introduce una solución de programación y optimización de trayectorias de manipuladores 
+industriales basada en realidad mixta que emplea 
+\textit{Microsoft HoloLens} para proporcionar 
+información sobre la tarea que se está realizando e interactuar con 
 objetos virtuales como si se estuviera interactuando con objetos reales.
-
-\cite{10.1145/3708468.3715687} propone una demostración de colaboración robot-humano empleando 
-realidad extendida empleando \textit{Meta Quest 3}.
 
 \cite{inbook} introduce una solución para integrar los robots industriales,
 la programación industrial \textit{offline} y herramientas 
@@ -129,9 +182,6 @@ más del sistema de producción robotizado.
 \cite{10770031} desarrollan una solución para el control de entornos de construcción
 mediante sensores y camaras integrados en conos delimitadores y una interfaz 
 de realidad virtual para HMD que permite situar al usuario en el terreno.
-
-Los terminales móviles como \textit{smartphones} y \textit{tablets} 
-también han sido empleados, en menor medida, como interfaz humano-robot.
 
 \cite{friske2024integrationaugmentedrealitymobile} propone una solución para proporcionar información del entorno contextualizada
 en situaciones de emergencia mediante la comunicación con el robot y la visualización
@@ -146,11 +196,20 @@ la recolección y visualización de datos en tiempo real
 en terminal móvil empleando sensores 
 del internet de las cosas (IoT) en una fábrica de la automovilística Volvo.
 
-Como puede apreciarse, la mayoría de las soluciones móviles que emplean realidad 
-aumentada en dispositivos móviles están centradas en resolver un problema específico. 
+\cite{adekoya2025horusmixedrealityinterface} introduce HORUS, una interfaz de realidad aumentada 
+que proporciona un conjunto de herramientas para la gestión de flotas de robots móviles.
+
+Como puede apreciarse, existe gran cantidad de soluciones que emplean realidad 
+aumentada. Sin embargo, están centradas en resolver un problema específico y no proporcionan una interfaz extensible al 
+resto de dominios. 
 \cite{ZEA2021100057}, sin embargo, introduce una aplicación para la visualización de datos y 
 teleoperación en ROS1
 empleando dispositivos móviles (Android/iOS/\textit{Microsoft HoloLens}), lo que 
-permite visualizar los diferentes datos y parámetros de una manera más directa. 
+permite visualizar los diferentes datos y parámetros de una manera más directa. La herramienta fue validada mediante escenarios 
+de visualización de navegación autónoma, represnmetación aumentada de modelos y supervisión móvil de sistemas ROS, proporcionando 
+una alternativa portátil a RViz para operaciones de campo.
+\cite{9701489} proponen, a su vez, una interfaz de visualización espacial de datos ROS para tareas de interacción humano-robot.
+Los autores validaron la herramienta en escenarios de supervisión de manipuladores robóticos, navegación de robots móviles e interacción multimodal
+humano-robot, demostrando mejoras en la comprensión espacial de la información respecto a interfaces convencionales basadas en pantalla.
 
 

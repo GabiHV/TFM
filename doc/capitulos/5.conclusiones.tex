@@ -1,17 +1,27 @@
-\chapter{Conclusiones y trabajos futuros}
+\chapter{Conclusiones y trabajos futuros} \ref{chapter:conclusiones}
 
 \section{Conclusiones}
-Durante el desarrollo del proyecto se han afrontado diferentes problemáticas que han requerido de un análisis profundo 
-y de la búsqueda de soluciones que permitan cumplir con los objetivos. 
-Aun así, se han conseguido desarrollar las funcionalidades planteadas en el diseño inicial, y se ha logrado 
-una aplicación funcional que se puede adaptar a cualquier escenario sin configuraciones 
-adicionales -- más allá de las imprescindibles -- y que permite la visualización y control de robots 
-mediante realidad aumentada, presentando una alternativa real a las aplicaciones existentes basadas en tecnologías tradicionales
-en las que la interacción es más compleja y se fundamentan en su mayoria en entradas por teclado, uso de ratón y navegación por 
-menús anidados, alejando al usuario del medio real.
+Como se ha mencionado, las soluciones existentes para la visualización de datos y control de robots están centradas actualmente en su mayoría en entornos de escritorio, 
+lo que limita la capacidad de los usuarios para interactuar con ellos de manera remota y en tiempo real, especialmente en situaciones donde se 
+requiere movilidad y flexibilidad.
+En este proyecto se buscaba un cambio de paradigma en el que la interacción con los robots fuese más intuitiva y directa,
+eliminando la barrera entre el mundo físico y digital, y empleando, para ello, dispositivos cotidianos y econímicos como \textit{tablets} o \textit{smartphones}
+y fusionando ambos mundos mediante la realidad aumentada.
+
+En cuanto a los objetivos planteados, se ha conseguido desarrollar una interfaz multiplataforma que permite la 
+visualización de datos y el control de robots mediante realidad aumentada, eliminando las barreras materiales existentes.
+Por otro lado, se ha desarrollado un sistema de comunicación ligero que permite la operabilidad, pero 
+no ha sido posible eliminar el intermediario: el computador que ejecuta el servidor. Sin embargo, se ha avanzado 
+en una posible alternativa que permita su ejecución en el propio dispositivo móvil mediante máquinas virtuales.
+
+No puede darse respuesta, por otro lado, de la usabilidad y la latencia del sistema, puesto que la solución desarrollada 
+no ha sido probada en entornos reales, y, por tanto, su su aceptación podría diferir según el criterio de cada usuario final.
+Aún así, puede afirmarse, que, 
+a pesar de que se han encontrado limitaciones que no han podido ser resueltas en el tiempo de desarrollo del proyecto, 
+la aplicación cumple con los requisitos funcionales y los objetivos principales propuestos.
 
 \section{Líneas de trabajo futuras}
-A pesar de que la aplicación desarrollada cumple con los objetivos planteados, se han encontrado limitaciones que no han podido ser 
+Como se ha mencionado, a pesar de que la aplicación desarrollada cumple con los objetivos planteados, se han encontrado limitaciones que no han podido ser 
 resueltas en tiempo y forma en el desarrollo del proyecto, pero que podrían ser abordadas en un futuro para mejorar la experiencia 
 de usuario y la funcionalidad de la aplicación. 
 
@@ -21,28 +31,29 @@ completamente autónoma.
 Durante la investigación se encontró que aunque era realmente complejo y requería de un tiempo del que 
 no se disponía, las librerías problemáticas en la compilación cruzada podían ser modificadas de modo que 
 se eliminasen los errores y, lo que es más importante, estuviesen preparadas para ejecutarse 
-sobre Android. Esto permitiría que la aplicación fuese completamente autónoma y no dependiese de servicios 
+sobre Android. Esto permitiría que la aplicación no dependiese de servicios 
 externos para su funcionamiento, lo que podría mejorar la experiencia de usuario.
 
 Otra solución plausible para la compilación de ROS para Android 
 que podría ser aboradada en un futuro sería la utilización de máquinas virtuales que ejecuten ROS y 
-los servicios necesarios en el dispositivo Android, 
-de modo que la aplicación se conectase a estas máquinas virtuales y no dependiese de servicios externos.
+los servicios necesarios en el dispositivo, 
+de modo que la aplicación se conectase a estas máquinas virtuales y tempoco dependiese de servicios externos.
 En este sentido, se experimentó con la utilización de Termux como emulador del terminal en Android 
-y se consiguió instalar una máquina virtual Ubuntu en la que se instaló ROS, superando la barrera
+y se consiguió instalar una máquina virtual Ubuntu sobre la que se ejecutó ROS, superando la barrera
 de la compilación cruzada y permitiendo ejecutar los servicios directamente en el dispositivo móvil. 
 El siguiente paso sería conectar la aplicación al servicio de ROS ejecutado en la máquina virtual y 
-comprobar que la comunicación es correcta y que la aplicación funciona como se espera.
+comprobar que la comunicación es correcta y que funciona como se espera.
 
-Por otro lado, la visualización de nubes de puntos es una funcionalidad que no se ha podido implementar 
-de manera satisfactoria debido a la complejidad de la misma y a las limitaciones de los dispositivos móviles.
+Por otro lado, la visualización de nubes de puntos es una funcionalidad que, aunque presente y utilizable,
+no se ha podido implementar 
+de manera satisfactoria (pérdidas de rendimiento) debido a la complejidad de la misma y a las limitaciones de los dispositivos móviles.
 Para solventar esta problemática, se podrían emplear técnicas de computación paralela que permitan procesar y 
 renderizar las nubes de puntos de manera más eficiente, aprovechando al máximo los recursos del dispositivo móvil. 
 Además, se podrían explorar alternativas de visualización que reduzcan la carga computacional, como la simplificación 
-de las nubes de puntos o el uso de representaciones aun más ligeras.
+de las nubes o el uso de representaciones aun más ligeras.
 
 Finalmente, y como punto adicional, aunque no sería imprescindible para el funcionamiento de la aplicación, 
-se podrían realizar pruebas de entorno con usuarios finales para evaluar su experiencia y la aceptación de la aplicación,
-y de este modo, obtener datos valiosos que permitan mejorar la aplicación y 
-adaptarla mejor a las necesidades de los usuarios. Cabe destacar que el proyecto ha sido desarrollado empleando entornos 
+se podrían realizar pruebas de entorno con usuarios finales para evaluar su experiencia y su aceptación,
+y de este modo, obtener datos valiosos que permitan la mejora y 
+adaptación a las necesidades de los usuarios. Cabe recordar que el proyecto ha sido desarrollado empleando entornos 
 simulados, por lo que la experiencia real en este momento podría diferir de la obtenida en los entornos de prueba.
