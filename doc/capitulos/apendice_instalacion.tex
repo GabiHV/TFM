@@ -16,6 +16,11 @@ la que se descargará el fichero APK. Estas opciones comunmente se encuentran en
 \textit{Ajustes>Aplicaciones>Acceso especial a aplicaciones>Instalar aplicaciones desconocidas} (Figura \ref{fig:allow_install_unkn_apps}).
 Se debe seleccionar el navegador empleado para descargar el fichero o la aplicación de la que se vaya 
 a obtener (Figura \ref{fig:auth_source}).
+
+Es posible que al intentar autorizar la fuente el teléfono avise sobre los riesgos 
+de instalar aplicaciones de terceros. Para instalarla se debe aceptar el riesgo y continuar, pero 
+es recomendable volver a denegar los permisos tras la instalación (Figura \ref{fig:warning}).
+Una vez aceptado comenzará el proceso de instalacion (Figura \ref{fig:install_app}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.65\textwidth]{imagenes/instalacion/apps_desconocidas.jpg}
@@ -28,18 +33,12 @@ a obtener (Figura \ref{fig:auth_source}).
     \caption{Autorización de aplicación fuente.}
     \label{fig:auth_source}
 \end{figure}
-
-Es posible que al intentar autorizar la fuente el teléfono avise sobre los riesgos 
-de instalar aplicaciones de terceros. Para instalarla se debe aceptar el riesgo y continuar, pero 
-es recomendable volver a denegar los permisos tras la instalación (Figura \ref{fig:warning}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.65\textwidth]{imagenes/instalacion/aviso.jpg}
     \caption{Aviso de riesgos en instalación de aplicaciones de terceros.}
     \label{fig:warning}
 \end{figure}
-
-Una vez aceptado comenzará el proceso de instalacion (Figura \ref{fig:install_app}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.65\textwidth]{imagenes/instalacion/instalar_app.jpg}
@@ -47,10 +46,12 @@ Una vez aceptado comenzará el proceso de instalacion (Figura \ref{fig:install_a
     \label{fig:install_app}
 \end{figure}
 
+\newpage
 \subsection{Linux}
 Para instalar la aplicación en Linux es necesario descomprimir el directorio \textit{iRozViz\_linux.zip} 
 haciendo clic derecho y seleccionando ``Extract here'' en caso de que el sistema operativo cuente con herramientas
 de compresión de ficheros o se haya instalado una específica (Figura \ref{fig:dialog_extract_zip_linux}).
+Para inicar la aplicación ahora solo es necesario ejecutar el fichero \textit{iRosViz.x86\_64} dentro del directorio generado.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/instalacion/dialog_extract_linux.png}
@@ -58,8 +59,7 @@ de compresión de ficheros o se haya instalado una específica (Figura \ref{fig:
     \label{fig:dialog_extract_zip_linux}
 \end{figure}
 
-Para inicar la aplicación ahora solo es necesario ejecutar el fichero \textit{iRosViz.x86\_64} dentro del directorio generado.
-
+\newpage
 \subsection{Windows}
 Dependiendo de la arquitectura sobre la que se ejecute el sistema operativo, se debe descargar una opción u otra.
 
@@ -72,23 +72,21 @@ Puesto que las últimas versiones de Windows incluyen esta herramienta
 de manera nativa, se realizará la explicación con ellas.
 
 Haciendo clic derecho en el comprimido, se debe seleccionar la opción ``Extraer todo...'' (Figura \ref{fig:dialog_extract_zip}).
+La herramienta solicitará
+una ruta sobre la que extraer los ficheros que podrá ser modificada a voluntad del usuario (Figura \ref{fig:extract_zip_window}).
+Una vez se hace clic en ``Extraer...'' comienza el proceso y tras finalizar ya se tiene acceso a la carpeta descomprimida (Figura \ref{fig:files_extract}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/instalacion/dialog_extraer.png}
     \caption{Cuadro diálogo extracción comprimido. Windows.}
     \label{fig:dialog_extract_zip}
 \end{figure}
-
-La herramienta solicitará
-una ruta sobre la que extraer los ficheros que podrá ser modificada a voluntad del usuario (Figura \ref{fig:extract_zip_window}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/instalacion/dialog_extraer_fichero.png}
     \caption{Ventana extracción comprimido}
     \label{fig:extract_zip_window}
 \end{figure}
-
-Una vez se hace clic en ``Extraer...'' comienza el proceso y tras finalizar ya se tiene acceso a la carpeta descomprimida (Figura \ref{fig:files_extract}).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/instalacion/ficheros_extaryendo.png}
@@ -96,6 +94,7 @@ Una vez se hace clic en ``Extraer...'' comienza el proceso y tras finalizar ya s
     \label{fig:files_extract}
 \end{figure}
 
+\newpage
 \section{Instalación de ROS en servidor}
 La distribución recomendada de ROS2 es \textbf{Jazzy Jalisco}, de hecho, es con la que se ha realizado el desarrollo
 y que garantiza que todas las funcionalidades funcionen correctamente. Sin embargo, pueden 

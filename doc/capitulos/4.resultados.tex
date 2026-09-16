@@ -1,6 +1,7 @@
 \chapter{Resultados} \label{chapter:resultados}
 \section{Software desarrollado}
-En este apartado se mostrará de manera fotográfica las funcionalidades desarrolladas en la aplicación.
+En este apartado se mostrará de manera fotográfica las funcionalidades desarrolladas en la aplicación y se relacionarán con los 
+casos de uso y/o las pruebas que cubren.
 
 En la Figura \ref{fig:transforms_visualization} puede observarse cómo se visualizan los \textit{frames} dentro de la aplicación y su relación 
 jerárquica. El primero se dibuja como un objeto en el que se muestran los diferentes ejes de coordenadas 
@@ -8,13 +9,7 @@ jerárquica. El primero se dibuja como un objeto en el que se muestran los difer
 estado de la comuniación. La relación jerárquica se visualiza mediante una linea roja desde el elemento hijo al padre. El selector superior 
 indica el \textit{frame} objetivo de ciertas operaciones en diferentes funcionalidades y será un elemento constante en toda la aplicación.
 Con esta funcionalidad pueden constatarse las pruebas relacionadas con la visualización de datos (e.g. CU-04, CU-05 y CU-08) y
-la representación de los marcos (e.g. CU-03, CU-06, CU-07, CU-10 y CU-11)
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/tf.png}
-    \caption{Visualización \textit{transforms}}
-    \label{fig:transforms_visualization}
-\end{figure}
+la representación de los marcos (e.g. CU-03, CU-06, CU-07, CU-10 y CU-11).
 
 En la Figura \ref{fig:lineal_speed_visualization} se puede observar cómo se muestra en la aplicación la velocidad lineal. Esta variable es 
 visualizada empleando un vector de color azul en el que la longitud indica la dirección del desplazamiento, de manera que cuanto mayor sea el vector, 
@@ -22,39 +17,91 @@ a mayor velocidad se desplazará el \textit{frame}. Además, en la parte posteri
 la trayectoria seguida por el \textit{frame}. 
 Con esta funcionalidad pueden constatarse las pruebas relacionadas con la visualización de marcos (CU-06) puesto que al 
 visualizar el \textit{frame} objetivo, se puede observar cómo se desplaza en el mundo virtual y cómo se representa su trayectoria.
+
+En la Figura \ref{fig:angular_speed_visualization} se puede observar cómo se muestra en la aplicación la velocidad angular. Esta variable 
+es visualizada mediante un elemento toroidal que indica el eje en el que se está realizando el giro; el color, a su vez, indica que la velocidad 
+se encuentra dentro de ciertos márgenes (verde para velocidades menores a 0,5 rad/s, amarillo para velocidades entre 0,5 rad/s y 1 rad/s).
+De igual forma a la velocidad lineal, con esta funcionalidad puede constatarse las pruebas relacionadas con la visualización de marcos (CU-06).
+
+En la Figura \ref{fig:asignacion_frames} se puede observar la funcionalidad de asignación de marcos a las etiquetas \textit{AprilTag}. 
+El usuario capturará una etiqueta con la cámara de su dispositivo, seleccionará un \textit{frame} y el tema 
+donde se publique la ruta planificada para su visualización y pulsará en el botón de asignación.
+Esta funcionalidad permite cubrir el caso de uso de asignación de marcos a etiquetas \textit{AprilTag} (CU-03).
+
+Las Figuras \ref{fig:frame_occultation} y \ref{fig:frame_visualization} muestra la funcionalidad de visualización y ocultación de \textit{frames}. 
+La aplicación proporcionará la lista de \textit{frames} y el 
+usuario seleccionará aquellos que desee ocultar/mostrar.
+Esta funcionalidad cubre el caso de usuario de visualización/ocultación de marcos (CU-06).
+
+La Figura \ref{fig:teleop} muestra la funcionalidad de teleoperación de robots. El usuario deberá seleccionar el \textit{topic} objetivo
+de la comunicación y mediante el accionamiento del \textit{joystick} virtual o los botones enviará mensajes de movimiento.
+La aplicación permite, además, modificar parámetros de la velocidad lineal, vertical y angular.
+Esta funcionalidad permite cubrir el caso de uso de teleoperación de robots (CU-07).
+
+Similar a la funcionalidad anterior es la planificación de rutas. La Figura \ref{fig:path_plan} muestra su interfaz. El usuario, de igual manera,
+seleccionará el \textit{topic} objetivo de la comunicación y el \textit{frame} objetivo empleando los selectores inferiores y superiores respectivamente.
+Posteriormente, seleccionará uno o varios puntos en el mundo en el que se siturán marcadores azules unidos por una línea indicando el recorrido a realizar.
+Esta ruta no será ejecutada hasta que el usuario no envíe el mensaje mediante el botón con el avión de papel como icono. El botón de la izquierda eliminará uno a uno los 
+marcadores, de modo que se puede rehacer la ruta a conveniencia. 
+Esta funcionalidad cubre el caso de uso de planificación de rutas (CU-09).
+
+La Figura \ref{fig:measure_frames} muestra la funcionalidad de medidas entre frames. El usuario seleccionará dos \textit{frames}; estos cambiarán de color a 
+azul parpadeante y se mostrará en la ventana izquieda diferentes parámetros como su distancia en metros y su rotación. 
+Esto permite cubrir el caso de uso de medición entre marcos (CU-09).
+
+La Figura \ref{fig:frame_scale_adjustment} muestra la funcionalidad de escalado de los \textit{frames} en la que el usuario seleccionará un \textit{frame} 
+dejando el dedo unos instántes sobre la pantalla. El objeto cambiará entonces de color a modo transparente parpadeante y será entonces cuando el 
+usuario mediante un pellizco en la pantalla podrá ampliar y reducir la escala del elemento. 
+Esta funcionalidad cubre el caso de uso de ajuste de posición (CU-10) y escala (CU-11) de marcos.
+
+Las Figuras \ref{fig:point_cloud_config} y \ref{fig:point_cloud_visualization} muestran la funcionalidad de la visualización de nube de puntos.
+Inicialmente, el usuario debe configurar la asociación entre el \textit{frame} y el \textit{topic} de nube de puntos puesto que se trata de una relación 
+que no puede presuponerse (como se indicó en el apartado de la implementación del sistema). Una vez realizada la asociación, la nube de puntos se visualizará en
+el \textit{frame} correspondiente.
+Esta funcionalidad permite cubrir el caso de uso de visualización de nubes de puntos (CU-04).
+
+La Figura \ref{fig:topic_echo} muestra la funcionalidad de suscripción a tema para su visualización directa en la aplicación. El usuario
+seleccionará un \textit{topic} y un tipo de mensaje de los selectores y pulsará en confirmar. Tras esto, los mensajes publicados en 
+ese tema se visualizarán en la parte derecha de la pantalla. Para parar la visualización el usuario puede pulsar en ``Parar'' o ``Stop''.
+Esto cubre el caso de uso de suscripción a \textit{topics} (CU-12).
+
+La Figura \ref{fig:topic_publish} muestra la funcionalidad de publicación en un tema. El usuario seleccionará un \textit{topic} de los
+disponibles, un tipo de mensaje y cumplimentará el mensaje. Tras seleccionar la frecuencia de publicación en el tema confirmará la publicación y 
+el mensaje será enviado siguiendo los parámetros correspondientes al \textit{topic} correspondiente.
+Esta funcionalidad permite cubrir el caso de uso de publicación en \textit{topics} (CU-13).
+
+La Figura \ref{fig:param_change} muestra la funcionalidad de configuración de parámetros de los nodos de ROS. El usuario seleccionará el nodo objetivo,
+el parámetro que quiera modificar e introducirá el nuevo valor siguiendo la guía del valor anterior. Una vez cumplimentado los datos correspondientes, 
+podrá enviar el nuevo valor pulsando ``Enviar'' o ``Save''.
+Esto cubre el caso de uso de modificación de parámetros (CU-14).
+
+La Figura \ref{fig:app_config} muestra la interfaz de configuración de la aplicación. En esta se podrá modificar el idioma de la aplicación, el estándar \textit{AprilTag}
+a emplear en la aplicación y parámetros de la conexión al servidor ROS como la dirección IP o el puerto entre otros.
+Esta funcionalidad permite cubrir el caso de uso de configuración de la conexión (CU-01) y del idioma (CU-02).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/tf.png}
+    \caption{Visualización \textit{transforms}}
+    \label{fig:transforms_visualization}
+\end{figure}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/speed.png}
     \caption{Visualización velocidad lineal}
     \label{fig:lineal_speed_visualization}
 \end{figure}
-
-En la Figura \ref{fig:angular_speed_visualization} se puede observar cómo se muestra en la aplicación la velocidad angular. Esta variable 
-es visualizada mediante un elemento toroidal que indica el eje en el que se está realizando el giro; el color, a su vez, indica que la velocidad 
-se encuentra dentro de ciertos márgenes (verde para velocidades menores a 0,5 rad/s, amarillo para velocidades entre 0,5 rad/s y 1 rad/s).
-De igual forma a la velocidad lineal, con esta funcionalidad puede constatarse las pruebas relacionadas con la visualización de marcos (CU-06).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/angular_speed.png}
     \caption{Visualización velocidad angular}
     \label{fig:angular_speed_visualization}
 \end{figure}
-
-En la Figura \ref{fig:asignacion_frames} se puede observar la funcionalidad de asignación de marcos a las etiquetas \textit{AprilTag}. 
-El usuario capturará una etiqueta con la cámara de su dispositivo, seleccionará un \textit{frame} y el tema 
-donde se publique la ruta planificada para su visualización y pulsará en el botón de asignación.
-Esta funcionalidad permite cubrir el caso de uso de asignación de marcos a etiquetas \textit{AprilTag} (CU-03).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/manual_usuario/reasignacion.png}
     \caption{Asignación de marcos a etiquetas \textit{AprilTag}}
     \label{fig:asignacion_frames}
 \end{figure}
-
-Las Figuras \ref{fig:frame_occultation} y \ref{fig:frame_visualization} muestra la funcionalidad de visualización y ocultación de \textit{frames}. 
-La aplicación proporcionará la lista de \textit{frames} y el 
-usuario seleccionará aquellos que desee ocultar/mostrar.
-Esta funcionalidad cubre el caso de usuario de visualización/ocultación de marcos (CU-06).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/toggle_frames_2.png}
@@ -67,57 +114,30 @@ Esta funcionalidad cubre el caso de usuario de visualización/ocultación de mar
     \caption{Visualización de frames}
     \label{fig:frame_visualization}
 \end{figure}
-
-La Figura \ref{fig:teleop} muestra la funcionalidad de teleoperación de robots. El usuario deberá seleccionar el \textit{topic} objetivo
-de la comunicación y mediante el accionamiento del \textit{joystick} virtual o los botones enviará mensajes de movimiento.
-La aplicación permite, además, modificar parámetros de la velocidad lineal, vertical y angular.
-Esta funcionalidad permite cubrir el caso de uso de teleoperación de robots (CU-07).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/teleop.png}
     \caption{Teleoperación}
     \label{fig:teleop}
 \end{figure}
-
-Similar a la funcionalidad anterior es la planificación de rutas. La Figura \ref{fig:path_plan} muestra su interfaz. El usuario, de igual manera,
-seleccionará el \textit{topic} objetivo de la comunicación y el \textit{frame} objetivo empleando los selectores inferiores y superiores respectivamente.
-Posteriormente, seleccionará uno o varios puntos en el mundo en el que se siturán marcadores azules unidos por una línea indicando el recorrido a realizar.
-Esta ruta no será ejecutada hasta que el usuario no envíe el mensaje mediante el botón con el avión de papel como icono. El botón de la izquierda eliminará uno a uno los 
-marcadores, de modo que se puede rehacer la ruta a conveniencia. 
-Esta funcionalidad cubre el caso de uso de planificación de rutas (CU-09).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/path_plan.png}
     \caption{Planificación de ruta}
     \label{fig:path_plan}
 \end{figure}
-
-La Figura \ref{fig:measure_frames} muestra la funcionalidad de medidas entre frames. El usuario seleccionará dos \textit{frames}; estos cambiarán de color a 
-azul parpadeante y se mostrará en la ventana izquieda diferentes parámetros como su distancia en metros y su rotación. 
-Esto permite cubrir el caso de uso de medición entre marcos (CU-09).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/measure_frames.png}
     \caption{Medición de frames}
     \label{fig:measure_frames}
 \end{figure}
-
-La Figura \ref{fig:frame_scale_adjustment} muestra la funcionalidad de escalado de los \textit{frames} en la que el usuario seleccionará un \textit{frame} 
-dejando el dedo unos instántes sobre la pantalla. El objeto cambiará entonces de color a modo transparente parpadeante y será entonces cuando el 
-usuario mediante un pellizco en la pantalla podrá ampliar y reducir la escala del elemento. 
-Esta funcionalidad cubre el caso de uso de ajuste de posición (CU-10) y escala (CU-11) de marcos.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/frame_adjustment_1.png}
     \caption{Ajuste de escala de frames}
     \label{fig:frame_scale_adjustment}
 \end{figure}
-
-Las Figuras \ref{fig:point_cloud_config} y \ref{fig:point_cloud_visualization} muestran la funcionalidad de la visualización de nube de puntos.
-Inicialmente, el usuario debe configurar la asociación entre el \textit{frame} y el \textit{topic} de nube de puntos puesto que se trata de una relación 
-que no puede presuponerse (como se indicó en el apartado de la implementación del sistema). Una vez realizada la asociación, la nube de puntos se visualizará en
-el \textit{frame} correspondiente.
-Esta funcionalidad permite cubrir el caso de uso de visualización de nubes de puntos (CU-04).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/point_cloud_config.png}
@@ -130,43 +150,24 @@ Esta funcionalidad permite cubrir el caso de uso de visualización de nubes de p
     \caption{Visualización de nube de puntos}
     \label{fig:point_cloud_visualization}
 \end{figure}
-
-La Figura \ref{fig:topic_echo} muestra la funcionalidad de suscripción a tema para su visualización directa en la aplicación. El usuario
-seleccionará un \textit{topic} y un tipo de mensaje de los selectores y pulsará en confirmar. Tras esto, los mensajes publicados en 
-ese tema se visualizarán en la parte derecha de la pantalla. Para parar la visualización el usuario puede pulsar en ``Parar'' o ``Stop''.
-Esto cubre el caso de uso de suscripción a \textit{topics} (CU-12).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/topic_echo.png}
     \caption{Suscripción a \textit{topics}}
     \label{fig:topic_echo}
 \end{figure}
-
-La Figura \ref{fig:topic_publish} muestra la funcionalidad de publicación en un tema. El usuario seleccionará un \textit{topic} de los
-disponibles, un tipo de mensaje y cumplimentará el mensaje. Tras seleccionar la frecuencia de publicación en el tema confirmará la publicación y 
-el mensaje será enviado siguiendo los parámetros correspondientes al \textit{topic} correspondiente.
-Esta funcionalidad permite cubrir el caso de uso de publicación en \textit{topics} (CU-13).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/topic_publish.png}
     \caption{Publicación en \textit{topic}}
     \label{fig:topic_publish}
 \end{figure}
-
-La Figura \ref{fig:param_change} muestra la funcionalidad de configuración de parámetros de los nodos de ROS. El usuario seleccionará el nodo objetivo,
-el parámetro que quiera modificar e introducirá el nuevo valor siguiendo la guía del valor anterior. Una vez cumplimentado los datos correspondientes, 
-podrá enviar el nuevo valor pulsando ``Enviar'' o ``Save''.
-Esto cubre el caso de uso de modificación de parámetros (CU-14).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/param_change.png}
     \caption{Configuración de parámetros}
     \label{fig:param_change}
 \end{figure}
-
-La Figura \ref{fig:app_config} muestra la interfaz de configuración de la aplicación. En esta se podrá modificar el idioma de la aplicación, el estándar \textit{AprilTag}
-a emplear en la aplicación y parámetros de la conexión al servidor ROS como la dirección IP o el puerto entre otros.
-Esta funcionalidad permite cubrir el caso de uso de configuración de la conexión (CU-01) y del idioma (CU-02).
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{imagenes/capturas_app/config.png}
@@ -174,11 +175,12 @@ Esta funcionalidad permite cubrir el caso de uso de configuración de la conexi�
     \label{fig:app_config}
 \end{figure}
 
+\newpage
 \section{Validación de los requisitos}
 A continuación se muestra el resumen de los requisitos funcionales y no funcionales con su respectivo estado.
 \begin{longtable}{|p{4cm}|p{4cm}|}
-\hline
-\textbf{Requisito} & \textbf{Estado} \\
+    \hline
+    \textbf{Requisito} & \textbf{Estado} \\
 \hline
 RF-001 & Cumplido \\
 \hline
@@ -210,6 +212,13 @@ RF-014 & Cumplido \\
 \hline
 RF-015 & Cumplido \\
 \hline
+\caption{Estado de los requisitos funcionales y no funcionales. Parte 2.}
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{4cm}|}
+    \hline
+    \textbf{Requisito} & \textbf{Estado} \\
+\hline
 RF-016 & Cumplido \\
 \hline
 RF-017 & Cumplido \\
@@ -239,18 +248,20 @@ RNF-001 & No evaluado \\
 \hline
 RNF-002 & No evaluado \\
 \hline
-\caption{Estado de los requisitos funcionales y no funcionales}
+\caption{Estado de los requisitos funcionales y no funcionales. Parte 2.}
 \end{longtable}
 
-Como se puede observar, todos los requisitos funcionales han sido cumplimentados en el desarrollo de la aplicación. Por otro lado, los no funcionales no 
+Como se puede observar, todos los requisitos funcionales han sido cubiertos en el desarrollo de la aplicación. Por otro lado, los no funcionales no 
 pueden evaluarse de la misma forma que su contraparte funcional, puesto que no se trata de si se ha introducido una funcionalidad concreta o no, sino 
 de la medida en la que se encuentran cubiertos en la aplicación, así pues, no puede darse una respuesta en firme sin que los usuarios finales juzguen con su criterio
 la aceptación de esos requisitos.
 
+\newpage
 \section{Resultados de las pruebas}
 En esta sección se mostrarán la cantidad de pruebas diferentes realizadas, las que han sido un éxito y las que no han sido superadas 
-\footnote{Solo se incluyen las realizadas en la etapa de pruebas. Las llevadas a cabo en la etapa de desarrollo no se computan. }.
-\begin{longtable}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+\footnote{Solo se incluyen las realizadas en la etapa de pruebas. Las llevadas a cabo en la etapa de desarrollo no se computan. }
+\footnote{Las pruebas concretas pueden comprobarse en \href{https://github.com/GabiHV/TFM/issues?q=is\%3Aissue\%20state\%3Aclosed\%20label\%3Atesting}{GitHub}}.
+\begin{longtable}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
 \textbf{Prueba} & \textbf{Pruebas Realizadas} & \textbf{Pruebas Superadas} & \textbf{Pruebas No Superadas} \\
 \hline
@@ -306,6 +317,14 @@ CP-25 & 5 & 5 & 0 \\
 \hline
 CP-26 & 5 & 5 & 0 \\
 \hline
+
+\caption{Resultados de las pruebas de integración. Parte 1.}
+\end{longtable}
+
+\begin{longtable}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Prueba} & \textbf{Pruebas Realizadas} & \textbf{Pruebas Superadas} & \textbf{Pruebas No Superadas} \\
+\hline
 CP-27 & 5 & 5 & 0 \\
 \hline
 CP-28 & 5 & 5 & 0 \\
@@ -326,7 +345,7 @@ CP-35 & 2 & 2 & 0 \\
 \hline
 CP-36 & 8 & 8 & 0 \\
 \hline
-\caption{Resultados de las pruebas de integración}
+\caption{Resultados de las pruebas de integración. Parte 2.}
 \end{longtable}
 
 \section{Limitaciones encontradas}
@@ -353,5 +372,5 @@ Por otro lado, en la funcionalidad de la visualización de nube de puntos, debid
 que han de procesarse se observa una caida repentinas de \textit{frames} de la aplicación. Para paliar estos efectos, se ha realizado
 un muestreo de los valores proporcionados reduciendo los elementos que deben ser dibujados; además, se ha optado por emplear dos \textit{buffers} de 
 datos, uno para la lectura y otro para la escritura y actualizar la malla visualizada cada 15 \textit{frames} de la aplicación. 
-Aún con todos estas técnicas, debido a que el redibujado de las mallas de puntos es costosa a nivel computacional y que puesto a que la aplicación está 
+Aun con todos estas técnicas, debido a que el redibujado de las mallas de puntos es costosa a nivel computacional y que puesto a que la aplicación está 
 destinada a dispositivos móviles y no se pueden emplear elementos de computación paralela como las tarjetas de vídeo, la problemática es todavía presente.

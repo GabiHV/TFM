@@ -32,24 +32,24 @@ Para el desarrollo \textit{software} se emplearán las siguientes herramientas:
     Se escoge este IDE sobre alternativas como \textbf{Visual Studio} por la cantidad de extensiones disponibles, la facilidad de integración con herramientas de control de versiones y la posibilidad de trabajar con diferentes lenguajes de programación y entornos de desarrollo.
     \item \textbf{Git:} Sistema de control de versiones distribuido, que
     permite llevar un registro de los cambios realizados en el código fuente y colaborar con otros desarrolladores \parencite{gitscm}.
-    Se escoge \textbf{Git} sobre alternativas como \textbf{Subversion} o \textbf{Mercurial} por su popularidad, su integración con plataformas de alojamiento de repositorios y su capacidad para trabajar de manera distribuida.
+    Se escoge \textbf{Git} sobre alternativas como \textbf{Subversion}, \textit{TFS} o \textbf{Mercurial} por su popularidad, su integración con plataformas de alojamiento de repositorios y su capacidad para trabajar de manera distribuida.
     \item \textbf{GitHub:} Plataforma de alojamiento de repositorios Git, que permite compartir el código fuente y colaborar con otros desarrolladores \parencite{githubWhatGitHub}.
     Se escoge \textbf{GitHub} sobre alternativas como \textbf{GitLab} o \textbf{Bitbucket} por su popularidad, su integración con herramientas de desarrollo y su comunidad de usuarios.
     \item \textbf{Unity:} Motor de desarrollo de videojuegos y aplicaciones interactivas, que permite crear aplicaciones para diferentes plataformas, incluyendo Android \parencite{unityUnityDevelop}.
     Se escoge \textbf{Unity} sobre alternativas como \textbf{Unreal Engine} o \textbf{Godot} por su facilidad de uso, su comunidad de usuarios y su capacidad para crear aplicaciones multiplataforma.
     \item \textbf{Android Studio:} IDE para el desarrollo de aplicaciones Android, que incluye herramientas de depuración y emulación de dispositivos \parencite{androidDownloadAndroid}. 
-    En concreto, se empleó para las pruebas de contenerización del servicio ROS necesario para el funcionamiento de la aplicación, puesto que permite 
+    En concreto, se empleará para las pruebas de contenerización del servicio ROS necesario para el funcionamiento de la aplicación, puesto que permite 
     la instalación de \textit{termux} y la consiguiente ejecución de contenedores en un entorno Android. 
-    Se escoge \textbf{Android Studio} sobre alternativas por su capacidad de emulación nativa de dispositivos Android sin necesidad de configuraciones adicionales.
+    Se escoge \textbf{Android Studio} sobre alternativas como \textbf{BlueStacks} por su capacidad de emulación nativa de dispositivos Android sin necesidad de configuraciones adicionales.
     \item \textbf{Unity Hub:} Herramienta de gestión de proyectos y versiones de Unity, que permite crear y administrar proyectos de Unity y descargar diferentes versiones del motor \parencite{unityUnityUnity}.
     Se escoge \textbf{Unity Hub} por integración nativa con el entorno de desarrollo de \textbf{Unity}.
     \item \textbf{ROS:} Sistema operativo para robots que proporciona un conjunto de herramientas y bibliotecas para el desarrollo de aplicaciones robóticas \parencite{rosROSHome}.
-    Se escoge \textbf{ROS} sobre alternativas como \textbf{PX4} o \textbf{ArduPilot} por su popularidad, su comunidad de usuarios y su capacidad para integrarse con diferentes lenguajes de programación y entornos de desarrollo.
-    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleó para el desarrollo de la aplicación en Unity \parencite{microsoftLenguajeProgramacin}.
+    Se escoge \textbf{ROS} sobre alternativas como \textbf{PX4} por su popularidad, su comunidad de usuarios y su capacidad para integrarse con diferentes lenguajes de programación y entornos de desarrollo.
+    \item \textbf{C\#:} Lenguaje de programación orientado a objetos, que se empleará para el desarrollo de la aplicación en Unity \parencite{microsoftLenguajeProgramacin}.
     Se escoge \textbf{C\#} sobre alternativas como \textbf{C++} o \textbf{Java} por su integración nativa con el entorno de desarrollo de \textbf{Unity}.
-    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleó para el desarrollo de los nodos ROS \parencite{pythonGeneralPython}.
+    \item \textbf{Python:} Lenguaje de programación interpretado, que se empleará para el desarrollo de los nodos ROS \parencite{pythonGeneralPython}.
     Se escoge \textbf{Python} sobre alternativas como \textbf{C++} en el desarrollo de los nodos ROS por su facilidad de uso, sintaxis y comunidad.
-    \item \textbf{C++:} Lenguaje de programación compilado, que se empleó para el desarrollo del plugin de detección de AprilTags \parencite{microsoftBienvenidoNuevo}.
+    \item \textbf{C++:} Lenguaje de programación compilado, que se empleará para el desarrollo del plugin de detección de AprilTags \parencite{microsoftBienvenidoNuevo}.
     Se escoge \textbf{C++} puesto que es el lenguaje empleado para el desarrollo de código nativo en Unity.
     \item \textbf{Termux:} Emulador de terminal para Android, que permite ejecutar aplicaciones de línea de comandos y contenedores en un entorno Android \parencite{termuxTermux}.
     Se escoge \textbf{Termux} sobre alternativas como \textbf{UserLAnd} o \textbf{Andronix} puesto que proporciona un entorno de terminal completo para Android, lo que permite ejecutar las aplicaciones deseadas.
@@ -75,6 +75,8 @@ Para la realización del proyecto se emplearán los siguientes materiales y repo
     Se escoge \textbf{AprilTag} (y su librería \textbf{AprilRobotics/apriltag}) sobre alternativas como \textbf{QR} principalmente por su facilidad de uso y robustez en la detección, puesto que 
     a diferencia de los códigos QR, almacenan menor cantidad de información y son más fáciles de detectar en entornos con ruido o iluminación variable.
 \end{itemize}
+
+\newpage
 
 \section{Análisis de requisitos}
 A continuación se muestran los requisitos funcionales y no funcionales que deben ser cubiertos en el proyecto.
@@ -108,6 +110,13 @@ RF-011 & Visualización \textit{jump} \textit{frames} & El sistema permitirá co
 \hline
 RF-012 & Visualización \textit{flipping} \textit{frames} & El sistema permitirá conocer si el \textit{frame} se produce \textit{flipping}. & Media \\
 \hline
+\caption{Requisitos funcionales. Parte 1}
+\end{longtable}
+
+\begin{longtable}{|p{2cm}|p{4cm}|p{7cm}|p{2cm}|}
+\hline
+\textbf{ID} & \textbf{Nombre} & \textbf{Descripción} & \textbf{Prioridad} \\
+\hline
 RF-013 & Ocultar visualización \textit{frames} & El sistema permitirá ocultar \textit{frames}. & Alta \\
 \hline
 RF-014 & Ajuste posición \textit{frames} asignados & El sistema permitirá ajustar la posición de los \textit{frames} asignados a los \textit{AprilTag}. & Media \\
@@ -130,6 +139,14 @@ RF-022 & Planificación de ruta & El sistema permitirá crear un plan de ruta pa
 \hline
 RF-023 & Operación remota (teleoperación) & El sistema permitirá operar a cada robot de forma independiente (empleando \textit{topic} específico). & Media \\
 \hline
+\caption{Requisitos funcionales. Parte 2}
+\end{longtable}
+
+\newpage
+\begin{longtable}{|p{2cm}|p{4cm}|p{7cm}|p{2cm}|}
+\hline
+\textbf{ID} & \textbf{Nombre} & \textbf{Descripción} & \textbf{Prioridad} \\
+\hline
 RF-024 & Suscripción a \textit{topics} & El usuario podrá suscribirse a \textit{topics} y observar los contenidos publicados en ellos. & Baja \\
 \hline
 RF-025 & Publicación en \textit{topics} & El usuario podrá publicar mensajes en \textit{topics} específicos. & Baja \\
@@ -138,6 +155,7 @@ RF-026 & Modificación de parámetros & El usuario podrá modificar parámetros 
 \hline
 RF-027 & Configuración de ajustes & El usuario podrá modificar los ajustes de conexión, del sistema de reconocimiento de marcas visuales, lenguaje, etc. & Alta \\
 \hline
+\caption{Requisitos funcionales. Parte 3}
 \end{longtable}
 
 \subsection{Requisitos no funcionales}
@@ -149,6 +167,7 @@ RNF-001 & Usabilidad & Deben evitrarse las interacciones innecesarias del usuari
 \hline
 RNF-002 & Escalabilidad & Los módulos deben desarrollarse teniendo en cuenta la posibilidad de su ampliación y la inclusión futura de sistemas de \textit{plugins}.  & Alta \\
 \hline
+\caption{Requisitos no funcionales.}
 \end{longtable}
 
 \subsection{Casos de uso}
@@ -527,35 +546,17 @@ Por otro lado, el paquete \textit{Visualizers} se encargará de la visualizació
 como la velocidad lineal y angular (\textit{TFFrameSpeedVisualizer}), el estado del \textit{frame} en la comunicación (\textit{TFFrameStatusVisualizer}),
 el \textit{jitter} (\textit{TFFrameJitterVisualizer}), los saltos (\textit{TFFrameJumpVisualizer}) y el \textit{flipping} (\textit{TFFrameFlippingVisualizer}).
 Esta actualización de datos puede ser suspendida o reanudada mediante la clase \textit{TFFramesRuntimeController}.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{imagenes/diagramas/TF.png}
-    \caption{Módulo TF}
-    \label{fig:tf_module}
-\end{figure}
 
 El módulo de visualización de nubes de puntos (Figura \ref{fig:point_clouds_module}) será el encargado de mostrar en el mundo virtual la información captada 
 por los sensores de detección de profundidad como \textit{LiDAR}. Para ello, se emplean dos clases dentro del paquete \textit{PointClouds}: 
 \textit{PointCloudData} que obtendrá, 
 procesará y almacenará los datos de la nube de puntos y \textit{PointCloudVisualizer} 
 que empleará esta información para representarla como una malla de puntos blancos en el \textit{frame} correspondiente.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{imagenes/diagramas/PointClouds.png}
-    \caption{Módulo PointClouds}
-    \label{fig:point_clouds_module}
-\end{figure}
 
 El módulo de control espacial (Figura \ref{fig:spatial_control_module}), a su vez, permitirá la planificación de rutas empleando la 
 clase \textit{PathController} del paquete \textit{Controllers} -- que se encargará de la ejecución de la ruta introducida -- y 
 la visualización en el mundo virtual mediante la clase \textit{PlannedPathVisualizer} del paquete \textit{Visualizers}, que se 
 suscribirá los temas de ruta planificada indicados por el usuario y mostrará la información en la escena.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{imagenes/diagramas/SpatialControl.png}
-    \caption{Módulo SpatialControl}
-    \label{fig:spatial_control_module}
-\end{figure}
 
 El módulo de suscripción a temas de ROS (Figura \ref{fig:ros_subscriber_module})
 se encargará de establecer la comunicación con los nodos de ROS y recibir los mensajes 
@@ -564,12 +565,6 @@ publicados en los \textit{topics} a los que se suscribe, para ello, se emplea la
 a un tema, se creará una subclase de \textit{ROSSubscriber} que implementará la lógica concreta del almacenamiento de los datos para que 
 posteriormente puedan ser utilizados en otras partes. 
 Así pues, por ejemplo, la clase \textit{ROSTFSubscriber} se encargará de suscribirse a los \textit{topics} de transformación y almacenar la información de los \textit{frames} en la jerarquía de ROS.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{imagenes/diagramas/ROSSubscriber.png}
-    \caption{Módulo ROSSubscriber}
-    \label{fig:ros_subscriber_module}
-\end{figure}
 Puesto que la publicación de mensajes es una funcionalidad más simple que la suscripción ya que únicamente requiere enviar un mensaje a 
 un \textit{topic} concreto, no se ha considerado necesario crear un módulo específico para ello, pero si 
 una clase de ayuda que actúe como intermediario entre la aplicación y la librería de comunicación. 
@@ -585,12 +580,36 @@ se encargará de invocar al servicio de modificación de parámetros de un nodo,
 obtendrá la lista de parámetros de un nodo.
 \begin{figure}[htbp]
     \centering
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/TF.png}
+    \caption{Módulo TF}
+    \label{fig:tf_module}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/PointClouds.png}
+    \caption{Módulo PointClouds}
+    \label{fig:point_clouds_module}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/SpatialControl.png}
+    \caption{Módulo SpatialControl}
+    \label{fig:spatial_control_module}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{imagenes/diagramas/ROSSubscriber.png}
+    \caption{Módulo ROSSubscriber}
+    \label{fig:ros_subscriber_module}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
     \includegraphics[width=1\textwidth]{imagenes/diagramas/ROSService.png}
     \caption{Módulo ROSService}
     \label{fig:ros_service_module}
 \end{figure}
 
-
+\newpage
 \section{Implementación del sistema}
 La aplicación está dividida en diferentes módulos con diversas interdependencias. 
 Entre ellos destacan principalemente el de detección de \textit{AprilTags}, es decir, 
@@ -634,6 +653,7 @@ la consecución de sus objetivos con la aplicación. Entre ellas destacan la sus
 pueden realizarse acciones en robots que no tienen actualmente una función específica desarrollada en la aplicación o suscribirse a cadenas de mensajes en un robot para observar
 qué es lo que le ocurre en caso de problemas no descubiertos.
 
+\newpage
 \section{Validación y pruebas}
 
 \subsection{Pruebas del CU-01: Configuración conexión ROS}
@@ -674,6 +694,7 @@ CP-07 & \textit{Frame} seleccionado & Asociación \textit{AprilTag}-\textit{fram
 \caption{Casos de prueba de la asignación de \textit{frame} a \textit{AprilTag}}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-04: Configuración de nube de puntos}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline
@@ -706,6 +727,7 @@ CP-11 & Selección visualización \textit{frame} & \textit{Frame} se visualiza a
 \caption{Casos de prueba de visualización/ocultación de \textit{frames}}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-07: Teleoperación}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline
@@ -726,6 +748,7 @@ CP-17 & Mensaje de bajada & Robot baja el elemento correspondiente a velocidad e
 \caption{Casos de prueba de teleoperación}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-08: Planificar ruta}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline
@@ -752,6 +775,7 @@ CP-22 & Selección segundo \textit{frame} & \textit{Frame} se visualiza en otro 
 \caption{Casos de prueba de medición entre \textit{frames}}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-10: Ajuste de posición de \textit{frames} asignados a marcas visuales}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline
@@ -774,6 +798,7 @@ CP-29 & Mensaje de desplazamiento hacia abajo & \textit{Frame} junto con hijos s
 \caption{Casos de prueba del ajuste de la posición de \textit{frames} asigandos a marcas visuales}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-11: Ajuste de escala de \textit{frames} asignados a marcas visuales}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline
@@ -810,6 +835,7 @@ CP-35 & Frecuencia errónea & El sistema corrige la entrada de usuario estableci
 \caption{Casos de prueba de la publicación en \textit{topics}}
 \end{longtable}
 
+\newpage
 \subsection{Pruebas del CU-14: Modificación de parámetros en nodos}
 \begin{longtable}{|p{1.5cm}|p{4cm}|p{4cm}|}
 \hline

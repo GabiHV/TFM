@@ -46,8 +46,37 @@ Para que ambas condiciones se pudieran cumplir, se desarrolló la realidad mixta
 el mundo real, pero el mundo real también condiciona esta realidad, es decir, los objetos virtuales interactúan con el entorno físico, por ejemplo, 
 reconociendo superficies o siendo ocluido por los objetos reales.
 
+\section{Revisiones y tendencias en interfaces robóticas}
+La complejidad actual de los sistemas robóticos ha aumentado la cantidad de información que los operadore deben supervisar.
+Los robots integran en la actualidad múltiples sensores, sistemas de percepción, navegación y módulos de planificación, lo
+que genera grandes volúmenes de datos que requieren de herramientas adecuadas para su visualización y control. Esto ha hecho
+que las interfaces sean cada vez más sofisticadas \parencite{s21217120, 10.1145/3815113}.
+Estas, como se ha comentado, suponen una parte fundamental de la interacción humano-máquina, puesto que presentan información
+compleja de forma comprensible para el usuario. Según \cite{10.1145/3815113}, el crecimiento del marco de trabajo ROS2 ha venido 
+acompañado de un desarrollo continuo de herramientas de visualización de datos cuyo objetivo es facilitar la operación de sistemas complejos.
+
+Existe actualmente una evolución desde las interfaces convencionales basadas en entornos de escritorio hacia soluciones móviles e interfaces
+inmersivas basadas en realidad aumentada y mixta. Esto responde a la necesidad de mejorar la conciencia situacional del operador y reducir 
+su carga cognitiva asociada a la interpretación de datos complejos \parencite{9701489, ZEA2021100057}.
+Soluciones basadas en entornos de escritorio como \textit{RViz} tienen todavía predominancia en la visualización de datos y el control de robots.
+Sin embargo, cuentan con limitaciones contextuales cuando el usuario debe realacionar la información tridimensional con el entorno real \parencite{9701489, ZEA2021100057}
+Por otro lado, las interfaces han evolucionado desde herramientas de observación pasiva hacia sistemas que permiten la interacción 
+directa con el robot, de manera que no solo representan la información, sino que facilitan la planificación de rutas, la teleoperación y la 
+colaboración humano-máquina \parencite{nevesetal, 10.1145/3610978.3640571, 9701489}.
+
+A pesar de la aparente ventaja de la utilización de este tipo de interfaces, existen hoy en día diferentes limitaciones que reducen 
+la adopción de estas tecnologías. Por un lado, con grandes volúmenes de información visual se pueden producir sobrecargas cognitivas
+que pueden reducir su eficacia a lo que se suma los evidentes problemas de escalabilidad que siguen existiendo hoy en día. Por otro lado,
+diferentes cuestiones técnicas como la latencia y las limitaciones ergonómicas son actualmente áreas abiertas de investigación 
+\parencite{nevesetal, 10.1145/3708468.3715687, richardsetal}.
+
+Como puede observarse, diversas revisiones han puesto de manifiesto el crecimiento de ROS, lo que ha incrementado
+la necesidad de herramientas de visualización y control capaces de facilitar la supervisión, depuración y operación 
+de sistemas robóticos. En este contexto, la evolución de las interfaces puede clasificarse en tres grandes categorías:
+interfaces de escritorio, interfaces móviles e interfaces basadas en realidad aumentada y mixta.
+
 \section{Soluciones de escritorio}
-En cuanto a la operación telemática y visualización de parámetros 
+En cuanto a la operación telemática y visualización de datos 
 de robots mediante computador existen 
 distintas soluciones que ofrecen diferentes funcionalidades. Entre ellas 
 cabe destacar \textit{RViz}, \textit{Foxglobe Studio} o \textit{Webviz}.
@@ -199,7 +228,7 @@ del internet de las cosas (IoT) en una fábrica de la automovilística Volvo.
 \cite{adekoya2025horusmixedrealityinterface} introduce HORUS, una interfaz de realidad aumentada 
 que proporciona un conjunto de herramientas para la gestión de flotas de robots móviles.
 
-Como puede apreciarse, existe gran cantidad de soluciones que emplean realidad 
+Como puede apreciarse, existe gran cantidad de soluciones propias que emplean realidad 
 aumentada. Sin embargo, están centradas en resolver un problema específico y no proporcionan una interfaz extensible al 
 resto de dominios. 
 \cite{ZEA2021100057}, sin embargo, introduce una aplicación para la visualización de datos y 
@@ -207,7 +236,7 @@ teleoperación en ROS1
 empleando dispositivos móviles (Android/iOS/\textit{Microsoft HoloLens}), lo que 
 permite visualizar los diferentes datos y parámetros de una manera más directa. La herramienta fue validada mediante escenarios 
 de visualización de navegación autónoma, represnmetación aumentada de modelos y supervisión móvil de sistemas ROS, proporcionando 
-una alternativa portátil a RViz para operaciones de campo.
+una alternativa portátil a \textit{RViz} para operaciones de campo.
 \cite{9701489} proponen, a su vez, una interfaz de visualización espacial de datos ROS para tareas de interacción humano-robot.
 Los autores validaron la herramienta en escenarios de supervisión de manipuladores robóticos, navegación de robots móviles e interacción multimodal
 humano-robot, demostrando mejoras en la comprensión espacial de la información respecto a interfaces convencionales basadas en pantalla.
